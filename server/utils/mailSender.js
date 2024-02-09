@@ -26,9 +26,11 @@ export const mailSender = async (sendTo, subject, body) => {
 
         console.log("MAIL RES: ", res);
 
-    } catch (error) {
+        return res;
 
+    } catch (error) {
         console.log("Email sending error: ");
-        console.log(error)
+        console.log(error.message);
+        throw new Error("Email sending error");
     }
 }
