@@ -8,6 +8,10 @@ const commentSchema = new mongoose.Schema(
         },
         description: {
             type: String,
+        },
+        post: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Post"
         }
     },
     {
