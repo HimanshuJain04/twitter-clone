@@ -3,6 +3,10 @@ import { dbConnection } from "./config/dbConnection.js"
 import dotenv from "dotenv";
 import { app } from "./app.js";
 
+
+// import routes 
+import authRoute from "./routes/auth.routes.js";
+
 // environment
 dotenv.config();
 
@@ -11,6 +15,9 @@ dbConnection();
 
 // port
 const PORT = process.env.PORT || 5000;
+
+
+app.use("api/v1/auth/", authRoute);
 
 
 app.listen(PORT, () => {

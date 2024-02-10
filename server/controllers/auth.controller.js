@@ -1,7 +1,7 @@
-import Otp from "../models/otp.model";
-import User from "../models/user.model";
+import Otp from "../models/otp.model.js";
+import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
-import mailSender from "../models/mailSender.model";
+import { mailSender } from "../utils/mailSender.js";
 
 
 
