@@ -2,6 +2,7 @@
 import { dbConnection } from "./config/dbConnection.js"
 import dotenv from "dotenv";
 import { app } from "./app.js";
+import {cloudinaryConnection} from "./config/cloudinary.config.js"
 
 
 // import routes 
@@ -12,6 +13,9 @@ dotenv.config();
 
 // connection
 dbConnection();
+
+// cloudinary
+cloudinaryConnection();
 
 // port
 const PORT = process.env.PORT || 5000;

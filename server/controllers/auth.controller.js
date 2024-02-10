@@ -2,7 +2,6 @@ import Otp from "../models/otp.model.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import { mailSender } from "../utils/mailSender.js";
-import { urlencoded } from "express";
 
 
 
