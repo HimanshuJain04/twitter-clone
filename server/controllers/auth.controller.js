@@ -3,12 +3,15 @@ import User from "../models/user.model";
 import bcrypt from "bcrypt";
 import mailSender from "../models/mailSender.model";
 
+
+
+// HELPER FUNCTIONS----------------------->>
+
 const generateRandomOtp = () => {
     // Generate a random number between 10000 and 99999
     const otp = Math.floor(Math.random() * 90000) + 10000;
     return otp.toString();
 }
-
 
 const sendMail = async (email) => {
     try {
@@ -46,10 +49,27 @@ const sendMail = async (email) => {
     }
 }
 
-const generateRefreshAndAccessToken = async () => {
+const generateRefreshAndAccessToken = async (userId) => {
 
+    const user = await User.findById(userId);
+
+    if (!user) {
+        return null;
+    }
+
+    const refreshToken = await user.generateRefreshToken();
+    const accessToken = await user.generateAccessToken();
+
+    user.refreshToken = refreshToken;
+
+    await user.save({ validateBeforeSave: false });
+
+    return { accessToken, refreshToken };
 }
 
+
+
+// CONTROLLERS-------------------------------->>
 
 export const signup = async (req, res) => {
     try {
@@ -299,21 +319,35 @@ export const login = async (req, res) => {
             )
         }
 
-
         // create token
+        const { refreshToken, accessToken } = await
+            generateRefreshAndAccessToken(existedUser._id);
+
+
+        const loggedInUser = await User
+            .findById(existedUser._id)
+            .select("-password -refreshToken");
+
+
         // send cookies
+        const options = {
+            httpOnly: true,
+            secure: true,
+            expiresIn: new Date() + 24 * 60 * 20 * 1000 //24 hours
+        };
+
         // send response
-
-
-
-
-        return res.status(201).json(
-            {
-                success: true,
-                data: null,
-                mesage: "User logged in successfully",
-            }
-        )
+        res
+            .status(200)
+            .cookie("TwitterAccessToken", accessToken, options)
+            .cookie("TwitterRefreshToken", refreshToken, options)
+            .json(
+                {
+                    success: true,
+                    data: { loggedInUser, accessToken, refreshToken },
+                    mesage: "User logged in successfully",
+                }
+            );
 
     } catch (error) {
         return res.status(501).json(
