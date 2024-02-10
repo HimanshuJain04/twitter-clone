@@ -71,6 +71,10 @@ const userSchema = new mongoose.Schema(
     }
 );
 
+userSchema.methods.generateAccessToken = function () {
+
+}
+
 
 
 const User = mongoose.model("User", userSchema);
