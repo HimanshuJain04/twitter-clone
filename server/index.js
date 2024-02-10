@@ -5,7 +5,7 @@ import { app } from "./app.js";
 
 
 // import routes 
-import authRoute from "./routes/auth.routes.js";
+import authRoute from "./routes/auth.route.js";
 
 // environment
 dotenv.config();
@@ -17,7 +17,7 @@ dbConnection();
 const PORT = process.env.PORT || 5000;
 
 
-app.use("api/v1/auth/", authRoute);
+app.use("/api/v1/auth", authRoute);
 
 
 app.listen(PORT, () => {
@@ -25,7 +25,7 @@ app.listen(PORT, () => {
 })
 
 
-app.get("/", (req, res) => {
+app.get("/api/v1/", (req, res) => {
     res.send("Twitter Default Route")
 });
 

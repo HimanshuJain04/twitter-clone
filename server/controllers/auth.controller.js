@@ -18,7 +18,7 @@ const sendMail = async (email) => {
 
         const otp = generateRandomOtp();
 
-        const createdOtp = Otp.create(
+        const createdOtp = await Otp.create(
             {
                 email,
                 otp,
@@ -26,14 +26,10 @@ const sendMail = async (email) => {
             }
         );
 
-        console.log("createdOtp: ", createdOtp)
-
-        subject = "Verify your Email"
+        const subject = "Verify your Email"
 
         // send otp
         const mailRes = await mailSender(email, subject, otp);
-
-        console.log("mail: ", mailRes);
 
         if (!mailRes) {
             return false;
@@ -185,7 +181,6 @@ export const verifyOtp = async (req, res) => {
 
         const { otp, email } = req.body;
 
-
         // check user is exist or not with email
         const existedUser = await User.findOne({ email });
 
@@ -205,8 +200,6 @@ export const verifyOtp = async (req, res) => {
             .sort({ createdAt: -1 })
             .limit(1);
 
-        console.log("latestOtp: ", latestOtp);
-
         // verify the otp
         if (!latestOtp) {
             return res.status(404).json(
@@ -219,7 +212,7 @@ export const verifyOtp = async (req, res) => {
         }
 
         // verify the otp
-        if (otp !== latestOtp) {
+        if (otp !== latestOtp[0].otp) {
             return res.status(400).json(
                 {
                     success: false,
@@ -355,6 +348,32 @@ export const login = async (req, res) => {
                 success: false,
                 data: null,
                 mesage: "Server failed to login the user ,try again later",
+                error: error.message
+            }
+        )
+    }
+}
+
+
+export const logout = async (req, res) => {
+    try {
+
+        const userId = req.user.id;
+
+        return res.status(201).json(
+            {
+                success: true,
+                data: null,
+                mesage: "Server failed ,try again later",
+            }
+        )
+
+    } catch (error) {
+        return res.status(501).json(
+            {
+                success: false,
+                data: null,
+                mesage: "Server failed to ,try again later",
                 error: error.message
             }
         )

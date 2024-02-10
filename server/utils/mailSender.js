@@ -3,9 +3,10 @@ import nodemailer from "nodemailer"
 export const mailSender = async (sendTo, subject, body) => {
     try {
 
+
         const transporter = nodemailer.createTransport(
             {
-                host: "smtp.forwardemail.net",
+                host: "smtp.gmail.com",
                 port: 465,
                 secure: true,
                 auth: {
@@ -15,16 +16,14 @@ export const mailSender = async (sendTo, subject, body) => {
             }
         );
 
-        const res = await transporter.sendMail(
-            {
-                from: process.env.MAIL_USER,
-                to: sendTo,
-                subject: subject,
-                html: body,
-            }
-        );
+        const options = {
+            from: `${process.env.MAIL_USER}`,
+            to: `${sendTo}`,
+            subject: `${subject}`,
+            html: `${body}`,
+        }
 
-        console.log("MAIL RES: ", res);
+        const res = await transporter.sendMail(options);
 
         return res;
 
