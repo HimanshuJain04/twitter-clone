@@ -1,6 +1,6 @@
 import express, { urlencoded } from "express";
 import cookieParser from "cookie-parser";
-import fileUpload from "express-fileupload";
+import fileUploader from "express-fileupload";
 
 
 
@@ -12,7 +12,12 @@ const app = express();
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
-app.use(fileUpload())
+app.use(fileUploader(
+    {
+        useTempFiles: true,
+        tempFileDir: '/tmp/'
+    }
+));
 
 
 

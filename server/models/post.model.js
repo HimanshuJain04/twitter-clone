@@ -8,6 +8,13 @@ const postSchema = new mongoose.Schema(
         description: {
             type: String,
         },
+        duration: {
+            type: Number,
+        },
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        },
         likes: [
             {
                 type: mongoose.Schema.Types.ObjectId,
