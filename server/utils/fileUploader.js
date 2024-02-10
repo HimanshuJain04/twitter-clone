@@ -7,6 +7,7 @@ export const uploadToCloudinary = async (filPath) => {
             folder: process.env.CLOUDINARY_FOLDER_NAME,
             resource_type: "auto"
         }
+        
     } catch (error) {
         console.log("Error uploading to cloudinary")
         return null;
