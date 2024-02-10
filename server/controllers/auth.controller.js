@@ -2,10 +2,18 @@ import Otp from "../models/otp.model.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import { mailSender } from "../utils/mailSender.js";
+import { urlencoded } from "express";
 
 
 
 // HELPER FUNCTIONS----------------------->>
+
+// cookies options
+const options = {
+    httpOnly: true,
+    secure: true,
+    expiresIn: new Date() + 24 * 60 * 20 * 1000 //24 hours
+};
 
 const generateRandomOtp = () => {
     // Generate a random number between 10000 and 99999
@@ -322,13 +330,6 @@ export const login = async (req, res) => {
             .select("-password -refreshToken");
 
 
-        // send cookies
-        const options = {
-            httpOnly: true,
-            secure: true,
-            expiresIn: new Date() + 24 * 60 * 20 * 1000 //24 hours
-        };
-
         // send response
         res
             .status(200)
@@ -358,15 +359,42 @@ export const login = async (req, res) => {
 export const logout = async (req, res) => {
     try {
 
-        const userId = req.user.id;
+        const userId = req.user?._id;
 
-        return res.status(201).json(
+        const user = await User.findByIdAndUpdate(
             {
-                success: true,
-                data: null,
-                mesage: "Server failed ,try again later",
+                _id: userId
+            },
+            {
+                refreshToken: undefined
+            },
+            {
+                new: true
             }
         )
+
+        if (!user) {
+            return res.status(404).json(
+                {
+                    success: false,
+                    data: null,
+                    mesage: "User not fouind",
+                }
+            )
+        }
+
+
+        return res
+            .status(201)
+            .clearCookie("TwitterAccessToken", options)
+            .clearCookie("TwitterRefreshToken", options)
+            .json(
+                {
+                    success: true,
+                    data: null,
+                    mesage: "User logged out successfully",
+                }
+            );
 
     } catch (error) {
         return res.status(501).json(
@@ -403,8 +431,3 @@ export const forgotPassword = async (req, res) => {
         )
     }
 }
-
-
-
-
-
