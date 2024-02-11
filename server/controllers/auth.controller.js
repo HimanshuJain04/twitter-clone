@@ -408,14 +408,64 @@ export const logout = async (req, res) => {
 }
 
 
-export const forgotPassword = async (req, res) => {
+export const changePassword = async (req, res) => {
     try {
+
+        const { newPassword, email, confirmPassword } = req.body;
+
+        if (!newPassword || !confirmPassword) {
+            return res.status(401).json(
+                {
+                    success: false,
+                    message: "All fields are required",
+                    data: null
+                }
+            )
+        }
+
+
+        if (newPassword !== confirmPassword) {
+            return res.status(401).json(
+                {
+                    success: false,
+                    message: "New password and confirm password must be same",
+                    data: null
+                }
+            )
+        }
+
+        const existedUser = await User.findOne({ email });
+
+        if (!existedUser) {
+            return res.status(404).json(
+                {
+                    success: false,
+                    message: "Usr not found",
+                    data: null
+                }
+            )
+        }
+
+        // hash the password
+        const hashedPass = await bcrypt.hash(newPassword, 10);
+
+        // replace and save the changes
+        existedUser.password = hashedPass;
+        await existedUser.save();
+
+        // find updatedUser
+        const user = await User.findById(existedUser._id);
+
+        // send email
+        const subject = "Password changed Successfully";
+        await mailSender(user.email, subject, subject)
+
 
         return res.status(201).json(
             {
                 success: true,
                 data: null,
-                mesage: "Server failed ,try again later",
+                mesage: "Password changed successfully",
             }
         )
 
@@ -424,9 +474,108 @@ export const forgotPassword = async (req, res) => {
             {
                 success: false,
                 data: null,
-                mesage: "Server failed to ,try again later",
+                mesage: "Server failed to changed the password ,try again later",
                 error: error.message
             }
         )
     }
 }
+
+
+export const resetPassword = async (req, res) => {
+    try {
+
+        const { oldPassword, newPassword, confirmPassword } = req.body;
+        const userId = req.user?._id;
+
+        if (!oldPassword || !newPassword || !confirmPassword) {
+            return res.status(401).json(
+                {
+                    success: false,
+                    message: "All fields are required",
+                    data: null
+                }
+            )
+        }
+
+
+        if (newPassword !== confirmPassword) {
+            return res.status(401).json(
+                {
+                    success: false,
+                    message: "New password and confirm password must be same",
+                    data: null
+                }
+            )
+        }
+
+        const existedUser = await User.findById(userId);
+
+        if (!existedUser) {
+            return res.status(404).json(
+                {
+                    success: false,
+                    message: "Usr not found",
+                    data: null
+                }
+            )
+        }
+
+
+        const isPaswordVerified = await bcrypt.compare(oldPassword, existedUser.password);
+
+        if (!isPaswordVerified) {
+            return res.status(401).json(
+                {
+                    success: false,
+                    message: "Pasword is not verified or same",
+                    data: null
+                }
+            )
+        }
+
+        if (newPassword === oldPassword) {
+            return res.status(401).json(
+                {
+                    success: false,
+                    message: "Old password and new password can't be same",
+                    data: null
+                }
+            )
+        }
+
+        // hash the password
+        const hashedPass = await bcrypt.hash(newPassword, 10);
+
+        // replace and save the changes
+        existedUser.password = hashedPass;
+        await existedUser.save();
+
+        // find updatedUser
+        const user = await User.findById(userId);
+
+        // send email
+        const subject = "Password Reset Successfully";
+        await mailSender(user.email, subject, subject)
+
+        // return response
+        return res.status(201).json(
+            {
+                success: true,
+                data: user,
+                mesage: "Password reset successfully",
+            }
+        )
+
+    } catch (error) {
+        return res.status(501).json(
+            {
+                success: false,
+                data: null,
+                mesage: "Server failed to reset password,try again later",
+                error: error.message
+            }
+        )
+    }
+}
+

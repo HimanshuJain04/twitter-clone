@@ -11,9 +11,9 @@ export const userFollow = async (req, res) => {
         const anotherUserId = req.params?.userId; // aother user id
 
         const existedUser = await User.findById(userId);
-        const existedanotherUserId = await User.findById(anotherUserId);
+        const existedAnotherUser = await User.findById(anotherUserId);
 
-        if (!existedUser || !existedanotherUserId) {
+        if (!existedUser || !existedAnotherUser) {
             return res.status(404).json(
                 {
                     message: "User not found",
@@ -23,22 +23,26 @@ export const userFollow = async (req, res) => {
             )
         }
 
-        const isAlreadyLiked = existedComment.likes.includes(userId);
+        const isAlreadyFollowed = existedUser.following.includes(anotherUserId);
 
-        if (isAlreadyLiked) {
-            existedComment.likes.pop(userId);
+        if (isAlreadyFollowed) {
+            existedUser.following.pop(anotherUserId);
+            existedAnotherUser.followers.pop(userId);
+
         } else {
-            existedComment.likes.push(userId);
+            existedUser.following.push(anotherUserId);
+            existedAnotherUser.followers.push(userId);
         }
 
-        await existedComment.save();
+        await existedUser.save();
+        await existedAnotherUser.save();
 
-        const updatedComment = await Comment.findById(commentId);
+        const updatedUser = await User.findById(existedUser._id);
 
-        if (!updatedComment) {
+        if (!updatedUser) {
             return res.status(404).json(
                 {
-                    message: "Post not found",
+                    message: "User not found",
                     success: false,
                     data: null
                 }
@@ -48,15 +52,15 @@ export const userFollow = async (req, res) => {
         return res.status(200).json(
             {
                 success: true,
-                data: updatedComment,
-                message: "Liked/Unlike on comment successfully"
+                data: updatedUser,
+                message: "Follow/Unfollow the user successfully"
             }
         )
     } catch (error) {
 
         return res.status(500).json(
             {
-                message: "Server failed to like/unlike the comment,Please try again",
+                message: "Server failed to follow/unfollow the user,Please try again",
                 error: error.message,
                 success: false,
                 data: null

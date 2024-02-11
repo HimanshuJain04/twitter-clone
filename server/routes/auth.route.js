@@ -7,6 +7,8 @@ import {
     login,
     logout,
     signup,
+    changePassword,
+    resetPassword,
     verifyOtp,
 } from "../controllers/auth.controller.js";
 
@@ -17,14 +19,19 @@ router.route("/login").post(login);
 
 router.route("/register").post(signup);
 
-router.route("/verifyOtp").post(verifyOtp);
+router.route("/verify-otp").post(verifyOtp);
+
+router.route("/logout").post(verifyJwtToken, logout);
 
 router.route("/resend-otp").post(async (req, res) => {
     const { email } = req.body;
     await sendMail(email);
 });
 
-router.route("/logout").post(verifyJwtToken, logout);
+router.route("/change-password").patch(changePassword);
+
+router.route("/reset-password").patch(verifyJwtToken, resetPassword);
+
 
 
 export default router;
