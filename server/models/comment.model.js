@@ -15,6 +15,12 @@ const commentSchema = new mongoose.Schema(
         description: {
             type: String,
         },
+        comments: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Comment"
+            },
+        ],
         duration: {
             type: String,
         },

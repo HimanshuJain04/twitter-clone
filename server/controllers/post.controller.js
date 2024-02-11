@@ -2,7 +2,6 @@ import User from "../models/user.model.js";
 import Post from "../models/post.model.js";
 import Comment from "../models/comment.model.js";
 import { uploadToCloudinary } from "../utils/fileUploader.js"
-import e from "express";
 
 
 
@@ -185,6 +184,7 @@ export const deletePost = async (req, res) => {
         )
     }
 }
+
 
 
 // ******************************** POST LIKE AND BOOKMARK OPERATIONS ***********************************
@@ -520,10 +520,10 @@ export const createComment = async (req, res) => {
 
         const updatedPost = await Post.findById(postId)
 
-        return res.status(500).json(
+        return res.status(200).json(
             {
                 success: true,
-                data: updatedPost,
+                data: { post: updatedPost, comment: newComment },
                 message: "Comment created successfully"
             }
         );
@@ -561,13 +561,12 @@ export const deleteComment = async (req, res) => {
         // delete comment on that post
         const deletedComment = await Comment.findByIdAndDelete(commentId);
 
-
         // delete that comment into post
         const updatedPost = await Post.findByIdAndUpdate(
             { _id: deletedComment.post },
             {
                 $pull: {
-                    comments: deleteComment._id
+                    comments: deletedComment._id
                 }
             },
             { new: true }
@@ -597,6 +596,113 @@ export const deleteComment = async (req, res) => {
         return res.status(500).json(
             {
                 message: "Server failed to delete the comment,Please try again",
+                error: error.message,
+                success: false,
+                data: null
+            }
+        )
+    }
+}
+
+
+export const createCommentOnComment = async (req, res) => {
+    try {
+
+        const {
+            description,
+            commentId,
+            postId,
+        } = req.body;
+
+        const userId = req.user?._id;
+
+        const filePath = req.files?.file?.tempFilePath;
+
+        if (!userId || !commentId || (!filePath && !description)) {
+            return res.status(401).json(
+                {
+                    message: "All fields are required",
+                    success: false,
+                    data: null
+                }
+            )
+        }
+
+        const existedUser = await User.findById(userId);
+
+        const existedComment = await Comment.findById(commentId);
+
+        if (!existedUser || !existedComment) {
+            return res.status(404).json(
+                {
+                    message: "User or comment not found",
+                    success: false,
+                    data: null
+                }
+            )
+        }
+
+        let fileUrl = null;
+        let duration = null;
+
+        if (filePath) {
+
+            const respone = await uploadToCloudinary(filePath);
+
+            if (!respone) {
+                return res.status(500).json(
+                    {
+                        message: "File upload failed",
+                        success: false,
+                        data: null
+                    }
+                )
+            }
+
+            fileUrl = respone?.url;
+            duration = respone?.duration;
+
+        }
+
+        const newComment = await Comment.create(
+            {
+                description,
+                fileUrl,
+                duration,
+                user: userId,
+                post: existedComment._id
+            }
+        );
+
+        if (!newComment) {
+            return res.status(404).json(
+                {
+                    message: "Post not created",
+                    success: false,
+                    data: null
+                }
+            )
+        }
+
+        // push new comment into the existedComment db
+        existedComment.comments.push(newComment._id);
+        await existedComment.save();
+
+        const updatedPost = await Post.findById(postId)
+
+        return res.status(200).json(
+            {
+                success: true,
+                data: { post: updatedPost, existedComment, newComment },
+                message: "Comment created successfully"
+            }
+        );
+
+    } catch (error) {
+
+        return res.status(500).json(
+            {
+                message: "Server failed to create comment,Please try again",
                 error: error.message,
                 success: false,
                 data: null
@@ -669,7 +775,6 @@ export const likeOnComment = async (req, res) => {
 }
 
 
-
 export const createPgost = (req, res) => {
     try {
 
@@ -693,6 +798,4 @@ export const createPgost = (req, res) => {
         )
     }
 }
-
-
 

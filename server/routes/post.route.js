@@ -7,18 +7,36 @@ import {
     likePost,
     unlikePost,
     bookmarked,
-    unbookmarked
+    unbookmarked,
+    createComment,
+    deleteComment,
+    likeOnComment,
+    deletePost,
+    createCommentOnComment
 } from "../controllers/post.controller.js"
 
 
 router.use(verifyJwtToken);
 
-router.route("/create-post").post(createPost);
 
-// post functionality
+// post route
+router.route("/create-post").post(createPost);
+router.route("/delete-post/:postId").delete(deletePost);
+
+
+// like and bookmark functionality
 router.route("/like-post/:postId").patch(likePost);
 router.route("/unlike-post/:postId").patch(unlikePost);
 router.route("/bookmarked-post/:postId").patch(bookmarked);
 router.route("/unbookmarked-post/:postId").patch(unbookmarked);
+
+
+// comment routes
+router.route("/create-comment").post(createComment);
+router.route("/delete-comment/:commentId").delete(deleteComment);
+router.route("/create-reply-comment").post(createCommentOnComment);
+router.route("/like-comment/:commentId").patch(likeOnComment);
+
+
 
 export default router;
