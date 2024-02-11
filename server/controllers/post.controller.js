@@ -798,4 +798,3 @@ export const createPgost = (req, res) => {
         )
     }
 }
-
