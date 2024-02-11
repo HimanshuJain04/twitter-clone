@@ -6,8 +6,20 @@ const commentSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         },
+        likes: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User"
+            },
+        ],
         description: {
             type: String,
+        },
+        duration: {
+            type: String,
+        },
+        fileUrl: {
+            type: String
         },
         post: {
             type: mongoose.Schema.Types.ObjectId,

@@ -19,6 +19,11 @@ router.route("/register").post(signup);
 
 router.route("/verifyOtp").post(verifyOtp);
 
+router.route("/resend-otp").post(async (req, res) => {
+    const { email } = req.body;
+    await sendMail(email);
+});
+
 router.route("/logout").post(verifyJwtToken, logout);
 
 
