@@ -2,11 +2,15 @@ import React from 'react'
 import xLogo from "/logo.png"
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
+import { useNavigate } from "react-router-dom"
 
 const Landing = () => {
+
+    const navigate = useNavigate();
+
     return (
         <div>
-            <div className='w-screen flex flex-col justify-start items-center h-screen'>
+            <div className='w-screen flex flex-col justify-center items-center min-h-screen'>
                 {/* section for landing page */}
                 <div className='w-full flex flex-row justify-around items-center h-full'>
 
@@ -55,7 +59,11 @@ const Landing = () => {
                                 </div>
 
                                 {/* create account */}
-                                <button className='flex font-semibold rounded-full py-2 px-5 w-full text-white bg-blue-400 hover:bg-blue-500 transition-all duration-300 ease-in-out justify-center items-center gap-2'>
+                                <button
+                                    onClick={() => {
+                                        navigate("/signup");
+                                    }}
+                                    className='flex font-semibold rounded-full py-2 px-5 w-full text-white bg-blue-400 hover:bg-blue-500 transition-all duration-300 ease-in-out justify-center items-center gap-2'>
                                     <span>Create account</span>
                                 </button>
 
@@ -69,7 +77,10 @@ const Landing = () => {
                             <div className='w-full flex flex-col gap-4 justify-start items-start'>
                                 <p className='font-semibold text-lg'>Already have an account?</p>
                                 {/* login account */}
-                                <button className='flex font-semibold rounded-full py-2 px-5 w-full bg-black border-2 border-[white]/[0.25] text-blue-400 hover:border-[white]/[0.3] transition-all duration-300 ease-in-out justify-center items-center gap-2'>
+                                <button onClick={() => {
+                                    navigate("/login");
+                                }}
+                                    className='flex font-semibold rounded-full py-2 px-5 w-full bg-black border-2 border-[white]/[0.25] text-blue-400 hover:border-[white]/[0.3] transition-all duration-300 ease-in-out justify-center items-center gap-2'>
                                     <span>Sign in</span>
                                 </button>
                             </div>
