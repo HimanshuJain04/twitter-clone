@@ -3,13 +3,16 @@ import { useForm, FormProvider } from "react-hook-form"
 import xLogo from "/logo.png"
 import { FiEyeOff, FiEye } from "react-icons/fi";
 import { Link } from "react-router-dom"
+import axios from "axios";
 
 const Login = () => {
 
     const [showPass, setShowPass] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
+        const res = await axios.get("http://localhost:4000/api/v1/");
+        console.log(res)
         console.log(data)
         alert("API_CALLING : ", data);
     };
