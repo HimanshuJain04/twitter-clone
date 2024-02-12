@@ -113,7 +113,7 @@ const Login = () => {
                         <p className='text-lg font-semibold text-white'>If you haven't an account</p>
                         <Link
                             to="/signup"
-                            className="text-blue-500  hover:underline"
+                            className="text-blue-400 font-semibold hover:underline hover:text-blue-500 transition-all duration-300 ease-in-out"
                         >Signup</Link>
                     </div>
 

@@ -136,6 +136,14 @@ const Signup = () => {
                                 }
                             </button>
 
+                            {/* forgot password */}
+                            <div className='w-full justify-end flex items-start mt-1'>
+                                <Link
+                                    to="/forgot-password"
+                                    className='text-blue-400 hover:text-blue-500 font-semibold hover:underline transition-all duration-300 ease-in-out'
+                                >Forgot password</Link>
+                            </div>
+
                         </div>
 
                         {/* error mesage */}
@@ -159,7 +167,7 @@ const Signup = () => {
                         <p className='text-lg font-semibold text-white'>If you have already an account</p>
                         <Link
                             to="/login"
-                            className="text-blue-400  hover:underline hover:text-blue-500 transition-all duration-300 ease-in-out"
+                            className="text-blue-400 font-semibold hover:underline hover:text-blue-500 transition-all duration-300 ease-in-out"
                         >Login</Link>
                     </div>
 
