@@ -4,9 +4,7 @@ import xLogo from "/logo.png"
 import { FiEyeOff, FiEye } from "react-icons/fi";
 import { Link } from "react-router-dom"
 
-
-
-const Signup = () => {
+const Login = () => {
 
     const [showPass, setShowPass] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -20,88 +18,41 @@ const Signup = () => {
         <FormProvider
             {...register}
         >
-            <div className='min-h-screen justify-center px-10  py-20  flex items-center bg-black w-screen'
+            <div className='min-h-screen justify-center px-10  py-20 flex items-center bg-black w-screen'
             >
                 <form
                     onSubmit={handleSubmit(onSubmit)}
-                    className='flex justify-start w-[400px] text-[white]/[0.4] items-center flex-col gap-7'
+                    className='flex justify-start w-[400px]  text-[white]/[0.4] items-center flex-col gap-7'
                 >
 
                     <div className='w-[30px]'>
                         <img src={xLogo} className='' alt="x-logo" />
                     </div>
 
-                    <div className='w-full'>
-                        <p className='text-3xl text-white font-bold'>Create your account</p>
+                    <div className='w-full my-5'>
+                        <p className='text-3xl text-center text-white font-bold'>Welcome Back!</p>
                     </div>
 
-                    {/* full name */}
-                    <div className='w-full'>
-                        <input
-                            type="text"
-                            name='fullName'
-                            {
-                            ...register("fullName",
-                                {
-                                    required: "Fullname is required",
-                                }
-                            )
-                            }
-                            placeholder='Enter your full name'
-                            className='bg-black text-white w-full text-xl placeholder:text-white/[0.4] transition-all duration-200 ease-in-out focus-within:border-blue-500 outline-none px-3 py-3 rounded-md border-2 border-gray-800'
-                        />
-                        {
-                            errors.fullName &&
-                            <p className='text-red-600 mt-2 text-sm font-bold'>{errors.fullName?.message}</p>
-                        }
-                    </div>
-
-                    {/* username */}
+                    {/* username or email */}
                     <div className='w-full'>
                         <input
                             type="text"
-                            name='userName'
+                            name='emailOrUsername'
                             {
-                            ...register("userName",
+                            ...register("emailOrUsername",
                                 {
-                                    required: "Username is required",
+                                    required: "Username or Email is required",
                                 }
                             )
                             }
-                            placeholder='Enter your user name'
+                            placeholder='Enter your username or email'
                             className='bg-black text-white w-full text-xl placeholder:text-white/[0.4] transition-all duration-200 ease-in-out focus-within:border-blue-500 outline-none px-3 py-3 rounded-md border-2 border-gray-800'
                         />
                         {
-                            errors.userName &&
-                            <p className='text-red-600 mt-2 text-sm font-bold'>{errors.userName?.message}</p>
+                            errors.emailOrUsername &&
+                            <p className='text-red-600 mt-2 text-sm font-bold'>{errors.emailOrUsername?.message}</p>
                         }
                     </div>
-
-                    {/* email */}
-                    <div className='w-full'>
-                        <input
-                            type="text"
-                            name='email'
-                            {
-                            ...register("email",
-                                {
-                                    required: "Email is required",
-                                    pattern: {
-                                        value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-                                        message: "Please enter a valid email address"
-                                    }
-                                }
-                            )
-                            }
-                            placeholder='Enter your email address'
-                            className='bg-black text-white w-full text-xl placeholder:text-white/[0.4] transition-all duration-200 ease-in-out focus-within:border-blue-500 outline-none px-3 py-3 rounded-md border-2 border-gray-800'
-                        />
-                        {
-                            errors.email &&
-                            <p className='text-red-600 mt-2 text-sm font-bold'>{errors.email?.message}</p>
-                        }
-                    </div>
-
 
                     {/* password */}
                     <div className='w-full '>
@@ -151,17 +102,18 @@ const Signup = () => {
                             type='submit'
                             className='bg-black hover:bg-blue-500 transition-all duration-300 ease-in-out hover:border-blue-500 w-full text-lg  font-semibold py-2 rounded-full text-white border-2 border-gray-500'
                         >
-                            Sign Up
+                            Login
                         </button>
                     </div>
 
-                    <div className='flex flex-col gap-2 mt-3 justify-center items-center'>
-                        <p className='text-lg font-semibold text-white'>If you have already an account</p>
+                    <div className='flex flex-col gap-2 mt-5 justify-center items-center'>
+                        <p className='text-lg font-semibold text-white'>If you haven't an account</p>
                         <Link
-                            to="/login"
-                            className="text-blue-400  hover:underline hover:text-blue-500 transition-all duration-300 ease-in-out"
-                        >Login</Link>
+                            to="/signup"
+                            className="text-blue-500  hover:underline"
+                        >Signup</Link>
                     </div>
+
 
                 </form>
 
@@ -172,4 +124,4 @@ const Signup = () => {
     )
 }
 
-export default Signup
+export default Login
