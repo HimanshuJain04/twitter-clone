@@ -17,7 +17,7 @@ import {
 
 router.route("/login").post(login);
 
-router.route("/register").post(signup);
+router.route("/signup").post(signup);
 
 router.route("/verify-otp").post(verifyOtp);
 

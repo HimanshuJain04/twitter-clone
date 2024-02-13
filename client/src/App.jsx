@@ -8,6 +8,7 @@ import ForgotOtp from "./pages/auth/ForgotOtp";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ForgotChangePassword from "./pages/auth/ForgotChangePassword";
 // pages
+import Home from "./pages/Home";
 import Landing from "./pages/Landing";
 
 
@@ -23,6 +24,7 @@ function App() {
         <Routes>
 
           <Route path="/" element={<Landing />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/auth-login" element={<Login />} />
           <Route path="/auth-signup" element={<Signup />} />
           <Route path="/auth-forgot-password-email" element={<ForgotPassword />} />

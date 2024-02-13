@@ -109,7 +109,7 @@ export const signup = async (req, res) => {
                 {
                     success: false,
                     data: email,
-                    mesage: "User is already exist with email or , Please verify your email",
+                    mesage: "User is already exist with email, Please verify your email",
                 }
             )
         }

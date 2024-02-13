@@ -3,7 +3,7 @@ import { useForm, FormProvider } from "react-hook-form"
 import xLogo from "/logo.png"
 import { FiEyeOff, FiEye } from "react-icons/fi";
 import { Link } from "react-router-dom"
-
+import axios from "axios";
 
 
 const Signup = () => {
@@ -11,9 +11,15 @@ const Signup = () => {
     const [showPass, setShowPass] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const onSubmit = (data) => {
-        console.log(data)
-        alert("API_CALLING : ", data);
+    const onSubmit = async (data) => {
+        const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL;
+        try {
+            const res = await axios.post(`${BASE_URL}/auth/signup`, data);
+            console.log(res)
+
+        } catch (error) {
+            console.log(error)
+        }
     };
 
     return (
@@ -102,7 +108,6 @@ const Signup = () => {
                         }
                     </div>
 
-
                     {/* password */}
                     <div className='w-full '>
                         <div className='relative'>
@@ -180,4 +185,4 @@ const Signup = () => {
     )
 }
 
-export default Signup
+export default Signup;
