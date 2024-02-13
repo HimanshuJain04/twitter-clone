@@ -1,5 +1,5 @@
 import React from 'react';
-import OtpVerificationForm from "../components/OtpVerificationForm";
+import OtpVerificationForm from "../../components/OtpVerificationForm";
 
 
 

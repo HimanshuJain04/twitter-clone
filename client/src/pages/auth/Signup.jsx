@@ -139,7 +139,7 @@ const Signup = () => {
                             {/* forgot password */}
                             <div className='w-full justify-end flex items-start mt-1'>
                                 <Link
-                                    to="/forgot-password-email"
+                                    to="/auth-forgot-password-email"
                                     className='text-blue-400 hover:text-blue-500 font-semibold hover:underline transition-all duration-300 ease-in-out'
                                 >Forgot password</Link>
                             </div>
@@ -166,7 +166,7 @@ const Signup = () => {
                     <div className='flex flex-col gap-2 mt-3 justify-center items-center'>
                         <p className='text-lg font-semibold text-white'>If you have already an account</p>
                         <Link
-                            to="/login"
+                            to="/auth-login"
                             className="text-blue-400 font-semibold hover:underline hover:text-blue-500 transition-all duration-300 ease-in-out"
                         >Login</Link>
                     </div>

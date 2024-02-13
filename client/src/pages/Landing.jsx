@@ -61,7 +61,7 @@ const Landing = () => {
                                 {/* create account */}
                                 <button
                                     onClick={() => {
-                                        navigate("/signup");
+                                        navigate("/auth-signup");
                                     }}
                                     className='flex font-semibold rounded-full py-2 px-5 w-full text-white bg-blue-400 hover:bg-blue-500 transition-all duration-300 ease-in-out justify-center items-center gap-2'>
                                     <span>Create account</span>
@@ -78,7 +78,7 @@ const Landing = () => {
                                 <p className='font-semibold text-lg'>Already have an account?</p>
                                 {/* login account */}
                                 <button onClick={() => {
-                                    navigate("/login");
+                                    navigate("/auth-login");
                                 }}
                                     className='flex font-semibold rounded-full py-2 px-5 w-full bg-black border-2 border-[white]/[0.25] text-blue-400 hover:border-[white]/[0.3] transition-all duration-300 ease-in-out justify-center items-center gap-2'>
                                     <span>Sign in</span>

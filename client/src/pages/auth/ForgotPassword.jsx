@@ -61,9 +61,10 @@ const ForgotPassword = () => {
 
                     <Link
                         className='text-blue-400 my-5 text-lg font-semibold hover:underline transition-all duration-300 ease-in-out'
-                        to="/signup"
+                        to="/auth-signup"
                     >Register</Link>
                 </div>
+
             </div>
         </div>
     )

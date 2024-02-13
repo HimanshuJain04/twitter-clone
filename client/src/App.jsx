@@ -1,11 +1,14 @@
 import { Routes, Route } from "react-router-dom";
 
 // *********** Import pages ***************
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
+// auth-page
+import Login from "./pages/auth/Login";
+import Signup from "./pages/auth/Signup";
+import ForgotOtp from "./pages/auth/ForgotOtp";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import ForgotChangePassword from "./pages/auth/ForgotChangePassword";
+// pages
 import Landing from "./pages/Landing";
-import ForgotOtp from "./pages/ForgotOtp";
-import ForgotPassword from "./pages/ForgotPassword";
 
 
 
@@ -20,10 +23,11 @@ function App() {
         <Routes>
 
           <Route path="/" element={<Landing />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/forgot-password-email" element={<ForgotPassword />} />
-          <Route path="/forgot-password-verify-otp" element={<ForgotOtp />} />
+          <Route path="/auth-login" element={<Login />} />
+          <Route path="/auth-signup" element={<Signup />} />
+          <Route path="/auth-forgot-password-email" element={<ForgotPassword />} />
+          <Route path="/auth-forgot-password-verify-otp" element={<ForgotOtp />} />
+          <Route path="/auth-forgot-password-change-password" element={<ForgotChangePassword />} />
 
         </Routes>
 
