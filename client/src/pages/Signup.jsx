@@ -139,7 +139,7 @@ const Signup = () => {
                             {/* forgot password */}
                             <div className='w-full justify-end flex items-start mt-1'>
                                 <Link
-                                    to="/forgot-password"
+                                    to="/forgot-password-email"
                                     className='text-blue-400 hover:text-blue-500 font-semibold hover:underline transition-all duration-300 ease-in-out'
                                 >Forgot password</Link>
                             </div>

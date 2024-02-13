@@ -1,9 +1,10 @@
 import { Routes, Route } from "react-router-dom";
 
 // *********** Import pages ***************
-import Landing from "./pages/Landing";
-import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Landing from "./pages/Landing";
+import ForgotOtp from "./pages/ForgotOtp";
 import ForgotPassword from "./pages/ForgotPassword";
 
 
@@ -19,9 +20,10 @@ function App() {
         <Routes>
 
           <Route path="/" element={<Landing />} />
-          <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/forgot-password-email" element={<ForgotPassword />} />
+          <Route path="/forgot-password-verify-otp" element={<ForgotOtp />} />
 
         </Routes>
 
