@@ -15,7 +15,7 @@ const ForgotOtp = () => {
                 {/* details/description */}
                 <div className='flex flex-col justify-center items-center gap-5'>
                     <p className='text-white text-4xl font-bold'>Verify OTP</p>
-                    <p className='text-[white]/[0.5] font-semibold text-lg'>5 digits OTP (One-Time-Password) have been sent to your email address.</p>
+                    <p className='text-[white]/[0.5] max-w-[500px] text-center font-semibold text-base'>To verify your OTP (One-Time-Password), Please enter 5 digits otp code that has been sent to your email address.</p>
                 </div>
 
                 {/* form */}

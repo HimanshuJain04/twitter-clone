@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useForm } from "react-hook-form";
 
 
 const OtpVerificationForm = () => {
 
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit } = useForm();
 
     const otp = ["", "", "", "", ""];
+
 
     const onSumbit = (data) => {
         console.log(data)
@@ -25,23 +26,27 @@ const OtpVerificationForm = () => {
                     {
                         otp.map((value, index) => (
                             <input
-                                type='number'
+                                type='text'
                                 key={index}
                                 name={`otp${index}`}
                                 {
                                 ...register(
                                     `otp${index}`,
                                     {
-                                        required: true,
+                                        required: "Enter Valid OTP",
+                                        pattern: {
+                                            value: /^[0-9]+$/,
+                                            mesage: "Enter Valid OTP"
+                                        }
                                     }
                                 )
                                 }
 
-                                className=' w-12 p-5 h-12  text-xl font-bold rounded-lg outline-none '
-
+                                className=' w-14 p-5 h-14 transition-all duration-300 ease-in-out focus-within:border-blue-500 border-2 border-black text-white bg-[black] text-xl font-bold rounded-lg outline-none '
                             />
                         ))
                     }
+
                 </div>
 
 
