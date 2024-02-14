@@ -13,7 +13,7 @@ const FeaturSidebar = () => {
   return (
 
     <div>
-      <div className='flex flex-col pr-10 min-h-screen border-r-2 border-[white]/[0.15] justify-start items-start gap-1'>
+      <div className='flex flex-col pr-10 pt-2 min-h-screen border-r-2 border-[white]/[0.15] justify-start items-start gap-1'>
         <div className='cursor-pointer p-4 transition-all ease-in-out duration-200 hover:bg-[white]/[0.1] rounded-full'>
           <img
             src={logo}
