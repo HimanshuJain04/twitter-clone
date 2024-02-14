@@ -22,7 +22,8 @@ const Post = ({ post }) => {
                     />
                 </div>
 
-                {/* other details */}
+                {/* 
+                other details */}
                 <div className='flex flex-col gap-2 items-start justify-start'>
 
                     {/* name and username and three-dots */}
@@ -67,6 +68,7 @@ const Post = ({ post }) => {
                     </div>
 
                 </div>
+                
             </div>
         </div>
     )

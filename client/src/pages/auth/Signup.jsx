@@ -3,24 +3,28 @@ import { useForm, FormProvider } from "react-hook-form"
 import xLogo from "/logo.png"
 import { FiEyeOff, FiEye } from "react-icons/fi";
 import { Link } from "react-router-dom"
-import axios from "axios";
-
+import { useSelector, useDispatch } from "react-redux"
+import { authLogin } from "../../redux/slices/authSlice.js"
 
 const Signup = () => {
 
     const [showPass, setShowPass] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const onSubmit = async (data) => {
-        const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL;
-        try {
-            const res = await axios.post(`${BASE_URL}/auth/signup`, data);
-            console.log(res)
+    const dispatch = useDispatch();
 
-        } catch (error) {
-            console.log(error)
-        }
+    const loginData = useSelector(state => state.auth.data);
+    const error = useSelector(state => state.auth.isError);
+    const loading = useSelector(state => state.auth.isLoading);
+
+
+    const onSubmit = async (data) => {
+        dispatch(authLogin(data));
+        console.log(loading)
+        console.log(error)
+        console.log(loginData)
     };
+
 
     return (
         <FormProvider
@@ -86,7 +90,7 @@ const Signup = () => {
                     {/* email */}
                     <div className='w-full'>
                         <input
-                            type="text"
+                            type="email"
                             name='email'
                             {
                             ...register("email",
