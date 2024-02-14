@@ -5,7 +5,6 @@ import logo from "/logo.png";
 
 
 const FeaturSidebar = () => {
-  console.log(sideFeatures);
 
   const [option, setoption] = useState(sideFeatures[0]?.title);
 

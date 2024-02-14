@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { IoSettingsOutline } from "react-icons/io5";
+import Post from '../../components/Post';
 
 const Feeds = () => {
 
@@ -10,6 +11,27 @@ const Feeds = () => {
 
 
     const [option, setOption] = useState(navLinks[0]);
+
+    const feeds = [
+        {
+            _id: 1,
+            description: "hellloooo",
+            fullName: "himanshu",
+            userName: "himanshu_09",
+        },
+        {
+            _id: 3,
+            description: "hellloooo",
+            fullName: "himanshu",
+            userName: "himanshu_09",
+        },
+        {
+            _id: 5,
+            description: "hellloooo",
+            fullName: "himanshu",
+            userName: "himanshu_09",
+        },
+    ]
 
 
     return (
@@ -39,6 +61,16 @@ const Feeds = () => {
                     <div className='hover:bg-[white]/[0.1] transition-all duration-300 ease-in-out text-xl mx-2 text-white px-3 rounded-full flex justify-center items-center cursor-pointer '>
                         <IoSettingsOutline />
                     </div>
+
+                </div>
+
+                <div className='w-full'>
+
+                    {
+                        feeds?.map((post) => (
+                            <Post key={post?._id} post={post} />
+                        ))
+                    }
 
                 </div>
 
