@@ -40,6 +40,7 @@ export const authLogout = createAsyncThunk(
 );
 
 
+
 // Initial State of slice
 const initialState = {
     isLoading: false,
@@ -52,15 +53,18 @@ const authSlice = createSlice({
     name: "auth",
     initialState,
     extraReducers: (builder) => {
-        builder.addCase(authLogin.pending, (state, action) => {
+
+        builder.addCase(authSignup.pending, (state) => {
             state.isLoading = true;
-        })
-        builder.addCase(authLogin.fulfilled, (state, action) => {
+        });
+
+        builder.addCase(authSignup.fulfilled, (state, action) => {
             state.isLoading = false;
             console.log("Payload: ", action.payload)
-            state.data = action.payload;
-        })
-        builder.addCase(authLogin.rejected, (state, action) => {
+            state.data = action.payload.data;
+        });
+
+        builder.addCase(authSignup.rejected, (state) => {
             state.isError = true;
         })
     }
