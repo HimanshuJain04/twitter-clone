@@ -3,7 +3,7 @@ import OtpVerificationForm from "../../components/OtpVerificationForm";
 
 
 
-const ForgotOtp = () => {
+const VerifyOtp = () => {
 
 
 
@@ -28,4 +28,4 @@ const ForgotOtp = () => {
     )
 }
 
-export default ForgotOtp;
+export default VerifyOtp;

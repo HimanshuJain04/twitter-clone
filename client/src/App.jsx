@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 // auth-page
 import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
-import ForgotOtp from "./pages/auth/ForgotOtp";
+import VerifyOtp from "./pages/auth/VerifyOtp";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ForgotChangePassword from "./pages/auth/ForgotChangePassword";
 // pages
@@ -28,7 +28,7 @@ function App() {
           <Route path="/auth-login" element={<Login />} />
           <Route path="/auth-signup" element={<Signup />} />
           <Route path="/auth-forgot-password-email" element={<ForgotPassword />} />
-          <Route path="/auth-forgot-password-verify-otp" element={<ForgotOtp />} />
+          <Route path="/auth-verify-otp" element={<VerifyOtp />} />
           <Route path="/auth-forgot-password-change-password" element={<ForgotChangePassword />} />
 
         </Routes>

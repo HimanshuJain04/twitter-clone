@@ -4,28 +4,25 @@ import {
 } from '@reduxjs/toolkit';
 
 import {
-    signup,
     login,
     logout,
 } from "../../services/authService.js";
 
 
-// signup
-export const authSignup = createAsyncThunk(
-    "auth/signup",
-    async (data) => {
-        const res = await signup(data);
-        return res;
-    }
-);
-
-
 // login
 export const authLogin = createAsyncThunk(
     "auth/login",
-    async (data) => {
-        const res = await login(data);
-        return res;
+    async (data, thunkAPI) => {
+        try {
+            return await login(data);
+        } catch (error) {
+            if (error.response) {
+                return thunkAPI.rejectWithValue(error.response.data);
+            } else {
+                // Handle other types of errors (e.g., network error)
+                return thunkAPI.rejectWithValue({ message: error.message });
+            }
+        }
     }
 );
 
@@ -40,31 +37,50 @@ export const authLogout = createAsyncThunk(
 );
 
 
-
 // Initial State of slice
 const initialState = {
     isLoading: false,
-    data: [],
-    isError: false
+    user: null,
+    isError: null,
 };
 
 
 const authSlice = createSlice({
+
     name: "auth",
     initialState,
     extraReducers: (builder) => {
 
-        builder.addCase(authSignup.pending, (state) => {
+        // login
+        builder.addCase(authLogin.pending, (state) => {
             state.isLoading = true;
         });
 
-        builder.addCase(authSignup.fulfilled, (state, action) => {
+
+        builder.addCase(authLogin.fulfilled, (state, action) => {
             state.isLoading = false;
-            console.log("Payload: ", action.payload)
-            state.data = action.payload.data;
+            state.isError = null;
+            console.log("Payload : ", action.payload)
+            state.data = action.payload;
         });
 
-        builder.addCase(authSignup.rejected, (state) => {
+        builder.addCase(authLogin.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = action.payload;
+        })
+
+
+        // logout
+        builder.addCase(authLogout.pending, (state) => {
+            state.isLoading = true;
+        });
+
+        builder.addCase(authLogout.fulfilled, (state) => {
+            state.isLoading = false;
+            state.data = null;
+        });
+
+        builder.addCase(authLogout.rejected, (state) => {
             state.isError = true;
         })
     }

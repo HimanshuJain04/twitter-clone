@@ -3,27 +3,40 @@ import { useForm, FormProvider } from "react-hook-form"
 import xLogo from "/logo.png"
 import { FiEyeOff, FiEye } from "react-icons/fi";
 import { Link } from "react-router-dom"
-import { useSelector, useDispatch } from "react-redux";
 import Spinner from "../../components/common/Spinner.jsx"
-
-import { authSignup } from "../../redux/slices/authSlice.js";
-
-
+import { signup } from "../../services/authService.js";
+import { useNavigate } from "react-router-dom"
+import toast from "react-hot-toast"
 
 const Signup = () => {
 
     const [showPass, setShowPass] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
-    const dispatch = useDispatch();
-
-    const authState = useSelector(state => state.auth);
 
     const onSubmit = async (data) => {
-        console.log("Before: ", authState)
-        dispatch(authSignup(data))
+
+        setIsLoading(true);
+
+        await signup(data)
             .then(() => {
-                console.log("After:  ", authState)
+                toast.success("Signup successful");
+                navigate("/auth-login");
+            })
+            .catch((error) => {
+
+                // redirect to verify email
+                if (error?.response?.status === 301) {
+                    navigate("/auth-verify-otp");
+                    return;
+                }
+                toast.error(error.message);
+                console.log("ERROR SIGNUP : ", error)
+            })
+            .finally(() => {
+                setIsLoading(false)
             })
     };
 
@@ -31,7 +44,7 @@ const Signup = () => {
     return (
         <>
             {
-                authState?.isLoading ? (
+                isLoading ? (
                     <Spinner />
                 ) : (
                     <FormProvider
@@ -192,7 +205,7 @@ const Signup = () => {
                         </div>
 
 
-                    </FormProvider>
+                    </FormProvider >
                 )
             }
 

@@ -91,7 +91,7 @@ export const signup = async (req, res) => {
                 {
                     success: false,
                     data: null,
-                    mesage: "All fields are required"
+                    message: "All fields are required"
                 }
             )
         }
@@ -109,7 +109,7 @@ export const signup = async (req, res) => {
                 {
                     success: false,
                     data: email,
-                    mesage: "User is already exist with email, Please verify your email",
+                    message: "User is already exist with email, Please verify your email",
                 }
             )
         }
@@ -120,7 +120,7 @@ export const signup = async (req, res) => {
                 {
                     success: false,
                     data: null,
-                    mesage: "User is already exist with email or username"
+                    message: "User is already exist with email or username"
                 }
             )
         }
@@ -136,7 +136,7 @@ export const signup = async (req, res) => {
                 {
                     success: false,
                     data: null,
-                    mesage: "Mail failed"
+                    message: "Mail failed"
                 }
             )
         }
@@ -157,7 +157,7 @@ export const signup = async (req, res) => {
                 {
                     success: false,
                     data: null,
-                    mesage: "Server failed to register the user,try again later",
+                    message: "Server failed to register the user,try again later",
                 }
             )
         }
@@ -166,7 +166,7 @@ export const signup = async (req, res) => {
             {
                 success: true,
                 data: null,
-                mesage: "User registed successfully"
+                message: "User registed successfully"
             }
         )
 
@@ -175,7 +175,7 @@ export const signup = async (req, res) => {
             {
                 success: false,
                 data: null,
-                mesage: "Server failed to register the user,try again later",
+                message: "Server failed to register the user,try again later",
                 error: error.message
             }
         )
@@ -197,7 +197,7 @@ export const verifyOtp = async (req, res) => {
                 {
                     success: false,
                     data: null,
-                    mesage: "User not exist with this email, Please signup first",
+                    message: "User not exist with this email, Please signup first",
                 }
             )
         }
@@ -213,7 +213,7 @@ export const verifyOtp = async (req, res) => {
                 {
                     success: false,
                     data: null,
-                    mesage: "Otp is not found",
+                    message: "Otp is not found",
                 }
             )
         }
@@ -224,7 +224,7 @@ export const verifyOtp = async (req, res) => {
                 {
                     success: false,
                     data: null,
-                    mesage: "Otp is not correct",
+                    message: "Otp is not correct",
                 }
             )
         }
@@ -240,7 +240,7 @@ export const verifyOtp = async (req, res) => {
             {
                 success: true,
                 data: null,
-                mesage: "Your email has been verified,Please login",
+                message: "Your email has been verified,Please login",
             }
         );
 
@@ -249,7 +249,7 @@ export const verifyOtp = async (req, res) => {
             {
                 success: false,
                 data: null,
-                mesage: "Server failed to verify otp ,try again later",
+                message: "Server failed to verify otp ,try again later",
                 error: error.message
             }
         )
@@ -271,7 +271,7 @@ export const login = async (req, res) => {
                 {
                     success: false,
                     data: null,
-                    mesage: "All fields are required",
+                    message: "All fields are required",
                 }
             )
         }
@@ -289,7 +289,7 @@ export const login = async (req, res) => {
                 {
                     success: false,
                     data: null,
-                    mesage: "User not registered with us, please signup first",
+                    message: "User not registered with us, please signup first",
                 }
             )
         }
@@ -300,7 +300,7 @@ export const login = async (req, res) => {
                 {
                     success: false,
                     data: null,
-                    mesage: "User is not verified,Please verify your email",
+                    message: "User is not verified,Please verify your email",
                 }
             )
         }
@@ -314,7 +314,7 @@ export const login = async (req, res) => {
                 {
                     success: false,
                     data: null,
-                    mesage: "Password is incorrect",
+                    message: "Password is incorrect",
                 }
             )
         }
@@ -338,7 +338,7 @@ export const login = async (req, res) => {
                 {
                     success: true,
                     data: { loggedInUser, accessToken, refreshToken },
-                    mesage: "User logged in successfully",
+                    message: "User logged in successfully",
                 }
             );
 
@@ -347,7 +347,7 @@ export const login = async (req, res) => {
             {
                 success: false,
                 data: null,
-                mesage: "Server failed to login the user ,try again later",
+                message: "Server failed to login the user ,try again later",
                 error: error.message
             }
         )
@@ -377,7 +377,7 @@ export const logout = async (req, res) => {
                 {
                     success: false,
                     data: null,
-                    mesage: "User not fouind",
+                    message: "User not fouind",
                 }
             )
         }
@@ -391,7 +391,7 @@ export const logout = async (req, res) => {
                 {
                     success: true,
                     data: null,
-                    mesage: "User logged out successfully",
+                    message: "User logged out successfully",
                 }
             );
 
@@ -400,7 +400,7 @@ export const logout = async (req, res) => {
             {
                 success: false,
                 data: null,
-                mesage: "Server failed to ,try again later",
+                message: "Server failed to ,try again later",
                 error: error.message
             }
         )
@@ -465,7 +465,7 @@ export const changePassword = async (req, res) => {
             {
                 success: true,
                 data: null,
-                mesage: "Password changed successfully",
+                message: "Password changed successfully",
             }
         )
 
@@ -474,7 +474,7 @@ export const changePassword = async (req, res) => {
             {
                 success: false,
                 data: null,
-                mesage: "Server failed to changed the password ,try again later",
+                message: "Server failed to changed the password ,try again later",
                 error: error.message
             }
         )
@@ -563,7 +563,7 @@ export const resetPassword = async (req, res) => {
             {
                 success: true,
                 data: user,
-                mesage: "Password reset successfully",
+                message: "Password reset successfully",
             }
         )
 
@@ -572,7 +572,7 @@ export const resetPassword = async (req, res) => {
             {
                 success: false,
                 data: null,
-                mesage: "Server failed to reset password,try again later",
+                message: "Server failed to reset password,try again later",
                 error: error.message
             }
         )
