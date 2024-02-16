@@ -2,10 +2,9 @@ import { useState } from 'react';
 import { useForm, FormProvider } from "react-hook-form"
 import xLogo from "/logo.png"
 import { FiEyeOff, FiEye } from "react-icons/fi";
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Spinner from "../../components/common/Spinner.jsx"
 import { signup } from "../../services/authService.js";
-import { useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
 
 const Signup = () => {
@@ -23,16 +22,19 @@ const Signup = () => {
         await signup(data)
             .then(() => {
                 toast.success("Signup successful");
-                navigate("/auth-login");
+                navigate("/auth-verify-otp");
             })
             .catch((error) => {
 
+                console.log(error)
+
                 // redirect to verify email
                 if (error?.response?.status === 301) {
-                    navigate("/auth-verify-otp");
+                    navigate("/auth-verify-otp", { state: data.email });
                     return;
                 }
-                toast.error(error.message);
+
+                toast.error(error?.response?.data?.message);
                 console.log("ERROR SIGNUP : ", error)
             })
             .finally(() => {

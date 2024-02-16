@@ -1,7 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom"
-
+import {
+    verifyOtp,
+    sendOtpToEmail
+} from "../services/authService.js"
+import toast from "react-hot-toast";
 
 const OtpVerificationForm = () => {
 
@@ -9,7 +13,12 @@ const OtpVerificationForm = () => {
 
     const [timer, setTimer] = useState(30);
 
-    const { pathname } = useLocation();
+    const { pathname, } = useLocation();
+    const location = useLocation();
+
+    const email = location.state;
+
+    console.log("email: ", email)
 
     const otp = ["", "", "", "", ""];
 
@@ -30,12 +39,27 @@ const OtpVerificationForm = () => {
     }
 
 
-    const onSumbit = (data) => {
-        console.log(data)
+    const onSumbit = async (data) => {
+
+        const otp = Object.values(data).join("");
+
+
+        await verifyOtp({ otp, email })
+            .then(() => {
+                toast.success("Otp verified successfully!");
+            }).catch((err) => {
+                toast.error(err?.response?.data?.message);
+            });
     }
 
-    function resendOtpHandler() {
 
+    async function resendOtpHandler() {
+        await sendOtpToEmail(email)
+            .then(() => {
+                toast.success("Login successfully!");
+            }).catch((err) => {
+                toast.error(err?.response?.data?.message);
+            });
     }
 
 
@@ -53,6 +77,8 @@ const OtpVerificationForm = () => {
                         <input
                             type='text'
                             key={index}
+                            maxLength={1}
+                            minLength={1}
                             name={`otp${index}`}
                             {
                             ...register(

@@ -10,6 +10,7 @@ import {
     changePassword,
     resetPassword,
     verifyOtp,
+    resendOtp,
 } from "../controllers/auth.controller.js";
 
 
@@ -23,10 +24,7 @@ router.route("/verify-otp").post(verifyOtp);
 
 router.route("/logout").post(verifyJwtToken, logout);
 
-router.route("/resend-otp").post(async (req, res) => {
-    const { email } = req.body;
-    await sendMail(email);
-});
+router.route("/resend-otp").post(resendOtp);
 
 router.route("/change-password").patch(changePassword);
 

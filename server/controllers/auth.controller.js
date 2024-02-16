@@ -141,7 +141,6 @@ export const signup = async (req, res) => {
             )
         }
 
-        console.log("mailResult: ", mailResult);
 
         const createdUser = await User.create(
             {
@@ -208,12 +207,12 @@ export const verifyOtp = async (req, res) => {
             .limit(1);
 
         // verify the otp
-        if (!latestOtp) {
+        if (latestOtp.length <= 0) {
             return res.status(404).json(
                 {
                     success: false,
                     data: null,
-                    message: "Otp is not found",
+                    message: "Otp not found, Please resend the otp",
                 }
             )
         }
@@ -255,6 +254,60 @@ export const verifyOtp = async (req, res) => {
         )
     }
 }
+
+
+export const resendOtp = async (req, res) => {
+    try {
+
+        const { email } = req.body;
+
+        // check user is exist or not with email
+        const existedUser = await User.findOne({ email });
+
+        // user not exist 
+        if (!existedUser) {
+            return res.status(404).json(
+                {
+                    success: false,
+                    data: null,
+                    message: "User not exist with this email, Please signup first",
+                }
+            )
+        }
+
+        const isOtpSend = await sendMail(email);
+
+        if (!isOtpSend) {
+            return res.status(404).json(
+                {
+                    success: false,
+                    data: null,
+                    message: "Server failed to resend otp ,try again later",
+                }
+            )
+        }
+
+
+        return res.status(201).json(
+            {
+                success: true,
+                data: null,
+                message: "Otp has been sent successfully",
+            }
+        );
+
+    } catch (error) {
+        return res.status(501).json(
+            {
+                success: false,
+                data: null,
+                message: "Server failed to resend otp ,try again later",
+                error: error.message
+            }
+        )
+    }
+}
+
 
 
 export const login = async (req, res) => {
