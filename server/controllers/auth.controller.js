@@ -33,7 +33,7 @@ const sendMail = async (email) => {
             }
         );
 
-        const subject = "Verify your Email"
+        const subject = "Verify your Email";
 
         // send otp
         const mailRes = await mailSender(email, subject, otp);
@@ -130,6 +130,8 @@ export const signup = async (req, res) => {
 
         // GenerateRandomOtp and send otp through email
         const mailResult = await sendMail(email);
+
+        console.log("mailResult: ", mailResult)
 
         if (!mailResult) {
             return res.status(500).json(
@@ -257,6 +259,7 @@ export const verifyOtp = async (req, res) => {
 
 
 export const resendOtp = async (req, res) => {
+
     try {
 
         const { email } = req.body;
@@ -264,7 +267,7 @@ export const resendOtp = async (req, res) => {
         // check user is exist or not with email
         const existedUser = await User.findOne({ email });
 
-        // user not exist 
+        // user not exist
         if (!existedUser) {
             return res.status(404).json(
                 {
@@ -278,7 +281,7 @@ export const resendOtp = async (req, res) => {
         const isOtpSend = await sendMail(email);
 
         if (!isOtpSend) {
-            return res.status(404).json(
+            return res.status(501).json(
                 {
                     success: false,
                     data: null,

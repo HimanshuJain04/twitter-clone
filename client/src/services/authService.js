@@ -22,13 +22,13 @@ export const verifyOtp = async (data) => {
 
 
 export const sendOtpToEmail = async (data) => {
-    return await http.post("/auth/resend-otp", data);
+    return await http.post("/auth/resend-otp", { email: data });
 }
 
 
 // this one  is for reset password
 export const resetPassword = async (data) => {
-    return await http.patch("/auth/reset-password", data);
+    return await http.patch("/auth/reset-password", { email: data });
 }
 
 

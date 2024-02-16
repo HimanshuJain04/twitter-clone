@@ -45,8 +45,7 @@ const Login = () => {
                     >
                         <div className='min-h-screen justify-center px-10  py-20 flex items-center bg-black w-screen'
                         >
-                            <form
-                                onSubmit={handleSubmit(onSubmit)}
+                            <div
                                 className='flex justify-start w-[400px]  text-[white]/[0.4] items-center flex-col gap-7'
                             >
 
@@ -124,7 +123,7 @@ const Login = () => {
                                 {/* button */}
                                 <div className='w-full mt-5'>
                                     <button
-                                        type='submit'
+                                        onClick={handleSubmit(onSubmit)}
                                         className='bg-black hover:bg-blue-500 transition-all duration-300 ease-in-out hover:border-blue-500 w-full text-lg  font-semibold py-2 rounded-full text-white border-2 border-gray-500'
                                     >
                                         Login
@@ -140,7 +139,7 @@ const Login = () => {
                                 </div>
 
 
-                            </form>
+                            </div>
 
                         </div>
 

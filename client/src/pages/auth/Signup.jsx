@@ -22,7 +22,7 @@ const Signup = () => {
         await signup(data)
             .then(() => {
                 toast.success("Signup successful");
-                navigate("/auth-verify-otp");
+                navigate("/auth-verify-otp", { state: data.email });
             })
             .catch((error) => {
 
@@ -54,8 +54,7 @@ const Signup = () => {
                     >
                         <div className='min-h-screen justify-center px-10  py-20  flex items-center bg-black w-screen'
                         >
-                            <form
-                                onSubmit={handleSubmit(onSubmit)}
+                            <div
                                 className='flex justify-start w-[400px] text-[white]/[0.4] items-center flex-col gap-7'
                             >
 
@@ -187,7 +186,7 @@ const Signup = () => {
                                 {/* button */}
                                 <div className='w-full mt-5'>
                                     <button
-                                        type='submit'
+                                        onClick={handleSubmit(onSubmit)}
                                         className='bg-black hover:bg-blue-500 transition-all duration-300 ease-in-out hover:border-blue-500 w-full text-lg  font-semibold py-2 rounded-full text-white border-2 border-gray-500'
                                     >
                                         Sign Up
@@ -202,7 +201,7 @@ const Signup = () => {
                                     >Login</Link>
                                 </div>
 
-                            </form>
+                            </div>
 
                         </div>
 
