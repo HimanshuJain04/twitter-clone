@@ -1,22 +1,56 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from "axios";
-const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL;
+import {
+    createSlice,
+    createAsyncThunk
+} from '@reduxjs/toolkit';
+
+import {
+    signup,
+    login,
+    logout,
+} from "../../services/authService.js";
 
 
-export const authLogin = createAsyncThunk("authLogin", async (data) => {
-    const res = await axios.post(`${BASE_URL}/auth/signup`, data);
-    console.log("response: ", res)
-    return { response: res.data, tatus: res.status };
-});
+// signup
+export const authSignup = createAsyncThunk(
+    "auth/signup",
+    async (data) => {
+        const res = await signup(data);
+        return res;
+    }
+);
+
+
+// login
+export const authLogin = createAsyncThunk(
+    "auth/login",
+    async (data) => {
+        const res = await login(data);
+        return res;
+    }
+);
+
+
+// logout
+export const authLogout = createAsyncThunk(
+    "auth/logout",
+    async (data) => {
+        const res = await logout(data);
+        return res;
+    }
+);
+
+
+// Initial State of slice
+const initialState = {
+    isLoading: false,
+    data: [],
+    isError: false
+};
 
 
 const authSlice = createSlice({
     name: "auth",
-    initialState: {
-        isLoading: false,
-        data: [],
-        isError: false
-    },
+    initialState,
     extraReducers: (builder) => {
         builder.addCase(authLogin.pending, (state, action) => {
             state.isLoading = true;
