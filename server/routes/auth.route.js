@@ -22,6 +22,13 @@ router.route("/signup").post(signup);
 
 router.route("/verify-otp").post(verifyOtp);
 
+router.route("/verify-token").get(
+    verifyJwtToken,
+    (req, res) => {
+
+    }
+);
+
 router.route("/logout").post(verifyJwtToken, logout);
 
 router.route("/resend-otp").post(resendOtp);

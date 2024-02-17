@@ -1,5 +1,5 @@
-import { Routes, Route } from "react-router-dom";
-
+import { Routes, Route, useNavigate } from "react-router-dom";
+import { authVerifyToken } from "./services/authService.js";
 // *********** Import pages ***************
 // auth-page
 import Login from "./pages/auth/Login";
@@ -10,13 +10,28 @@ import ForgotChangePassword from "./pages/auth/ForgotChangePassword";
 // pages
 import Home from "./pages/Home";
 import Landing from "./pages/Landing";
-
+import { useEffect } from "react";
 
 
 
 function App() {
 
+  const navigate = useNavigate();
 
+  const authVerifyToken = async () => {
+    await authVerifyToken()
+      .then((res) => {
+        console.log(res)
+        navigate("/home");
+      })
+      .catch((error) => {
+        console.log("Error: ", error)
+      })
+  }
+
+  useEffect(() => {
+    authVerifyToken();
+  }, []);
 
   return (
     <>
@@ -24,7 +39,7 @@ function App() {
 
         <Routes>
 
-          <Route path="/" element={<Landing />} />
+          <Route path="/" exact element={<Landing />} />
           <Route path="/home" element={<Home />} />
           <Route path="/auth-login" element={<Login />} />
           <Route path="/auth-signup" element={<Signup />} />

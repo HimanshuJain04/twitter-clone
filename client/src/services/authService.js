@@ -11,6 +11,11 @@ export const login = async (data) => {
 }
 
 
+export const authVerifyToken = async () => {
+    return await jsonRequest.get("/auth/verify-token");
+}
+
+
 export const logout = async (data) => {
     return await jsonRequest.post("/auth/logout", data);
 }
