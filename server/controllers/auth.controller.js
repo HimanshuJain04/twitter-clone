@@ -204,7 +204,7 @@ export const verifyOtp = async (req, res) => {
 
         // find the latest otp
         const latestOtp = await Otp.find({ email })
-            .sort({ createdAt: -1 })
+            .sort({ expiresAt: -1 })
             .limit(1);
 
         // verify the otp

@@ -20,7 +20,12 @@ const ForgotPassword = () => {
         await sendOtpToEmail(data.email)
             .then(() => {
                 toast.success("Otp send successful");
-                navigate("/auth-verify-otp", { state: data.email });
+                navigate("/auth-verify-otp", {
+                    state: {
+                        email: data.email,
+                        from: "FORGOT"
+                    }
+                });
             })
             .catch((error) => {
 

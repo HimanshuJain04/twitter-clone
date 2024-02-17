@@ -23,7 +23,12 @@ const Signup = () => {
         await signup(data)
             .then(() => {
                 toast.success("Signup successful");
-                navigate("/auth-verify-otp", { state: data.email });
+                navigate("/auth-verify-otp", {
+                    state: {
+                        email: data.email,
+                        from: "SIGNUP"
+                    }
+                });
             })
             .catch((error) => {
 

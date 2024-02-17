@@ -19,7 +19,8 @@ const VerifyOtp = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const email = location.state;
+    const { email, from } = location.state;
+    console.log(location.state);
 
     const otp = ["", "", "", "", ""];
 
@@ -51,8 +52,20 @@ const VerifyOtp = () => {
 
         await verifyOtp({ otp, email })
             .then(() => {
+
                 toast.success("Otp verified successfully!");
-                navigate("/auth-login");
+
+                if (from === "SIGNUP") {
+                    navigate("/auth-login");
+
+                } else {
+                    navigate("/auth-forgot-password-change-password",
+                        {
+                            state: email
+                        }
+                    );
+                }
+
             }).catch((err) => {
                 toast.error(err?.response?.data?.message);
             })
