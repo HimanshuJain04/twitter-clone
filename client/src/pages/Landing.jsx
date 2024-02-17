@@ -89,12 +89,6 @@ const Landing = () => {
                     </div>
 
                 </div>
-
-                {/* footer */}
-                <div>
-
-                </div>
-
             </div>
         </div>
     )

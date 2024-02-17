@@ -29,7 +29,6 @@ const sendMail = async (email) => {
             {
                 email,
                 otp,
-                expiresIn: new Date() + 5 * 60 * 1000 // 5 minutes
             }
         );
 

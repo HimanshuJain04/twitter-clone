@@ -13,15 +13,13 @@ const VerifyOtp = () => {
 
     const { register, handleSubmit } = useForm();
 
-    const [timer, setTimer] = useState(30);
+    const [timer, setTimer] = useState(1);
 
     const { pathname, } = useLocation();
     const location = useLocation();
     const navigate = useNavigate();
 
     const email = location.state;
-
-    console.log("email:", location.state)
 
     const otp = ["", "", "", "", ""];
 
@@ -71,7 +69,7 @@ const VerifyOtp = () => {
         await sendOtpToEmail(email)
             .then(() => {
                 toast.success("Otp resend!");
-                changeTime(30);
+                changeTime(1);
             })
             .catch((err) => {
                 toast.error(err?.response?.data?.message);
