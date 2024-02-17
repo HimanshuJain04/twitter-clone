@@ -26,9 +26,9 @@ const Login = () => {
                 console.log("state: ", state)
 
                 if (state.isError) {
-                    toast.error(state.isError?.message)
-                }
-                if (state.user) {
+                    toast.error(state.isError?.message);
+
+                } else {
                     navigate("/home");
                 }
             })
