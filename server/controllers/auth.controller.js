@@ -324,7 +324,6 @@ export const resendOtp = async (req, res) => {
 }
 
 
-
 export const login = async (req, res) => {
     try {
 
@@ -646,3 +645,4 @@ export const resetPassword = async (req, res) => {
         )
     }
 }
+

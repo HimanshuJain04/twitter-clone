@@ -6,7 +6,28 @@ import {
 import {
     login,
     logout,
+    verifyToken
 } from "../../services/authService.js";
+
+
+// login
+export const authVerifyToken = createAsyncThunk(
+    "auth/verify-token",
+    async (thunkAPI) => {
+        try {
+            const res = await verifyToken();
+            return res.data;
+
+        } catch (error) {
+            if (error.response) {
+                return thunkAPI.rejectWithValue(error.response.data);
+            } else {
+                // Handle other types of errors (e.g., network error)
+                return thunkAPI.rejectWithValue({ message: error.message });
+            }
+        }
+    }
+);
 
 
 // login
@@ -57,7 +78,6 @@ const authSlice = createSlice({
             state.isLoading = true;
         });
 
-
         builder.addCase(authLogin.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isError = null;
@@ -68,6 +88,23 @@ const authSlice = createSlice({
             state.isLoading = false;
             state.isError = action.payload;
         })
+
+
+        // Verify Token
+        builder.addCase(authVerifyToken.pending, (state) => {
+            state.isLoading = true;
+        });
+
+        builder.addCase(authVerifyToken.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isError = null;
+            state.user = action.payload?.data;
+        });
+
+        builder.addCase(authVerifyToken.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = action.payload;
+        });
 
 
         // logout

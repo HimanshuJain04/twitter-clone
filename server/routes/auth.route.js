@@ -12,6 +12,7 @@ import {
     verifyOtp,
     resendOtp,
 } from "../controllers/auth.controller.js";
+import User from "../models/user.model.js";
 
 
 
@@ -24,7 +25,36 @@ router.route("/verify-otp").post(verifyOtp);
 
 router.route("/verify-token").get(
     verifyJwtToken,
-    (req, res) => {
+    async (req, res) => {
+        if (!req.user) {
+            return res.status(404).json(
+                {
+                    success: false,
+                    message: "Token verification failed",
+                    data: null
+                }
+            );
+        }
+
+        const user = await User.findById(req.user?.id)
+
+        if (!user) {
+            return res.status(404).json(
+                {
+                    success: false,
+                    message: "User not found",
+                    data: null
+                }
+            );
+        }
+
+        return res.status(201).json(
+            {
+                success: true,
+                message: "Token Verified",
+                data: user
+            }
+        )
 
     }
 );

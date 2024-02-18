@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { IoSettingsOutline } from "react-icons/io5";
 import Post from '../../components/Post';
+import CreatePost from '../CreatePost';
 
 const Feeds = () => {
 
@@ -64,6 +65,8 @@ const Feeds = () => {
 
                 </div>
 
+                <CreatePost />
+
                 <div className='w-full'>
 
                     {
@@ -75,7 +78,7 @@ const Feeds = () => {
                 </div>
 
             </div>
-        </div>
+        </div >
     )
 }
 
