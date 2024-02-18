@@ -35,7 +35,7 @@ const Signup = () => {
                 console.log(error)
 
                 // redirect to verify email
-                if (error?.response?.status === 301) {
+                if (error?.response?.status === 415) {
                     navigate("/auth-verify-otp", { state: data.email });
                     return;
                 }

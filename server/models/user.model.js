@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema(
         profileImg: {
             type: String,
         },
-        additionalDetail: {
+        additionalDetails: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "AdditionalDetails"
         },

@@ -1,8 +1,8 @@
 import Otp from "../models/otp.model.js";
 import User from "../models/user.model.js";
+import AdditionalDetails from "../models/additionalDetails.model.js";
 import bcrypt from "bcrypt";
 import { mailSender } from "../utils/mailSender.js";
-
 
 
 // HELPER FUNCTIONS----------------------->>
@@ -142,13 +142,26 @@ export const signup = async (req, res) => {
             )
         }
 
+        // creating additional details
+        const additionalDetails = await AdditionalDetails.create(
+            {
+                coverImg: null,
+                dob: null,
+                phoneNo: null,
+                gender: null
+            }
+        );
+
+        const imageUrl = `https://ui-avatars.com/api/?name=${fullName}`
 
         const createdUser = await User.create(
             {
                 email,
                 userName,
                 fullName,
-                password: hashedPass
+                profileImg: imageUrl,
+                password: hashedPass,
+                additionalDetails
             }
         );
 

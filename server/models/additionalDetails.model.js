@@ -2,6 +2,9 @@ import mongoose from "mongoose";
 
 const additionalDetailsSchema = new mongoose.Schema(
     {
+        coverImg: {
+            type: String
+        },
         dob: {
             type: Date,
         },
