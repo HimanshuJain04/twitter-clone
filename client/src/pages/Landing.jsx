@@ -1,5 +1,6 @@
-import React from 'react'
-import xLogo from "/logo.png"
+import React, { useEffect } from 'react'
+import xLogo from "/logo.png";
+import { verifyToken } from "../services/authService.js";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 import { useNavigate } from "react-router-dom"

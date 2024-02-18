@@ -1,5 +1,7 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { authVerifyToken } from "./services/authService.js";
+import { verifyToken } from "./services/authService.js";
+import { useEffect } from "react"
+
 // *********** Import pages ***************
 // auth-page
 import Login from "./pages/auth/Login";
@@ -10,7 +12,6 @@ import ForgotChangePassword from "./pages/auth/ForgotChangePassword";
 // pages
 import Home from "./pages/Home";
 import Landing from "./pages/Landing";
-import { useEffect } from "react";
 
 
 
@@ -19,9 +20,9 @@ function App() {
   const navigate = useNavigate();
 
   const authVerifyToken = async () => {
-    await authVerifyToken()
+    await verifyToken()
       .then((res) => {
-        console.log(res)
+        console.log("res: ", res)
         navigate("/home");
       })
       .catch((error) => {
@@ -32,6 +33,8 @@ function App() {
   useEffect(() => {
     authVerifyToken();
   }, []);
+
+
 
   return (
     <>
@@ -54,4 +57,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

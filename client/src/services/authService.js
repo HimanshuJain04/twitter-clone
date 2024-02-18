@@ -11,7 +11,7 @@ export const login = async (data) => {
 }
 
 
-export const authVerifyToken = async () => {
+export const verifyToken = async () => {
     return await jsonRequest.get("/auth/verify-token");
 }
 

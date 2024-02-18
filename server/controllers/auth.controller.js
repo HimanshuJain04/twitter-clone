@@ -104,7 +104,7 @@ export const signup = async (req, res) => {
 
         // user exist with isVerified as false
         if (existedUser && !existedUser?.isVerified) {
-            return res.status(301).json(
+            return res.status(415).json(
                 {
                     success: false,
                     data: email,
