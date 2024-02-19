@@ -1,7 +1,7 @@
 import User from "../models/user.model.js";
 import Post from "../models/post.model.js";
 import Comment from "../models/comment.model.js";
-import { uploadToCloudinary } from "../utils/fileUploader.js"
+import { uploadMultipleFilesToCloudinary } from "../utils/fileUploader.js"
 
 
 
@@ -15,11 +15,9 @@ export const createPost = async (req, res) => {
 
         const userId = req.user?._id;
 
-        const postPath = req.files?.post?.tempFilePath;
+        const allPosts = req.files?.post;
 
-        console.log("files: ", req.files)
-
-        if (!userId || (!postPath && !description)) {
+        if (!userId || (!allPosts && !description)) {
             return res.status(401).json(
                 {
                     message: "All fields are required",
@@ -41,14 +39,14 @@ export const createPost = async (req, res) => {
             )
         }
 
-        let postUrl = null;
+        let postUrls = [];
         let duration = null;
 
-        if (postPath) {
+        if (allPosts) {
 
-            const respone = await uploadToCloudinary(postPath);
+            const allPostResponse = await uploadMultipleFilesToCloudinary(allPosts);
 
-            if (!respone) {
+            if (!allPostResponse) {
                 return res.status(500).json(
                     {
                         message: "File upload failed",
@@ -58,15 +56,15 @@ export const createPost = async (req, res) => {
                 )
             }
 
-            postUrl = respone?.url;
-            duration = respone?.duration;
-
+            allPostResponse.forEach((postRes) => {
+                postUrls.push(postRes?.secure_url);
+            })
         }
 
         const newPost = await Post.create(
             {
                 description,
-                postUrl,
+                postUrl: postUrls,
                 duration,
                 user: userId
             }
@@ -509,7 +507,7 @@ export const createComment = async (req, res) => {
 
         if (filePath) {
 
-            const respone = await uploadToCloudinary(filePath);
+            const respone = await uploadMultipleFilesToCloudinary(filePath);
 
             if (!respone) {
                 return res.status(500).json(
@@ -679,7 +677,7 @@ export const createCommentOnComment = async (req, res) => {
 
         if (filePath) {
 
-            const respone = await uploadToCloudinary(filePath);
+            const respone = await uploadMultipleFilesToCloudinary(filePath);
 
             if (!respone) {
                 return res.status(500).json(

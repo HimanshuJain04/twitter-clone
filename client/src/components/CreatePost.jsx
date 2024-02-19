@@ -5,26 +5,22 @@ import { MdOutlineEmojiEmotions } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { createPost as createPostApi } from "../services/postService.js"
 import toast from "react-hot-toast";
-
+import { RiDeleteBin5Fill } from "react-icons/ri";
 
 const CreatePost = () => {
 
-    const state = useSelector(state => state);
+    const state = useSelector(state => state.auth);
 
     const textAreaRef = useRef(null);
     const fileRef = useRef(null);
 
-    const [postData, setPostData] = useState(
-        {
-            description: "",
-            post: []
-        }
-    );
+    const [description, setDescription] = useState("");
+    const [files, setFiles] = useState([]);
+
 
     // for auto growing textarea
     useEffect(() => {
         if (textAreaRef.current) {
-            console.log(textAreaRef);
 
             // We need to reset the height momentarily to get the correct scrollHeight for the textarea
             textAreaRef.current.style.height = "0px";
@@ -41,7 +37,7 @@ const CreatePost = () => {
             }
 
         }
-    }, [textAreaRef.current, postData.description]);
+    }, [textAreaRef.current, description]);
 
 
     function fileRefHandler() {
@@ -51,23 +47,50 @@ const CreatePost = () => {
     }
 
     function fileChangeHandler(e) {
-        const temp = [...postData.post];
-        temp.push(e.target.files)
-        setPostData(
-            {
-                ...postData,
-                [postData.post]: temp
-            }
-        )
+
+        const temp = [...files];
+
+        Array.from(e.target.files)
+            .forEach((file) => {
+                temp.push(file);
+            })
+
+        if (temp.length > 4) {
+            toast.error("Please choose up to 4 photos, videos, or GIFs.",
+                {
+                    position: "bottom-center"
+                }
+            );
+            return;
+        }
+
+        setFiles(temp);
+
+    }
+
+    function fileRemoveHandler(removingFile) {
+        const temp = [...files];
+        setFiles(
+            temp.filter((file) => file !== removingFile)
+        );
     }
 
 
-    const postHandler = async () => {
+    const createPostHandler = async () => {
 
-        console.log("data: ", postData)
-        await createPostApi(postData)
+        const fd = new FormData();
+
+        fd.append("description", description);
+
+        for (const file of files) {
+            fd.append("post", file, file.name);
+
+        }
+
+        await createPostApi(fd)
             .then((response) => {
                 toast.success("Post created!");
+                console.log(response)
 
             }).catch((error) => {
                 console.log("error: ", error);
@@ -84,7 +107,7 @@ const CreatePost = () => {
                 {/* user-image */}
                 <div className='overflow-hidden rounded-full h-[60px] w-[60px]'>
                     <img
-                        src={state?.auth?.user?.profileImg}
+                        src={state?.user?.profileImg}
                         alt="profile-Image"
                         className='h-14 w-14 object-contain p-1 rounded-full'
                     />
@@ -94,29 +117,64 @@ const CreatePost = () => {
                 <div className='flex flex-col mt-2 justify-start items-start w-full'>
                     {/* input field and image */}
                     <div className='w-full '>
+
+                        {/* text-area */}
                         <textarea
                             id='description'
                             name='description'
                             rows={1}
-                            value={postData.description}
+                            value={description}
                             ref={textAreaRef}
 
                             onChange={(e) => {
-                                setPostData(
-                                    {
-                                        ...postData,
-                                        [e.target.name]: e.target.value
-                                    }
-                                )
+                                setDescription(e.target.value);
                             }}
 
                             className='w-full  bg-transparent text-white resize-none outline-none text-xl'
                             placeholder='What is happening?!'
                         />
+
+                        {/* files */}
+                        <div className='overflow-hidden'>
+
+                            {
+                                files.length > 0 &&
+                                <div
+                                    className='flex max-w-[600px] overflow-x-scroll gap-2 mt-7'
+                                >
+                                    {
+                                        files?.map((file, index) => (
+                                            <div className=' w-[400px] overflow-hidden relative max-h-[400px]'
+                                                key={index}
+                                            >
+                                                {/* remove button */}
+                                                <abbr title="Remove">
+                                                    <span
+                                                        onClick={() => {
+                                                            fileRemoveHandler(file);
+                                                        }}
+                                                        className='absolute shadow-md shadow-black transition-all duration-300 ease-in-out text-black cursor-pointer top-3 right-3 rounded-full p-2 text-lg hover:bg-[black]/[0.8] hover:text-[white]/[0.9] bg-[white]/[0.9]'>
+                                                        <RiDeleteBin5Fill />
+                                                    </span>
+                                                </abbr>
+
+                                                <img
+                                                    className='w-full h-full object-contain'
+                                                    src={URL.createObjectURL(file)}
+                                                />
+                                            </div>
+                                        ))
+                                    }
+                                </div>
+                            }
+
+                        </div>
+
+
                     </div>
 
                     {/* other options for image/etc and post */}
-                    <div className='flex w-full justify-between items-center'>
+                    <div className='flex mt-3 w-full justify-between items-center'>
 
                         {/* other option */}
                         <div className='flex justify-center items-center gap-5'>
@@ -147,7 +205,7 @@ const CreatePost = () => {
                         {/* post button */}
                         <div>
                             <button
-                                onClick={postHandler}
+                                onClick={createPostHandler}
                                 className='bg-blue-400 text-white py-2 px-10 font-bold rounded-full'
                             >Post</button>
                         </div>

@@ -1,6 +1,20 @@
 import { v2 as cloudinary } from "cloudinary"
 
-export const uploadToCloudinary = async (filPath) => {
+export const uploadMultipleFilesToCloudinary = async (posts) => {
+    return Promise.all(posts.map((post) => {
+        return this.uploadFileToCloudinary(post); // Make sure to return the promise
+    }))
+        .then((values) => {
+            return values; // Return the values from the resolved promise
+        })
+        .catch((err) => {
+            console.error("Error uploading files:", err);
+            throw err; // Rethrow the error to propagate it
+        });
+}
+
+
+export const uploadFileToCloudinary = async (post) => {
     try {
 
         const options = {
@@ -8,10 +22,10 @@ export const uploadToCloudinary = async (filPath) => {
             resource_type: "auto"
         }
 
-        return await cloudinary.uploader.upload(filPath, options);
+        return await cloudinary.uploader.upload(post.tempFilePath, options);
 
     } catch (error) {
         console.log("Error uploading to cloudinary")
-        return null;
+        throw new Error(error.message);
     }
 }

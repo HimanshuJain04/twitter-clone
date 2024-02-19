@@ -29,13 +29,9 @@ function App() {
   }
 
   useEffect(() => {
-
-    console.log(authState)
     if (authState.user) {
-      console.log("home")
       navigate("/home");
     } else {
-      console.log("by")
       navigate("/");
     }
 
