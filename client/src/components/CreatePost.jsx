@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { CiImageOn } from "react-icons/ci";
 import { HiOutlineGif } from "react-icons/hi2";
 import { MdOutlineEmojiEmotions } from "react-icons/md";
@@ -7,6 +7,34 @@ import { useSelector } from "react-redux";
 const CreatePost = () => {
 
     const state = useSelector(state => state.auth);
+    const textAreaRef = useRef(null);
+    const [postData, setPostData] = useState(
+        {
+            description: "",
+        }
+    );
+
+    // for auto growing textarea
+    useEffect(() => {
+        if (textAreaRef.current) {
+            console.log(textAreaRef);
+
+            // We need to reset the height momentarily to get the correct scrollHeight for the textarea
+            textAreaRef.current.style.height = "0px";
+            let scrollHeight = textAreaRef.current.scrollHeight;
+
+            // Check if scrollHeight exceeds the maximum height
+            if (scrollHeight > 300) {
+                textAreaRef.current.style.height = "300px"; // Set height to maximum
+                textAreaRef.current.style.overflowY = "scroll"; // Enable vertical scrollbar
+            } else {
+                // Set the height of the textarea to match its content
+                textAreaRef.current.style.height = scrollHeight + "px";
+                textAreaRef.current.style.overflowY = "hidden"; // Hide vertical scrollbar
+            }
+
+        }
+    }, [textAreaRef.current, postData.description]);
 
 
     return (
@@ -27,7 +55,22 @@ const CreatePost = () => {
                     {/* input field and image */}
                     <div className='w-full '>
                         <textarea
-                            className='w-full h-[100px] bg-transparent text-white resize-none outline-none text-xl'
+                            id='description'
+                            name='description'
+                            rows={1}
+                            value={postData.description}
+                            ref={textAreaRef}
+
+                            onChange={(e) => {
+                                setPostData(
+                                    {
+                                        ...postData,
+                                        [e.target.name]: e.target.value
+                                    }
+                                )
+                            }}
+
+                            className='w-full  bg-transparent text-white resize-none outline-none text-xl'
                             placeholder='What is happening?!'
                         />
                     </div>
@@ -63,4 +106,4 @@ const CreatePost = () => {
     )
 }
 
-export default CreatePost
+export default CreatePost;
