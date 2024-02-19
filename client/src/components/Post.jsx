@@ -8,23 +8,24 @@ import { postFeatures } from "../constants/PostFeatures";
 const Post = ({ post }) => {
 
 
+    console.log(post);
     console.log(postFeatures)
 
     return (
         <div className='w-full'>
-            <div className='flex flex-row justify-between items-start w-full'>
+            <div className='flex flex-row py-3 px-5 gap-5 border-b-2 border-[white]/[0.2] justify-between items-start w-full'>
                 {/* for user image */}
-                <div>
+                <div className='w-[60px]'>
                     <img
-                        src={post?.profileImg}
+                        src={post?.user?.profileImg}
                         alt="user-image"
-                        className='h-8 w-8 rounded-full object-cover'
+                        className='h-12 w-12 rounded-full object-cover'
                     />
                 </div>
 
                 {/* 
                 other details */}
-                <div className='flex flex-col gap-2 items-start justify-start'>
+                <div className='flex w-full flex-col gap-2 items-start justify-start'>
 
                     {/* name and username and three-dots */}
                     <div className='flex flex-row w-full justify-between items-center'>
@@ -32,7 +33,7 @@ const Post = ({ post }) => {
                             <span>{post?.fullName}</span>
                             <span>{post?.userName}</span>
                         </div>
-                        <div className='text-xl text-white'>
+                        <div className='text-xl cursor-pointer text-white'>
                             <HiDotsHorizontal />
                         </div>
                     </div>
@@ -43,32 +44,41 @@ const Post = ({ post }) => {
                     </div>
 
                     {/* options on post */}
-                    <div className='flex w-full flex-row items-center gap-2'>
+                    <div className='flex w-full mt-2 flex-row items-center gap-8'>
+
                         <div className='flex w-full items-center justify-between'>
                             {
                                 postFeatures?.map((set, index) => (
-                                    <div
+                                    <abbr
                                         key={index}
-                                        className=' text-[white]/[0.2] cursor-pointer hover:text-blue-400 transition-all duration-300 ease-in-out'
+                                        title={set.title}
                                     >
-                                        <span>
-                                            set.icon1
-                                        </span>
-                                    </div>
+                                        <div
+                                            className=' text-[white]/[0.3] cursor-pointer hover:text-blue-400 transition-all duration-300 ease-in-out'
+                                        >
+                                            <span>
+                                                {
+                                                    set.icon1
+                                                }
+                                            </span>
+                                        </div>
+                                    </abbr>
                                 ))
                             }
                         </div>
 
-                        <div
-                            className=' text-[white]/[0.2] hover:text-blue-400 transition-all duration-300 ease-in-out'
-                        >
-                            <FiShare />
-                        </div>
+                        <abbr title="Share">
+                            <div
+                                className=' text-[white]/[0.5] cursor-pointer hover:text-blue-400 transition-all duration-300 ease-in-out'
+                            >
+                                <FiShare />
+                            </div>
+                        </abbr>
 
                     </div>
 
                 </div>
-                
+
             </div>
         </div>
     )

@@ -65,7 +65,7 @@ const Feeds = () => {
 
                 <CreatePost />
 
-                <div className='w-full'>
+                <div className='w-full flex mt-5 flex-col gap-5 justify-start items-start'>
 
                     {
                         allPosts?.map((post) => (
