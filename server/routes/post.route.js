@@ -11,6 +11,7 @@ import {
     createComment,
     deleteComment,
     likeOnComment,
+    fetchAllPosts,
     deletePost,
     createCommentOnComment
 } from "../controllers/post.controller.js"
@@ -22,6 +23,7 @@ router.use(verifyJwtToken);
 // post route
 router.route("/create-post").post(createPost);
 router.route("/delete-post/:postId").delete(deletePost);
+router.route("/fetch-posts").get(fetchAllPosts);
 
 
 // like and bookmark functionality

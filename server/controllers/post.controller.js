@@ -107,6 +107,36 @@ export const createPost = async (req, res) => {
 }
 
 
+export const fetchAllPosts = async (req, res) => {
+    try {
+
+        const allPosts = await Post
+            .find({})
+            .populate("user")
+            .exec();
+
+
+        return res.status(200).json(
+            {
+                success: true,
+                data: allPosts,
+                message: "All Posts fetch successfully"
+            }
+        );
+
+    } catch (error) {
+
+        return res.status(500).json(
+            {
+                message: "Server failed to fetch all posts,Please try again",
+                error: error.message,
+                success: false,
+                data: null
+            }
+        )
+    }
+}
+
 // TODO:Update
 export const deletePost = async (req, res) => {
     try {

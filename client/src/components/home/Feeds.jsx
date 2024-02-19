@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IoSettingsOutline } from "react-icons/io5";
 import Post from '../../components/Post';
 import CreatePost from '../CreatePost';
+import { fetchPosts } from "../../services/postService.js";
 
 const Feeds = () => {
 
@@ -10,29 +11,26 @@ const Feeds = () => {
         "Following",
     ];
 
+    const [allPosts, setAllPosts] = useState(null);
+
 
     const [option, setOption] = useState(navLinks[0]);
 
-    const feeds = [
-        {
-            _id: 1,
-            description: "hellloooo",
-            fullName: "himanshu",
-            userName: "himanshu_09",
-        },
-        {
-            _id: 3,
-            description: "hellloooo",
-            fullName: "himanshu",
-            userName: "himanshu_09",
-        },
-        {
-            _id: 5,
-            description: "hellloooo",
-            fullName: "himanshu",
-            userName: "himanshu_09",
-        },
-    ]
+    async function getAllPosts() {
+        await fetchPosts()
+            .then((res) => {
+                console.log(" res: ", res.data?.data)
+                setAllPosts(res?.data?.data);
+            })
+            .catch((error) => {
+                console.log("Error: ", error)
+            })
+    }
+
+
+    useEffect(() => {
+        getAllPosts();
+    }, []);
 
 
     return (
@@ -70,7 +68,7 @@ const Feeds = () => {
                 <div className='w-full'>
 
                     {
-                        feeds?.map((post) => (
+                        allPosts?.map((post) => (
                             <Post key={post?._id} post={post} />
                         ))
                     }
