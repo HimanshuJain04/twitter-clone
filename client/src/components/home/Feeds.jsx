@@ -19,7 +19,6 @@ const Feeds = () => {
     async function getAllPosts() {
         await fetchPosts()
             .then((res) => {
-                console.log(" res: ", res.data?.data)
                 setAllPosts(res?.data?.data);
             })
             .catch((error) => {

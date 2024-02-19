@@ -1,7 +1,7 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { authVerifyToken } from "./redux/slices/authSlice.js";
 import { useDispatch, useSelector } from "react-redux";
+import { authVerifyToken } from "./redux/slices/authSlice.js";
+import { useEffect } from "react"
 
 // *********** Import pages ***************
 // auth-page
@@ -19,28 +19,33 @@ import Landing from "./pages/Landing";
 function App() {
 
   const navigate = useNavigate();
+
   const dispatch = useDispatch();
-  const state = useSelector(state => state.auth);
+  let authState = useSelector(state => state.auth);
+
 
   const tokenVerificationHandler = async () => {
+    dispatch(authVerifyToken())
+  }
 
-    await dispatch(authVerifyToken())
-      .then(() => {
-        console.log("state: ", state)
+  useEffect(() => {
 
-        if (state.user) {
-          navigate("/home");
+    console.log(authState)
+    if (authState.user) {
+      console.log("home")
+      navigate("/home");
+    } else {
+      console.log("by")
+      navigate("/");
+    }
 
-        } else {
-          navigate("/");
-        }
-      })
-  };
+  }, [authState.user]);
+
+
 
   useEffect(() => {
     tokenVerificationHandler();
   }, []);
-
 
 
   return (

@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import xLogo from "/logo.png";
-import { verifyToken } from "../services/authService.js";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
+
 
 const Landing = () => {
 
     const navigate = useNavigate();
+
 
     return (
         <div>

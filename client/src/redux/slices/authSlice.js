@@ -10,7 +10,8 @@ import {
 } from "../../services/authService.js";
 
 
-// login
+
+// verify token
 export const authVerifyToken = createAsyncThunk(
     "auth/verify-token",
     async (thunkAPI) => {

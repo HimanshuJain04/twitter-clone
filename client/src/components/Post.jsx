@@ -8,9 +8,6 @@ import { postFeatures } from "../constants/PostFeatures";
 const Post = ({ post }) => {
 
 
-    console.log(post);
-    console.log(postFeatures)
-
     return (
         <div className='w-full'>
             <div className='flex flex-row py-3 px-5 gap-5 border-b-2 border-[white]/[0.2] justify-between items-start w-full'>

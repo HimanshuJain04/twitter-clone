@@ -3,6 +3,8 @@ import { FiSearch } from "react-icons/fi";
 
 
 const TrendingSidebar = () => {
+   
+
     return (
         <div>
             <div className='flex flex-col w-[380px] pl-10 pt-2 min-h-screen border-l-2 border-[white]/[0.15] justify-start items-start gap-5'>

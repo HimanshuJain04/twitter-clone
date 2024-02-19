@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 
 const CreatePost = () => {
 
-    const state = useSelector(state => state.auth);
+    const state = useSelector(state => state);
 
     const textAreaRef = useRef(null);
     const fileRef = useRef(null);
@@ -68,7 +68,6 @@ const CreatePost = () => {
         await createPostApi(postData)
             .then((response) => {
                 toast.success("Post created!");
-                console.log("res: ", response);
 
             }).catch((error) => {
                 console.log("error: ", error);
@@ -85,7 +84,7 @@ const CreatePost = () => {
                 {/* user-image */}
                 <div className='overflow-hidden rounded-full h-[60px] w-[60px]'>
                     <img
-                        src={state?.user?.profileImg}
+                        src={state?.auth?.user?.profileImg}
                         alt="profile-Image"
                         className='h-14 w-14 object-contain p-1 rounded-full'
                     />
