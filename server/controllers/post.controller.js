@@ -17,6 +17,8 @@ export const createPost = async (req, res) => {
 
         const postPath = req.files?.post?.tempFilePath;
 
+        console.log("files: ", req.files)
+
         if (!userId || (!postPath && !description)) {
             return res.status(401).json(
                 {
@@ -83,7 +85,7 @@ export const createPost = async (req, res) => {
         existedUser.posts.push(newPost._id);
         await existedUser.save();
 
-        return res.status(500).json(
+        return res.status(200).json(
             {
                 success: true,
                 data: newPost,

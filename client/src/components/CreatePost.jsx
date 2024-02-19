@@ -3,14 +3,21 @@ import { CiImageOn } from "react-icons/ci";
 import { HiOutlineGif } from "react-icons/hi2";
 import { MdOutlineEmojiEmotions } from "react-icons/md";
 import { useSelector } from "react-redux";
+import { createPost as createPostApi } from "../services/postService.js"
+import toast from "react-hot-toast";
+
 
 const CreatePost = () => {
 
     const state = useSelector(state => state.auth);
+
     const textAreaRef = useRef(null);
+    const fileRef = useRef(null);
+
     const [postData, setPostData] = useState(
         {
             description: "",
+            post: []
         }
     );
 
@@ -35,6 +42,40 @@ const CreatePost = () => {
 
         }
     }, [textAreaRef.current, postData.description]);
+
+
+    function fileRefHandler() {
+        if (fileRef.current) {
+            fileRef.current.click();
+        }
+    }
+
+    function fileChangeHandler(e) {
+        const temp = [...postData.post];
+        temp.push(e.target.files)
+        setPostData(
+            {
+                ...postData,
+                [postData.post]: temp
+            }
+        )
+    }
+
+
+    const postHandler = async () => {
+
+        console.log("data: ", postData)
+        await createPostApi(postData)
+            .then((response) => {
+                toast.success("Post created!");
+                console.log("res: ", response);
+
+            }).catch((error) => {
+                console.log("error: ", error);
+                toast.error(error.message);
+            })
+    }
+
 
 
     return (
@@ -80,19 +121,34 @@ const CreatePost = () => {
 
                         {/* other option */}
                         <div className='flex justify-center items-center gap-5'>
-                            <div className='text-xl cursor-pointer text-blue-400'>
+
+                            {/* image button */}
+                            <div
+                                onClick={fileRefHandler}
+                                className='text-xl cursor-pointer text-blue-400'
+                            >
+                                <input
+                                    type="file"
+                                    hidden ref={fileRef}
+                                    multiple
+                                    onChange={fileChangeHandler}
+                                />
                                 <CiImageOn />
                             </div>
+
+                            {/* emoji button */}
                             <abbr title="emoji" className='text-white '>
                                 <div className='text-xl cursor-pointer text-blue-400'>
                                     <MdOutlineEmojiEmotions />
                                 </div>
                             </abbr>
+
                         </div>
 
                         {/* post button */}
                         <div>
                             <button
+                                onClick={postHandler}
                                 className='bg-blue-400 text-white py-2 px-10 font-bold rounded-full'
                             >Post</button>
                         </div>
