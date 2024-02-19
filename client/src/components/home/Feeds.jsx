@@ -34,10 +34,10 @@ const Feeds = () => {
 
     return (
         <div className='w-full'>
-            <div className='flex flex-col  justify-start items-center bg-black'>
+            <div className='flex relative flex-col  justify-start items-center bg-black'>
 
                 {/* navbar */}
-                <div className='flex flex-row justify-between backdrop-blur-2xl w-full border-b-2 border-[white]/[0.19]'>
+                <div className='flex sticky top-0 flex-row justify-between backdrop-blur-2xl w-full border-b-2 border-[white]/[0.19]'>
                     {
                         navLinks?.map((navlink, index) => (
                             <div
@@ -62,15 +62,21 @@ const Feeds = () => {
 
                 </div>
 
-                <CreatePost />
+                <div className='h-[calc(100vh-100px)] w-full overflow-y-auto'>
 
-                <div className='w-full flex mt-5 flex-col gap-5 justify-start items-start'>
+                    <div>
+                        <CreatePost />
+                    </div>
 
-                    {
-                        allPosts?.map((post) => (
-                            <Post key={post?._id} post={post} />
-                        ))
-                    }
+                    <div className='w-full  flex mt-5 flex-col gap-5 justify-start items-start'>
+
+                        {
+                            allPosts?.map((post) => (
+                                <Post key={post?._id} post={post} />
+                            ))
+                        }
+
+                    </div>
 
                 </div>
 
