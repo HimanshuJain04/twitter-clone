@@ -214,7 +214,7 @@ const CreatePost = ({ isLoading, setIsLoading }) => {
                             <button
                                 disabled={description.trim().length === 0 && files.length === 0}
                                 onClick={createPostHandler}
-                                className='bg-blue-400  text-white py-2 px-10 font-bold rounded-full'
+                                className='bg-blue-400 disabled:opacity-50 text-white py-2 px-10 font-bold rounded-full'
                             >Post
                             </button>
                         </div>
