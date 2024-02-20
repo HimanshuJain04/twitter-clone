@@ -1,7 +1,7 @@
 import User from "../models/user.model.js";
 import Post from "../models/post.model.js";
 import Comment from "../models/comment.model.js";
-import { uploadMultipleFilesToCloudinary } from "../utils/fileUploader.js"
+import { uploadFileToCloudinary, uploadMultipleFilesToCloudinary } from "../utils/fileUploader.js"
 
 
 
@@ -16,6 +16,7 @@ export const createPost = async (req, res) => {
         const userId = req.user?._id;
 
         const allPosts = req.files?.post;
+
 
         if (!userId || (!allPosts && !description)) {
             return res.status(401).json(
@@ -44,9 +45,18 @@ export const createPost = async (req, res) => {
 
         if (allPosts) {
 
-            const allPostResponse = await uploadMultipleFilesToCloudinary(allPosts);
+            let allPostResponse = [];
 
-            if (!allPostResponse) {
+            if (Array.isArray(allPosts)) {
+                allPostResponse = await uploadMultipleFilesToCloudinary(allPosts);
+
+            } else {
+                const response = await uploadFileToCloudinary(allPosts);
+                allPostResponse.push(response);
+            }
+
+
+            if (allPostResponse.length === 0) {
                 return res.status(500).json(
                     {
                         message: "File upload failed",

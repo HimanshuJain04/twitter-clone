@@ -44,7 +44,8 @@ const Post = ({ post }) => {
                     {/* images */}
                     {
                         post?.postUrls?.length > 0 &&
-                        <div className='w-full my-4 grid grid-cols-2 gap-3'
+                        <div
+                            className={`w-full my-4 grid  gap-3 ${post.postUrls?.length === 1 ? "" : "grid-cols-2"}`}
                         >
                             {
                                 post.postUrls?.map((url, index) => (

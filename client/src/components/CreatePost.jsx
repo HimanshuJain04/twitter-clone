@@ -212,9 +212,11 @@ const CreatePost = ({ isLoading, setIsLoading }) => {
                         {/* post button */}
                         <div>
                             <button
+                                disabled={description.trim().length === 0 && files.length === 0}
                                 onClick={createPostHandler}
-                                className='bg-blue-400 text-white py-2 px-10 font-bold rounded-full'
-                            >Post</button>
+                                className='bg-blue-400  text-white py-2 px-10 font-bold rounded-full'
+                            >Post
+                            </button>
                         </div>
 
                     </div>
@@ -222,7 +224,7 @@ const CreatePost = ({ isLoading, setIsLoading }) => {
                 </div>
 
             </div>
-        </div>
+        </div >
     )
 }
 
