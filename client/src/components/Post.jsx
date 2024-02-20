@@ -2,11 +2,10 @@ import React from 'react';
 import { HiDotsHorizontal } from "react-icons/hi";
 import { FiShare } from "react-icons/fi";
 import { postFeatures } from "../constants/PostFeatures";
-
+import { getTime } from "../utils/getTime.js"
 
 
 const Post = ({ post }) => {
-    console.log(post)
 
 
     return (
@@ -27,17 +26,27 @@ const Post = ({ post }) => {
 
                     {/* name and username and three-dots */}
                     <div className='flex flex-row w-full justify-between items-center'>
-                        <div className='flex justify-center items-center gap-2'>
-                            <span>{post?.fullName}</span>
-                            <span>{post?.userName}</span>
+
+                        <div className='flex justify-center  items-center gap-2'>
+
+                            <span className='text-white font-bold hover:underline cursor-pointer'>{post?.user?.fullName}</span>
+
+                            <span className='text-[white]/[0.5] font-light cursor-pointer'>@{post?.user?.userName}</span>
+
+                            <div className='bg-[white]/[0.5] rounded-full h-[3px] w-[3px]'></div>
+
+                            <span className='text-[white]/[0.5] font-light cursor-pointer'>
+                                {getTime(post?.createdAt)}</span>
+
                         </div>
+
                         <div className='text-xl cursor-pointer text-white'>
                             <HiDotsHorizontal />
                         </div>
                     </div>
 
                     {/* post descritpion */}
-                    <div className='text-white text-lg font-semibold'>
+                    <div className='text-white text-lg '>
                         {post?.description}
                     </div>
 
