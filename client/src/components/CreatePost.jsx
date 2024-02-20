@@ -7,7 +7,7 @@ import { createPost as createPostApi } from "../services/postService.js"
 import toast from "react-hot-toast";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 
-const CreatePost = () => {
+const CreatePost = ({ isLoading, setIsLoading }) => {
 
     const state = useSelector(state => state.auth);
 
@@ -78,6 +78,8 @@ const CreatePost = () => {
 
     const createPostHandler = async () => {
 
+        setIsLoading(true);
+
         const fd = new FormData();
 
         fd.append("description", description);
@@ -90,11 +92,16 @@ const CreatePost = () => {
         await createPostApi(fd)
             .then((response) => {
                 toast.success("Post created!");
-                console.log(response)
+                setDescription("");
+                setFiles([]);
+                console.log("response: ", response)
 
             }).catch((error) => {
                 console.log("error: ", error);
                 toast.error(error.message);
+            })
+            .finally(() => {
+                setIsLoading(false);
             })
     }
 

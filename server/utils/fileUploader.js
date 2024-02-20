@@ -1,17 +1,5 @@
 import { v2 as cloudinary } from "cloudinary"
 
-export const uploadMultipleFilesToCloudinary = async (posts) => {
-    return Promise.all(posts.map((post) => {
-        return this.uploadFileToCloudinary(post); // Make sure to return the promise
-    }))
-        .then((values) => {
-            return values; // Return the values from the resolved promise
-        })
-        .catch((err) => {
-            console.error("Error uploading files:", err);
-            throw err; // Rethrow the error to propagate it
-        });
-}
 
 
 export const uploadFileToCloudinary = async (post) => {
@@ -28,4 +16,17 @@ export const uploadFileToCloudinary = async (post) => {
         console.log("Error uploading to cloudinary")
         throw new Error(error.message);
     }
+}
+
+export const uploadMultipleFilesToCloudinary = async (posts) => {
+    return Promise.all(posts.map((post) => {
+        return uploadFileToCloudinary(post); // Make sure to return the promise
+    }))
+        .then((values) => {
+            return values; // Return the values from the resolved promise
+        })
+        .catch((err) => {
+            console.error("Error uploading files:", err);
+            throw err; // Rethrow the error to propagate it
+        });
 }

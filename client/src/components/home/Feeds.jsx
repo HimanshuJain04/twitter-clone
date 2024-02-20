@@ -3,8 +3,9 @@ import { IoSettingsOutline } from "react-icons/io5";
 import Post from '../../components/Post';
 import CreatePost from '../CreatePost';
 import { fetchPosts } from "../../services/postService.js";
+import TransparencySpinner from '../common/TransparencySpinner.jsx';
 
-const Feeds = () => {
+const Feeds = ({ isLoading, setIsLoading }) => {
 
     const navLinks = [
         "For you",
@@ -36,6 +37,12 @@ const Feeds = () => {
         <div className='w-full'>
             <div className='flex relative flex-col  justify-start items-center bg-black'>
 
+                {/* Spinner */}
+                {
+                    isLoading &&
+                    <TransparencySpinner />
+                }
+
                 {/* navbar */}
                 <div className='flex sticky top-0 flex-row justify-between backdrop-blur-2xl w-full border-b-2 border-[white]/[0.19]'>
                     {
@@ -62,10 +69,11 @@ const Feeds = () => {
 
                 </div>
 
+                {/* Feeds */}
                 <div className='h-[calc(100vh-100px)] w-full overflow-y-auto'>
 
                     <div>
-                        <CreatePost />
+                        <CreatePost isLoading={isLoading} setIsLoading={setIsLoading} />
                     </div>
 
                     <div className='w-full  flex mt-5 flex-col gap-5 justify-start items-start'>

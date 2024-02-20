@@ -2,9 +2,11 @@ import mongoose from "mongoose";
 
 const postSchema = new mongoose.Schema(
     {
-        postUrl: {
-            type: String
-        },
+        postUrls: [
+            {
+                type: String
+            }
+        ],
         description: {
             type: String,
         },

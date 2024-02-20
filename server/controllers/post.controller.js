@@ -64,7 +64,7 @@ export const createPost = async (req, res) => {
         const newPost = await Post.create(
             {
                 description,
-                postUrl: postUrls,
+                postUrls,
                 duration,
                 user: userId
             }

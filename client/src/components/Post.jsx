@@ -6,6 +6,7 @@ import { postFeatures } from "../constants/PostFeatures";
 
 
 const Post = ({ post }) => {
+    console.log(post)
 
 
     return (
@@ -39,6 +40,24 @@ const Post = ({ post }) => {
                     <div className='text-white text-lg font-semibold'>
                         {post?.description}
                     </div>
+
+                    {/* images */}
+                    {
+                        post?.postUrls?.length > 0 &&
+                        <div className='w-full my-4 grid grid-cols-2 gap-3'
+                        >
+                            {
+                                post.postUrls?.map((url, index) => (
+                                    <div
+                                        key={url + index}
+                                        className=''
+                                    >
+                                        <img src={url} loading='lazy' alt="user-post" />
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    }
 
                     {/* options on post */}
                     <div className='flex w-full mt-2 flex-row items-center gap-8'>
@@ -77,7 +96,7 @@ const Post = ({ post }) => {
                 </div>
 
             </div>
-        </div>
+        </div >
     )
 }
 
