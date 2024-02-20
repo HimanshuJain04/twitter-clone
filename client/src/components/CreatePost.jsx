@@ -1,11 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { CiImageOn } from "react-icons/ci";
-import { HiOutlineGif } from "react-icons/hi2";
+import { FiImage } from "react-icons/fi"; import { HiOutlineGif } from "react-icons/hi2";
 import { MdOutlineEmojiEmotions } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { createPost as createPostApi } from "../services/postService.js"
 import toast from "react-hot-toast";
 import { RiDeleteBin5Fill } from "react-icons/ri";
+import { BiPoll } from "react-icons/bi";
+import { TbCalendarTime } from "react-icons/tb";
+import { GrLocation } from "react-icons/gr";
+import EmojiPicker from 'emoji-picker-react';
+
+
 
 const CreatePost = ({ isLoading, setIsLoading }) => {
 
@@ -14,6 +19,7 @@ const CreatePost = ({ isLoading, setIsLoading }) => {
     const textAreaRef = useRef(null);
     const fileRef = useRef(null);
 
+    const [openEmoji, setOpenEmoji] = useState(false);
     const [description, setDescription] = useState("");
     const [files, setFiles] = useState([]);
 
@@ -187,7 +193,8 @@ const CreatePost = ({ isLoading, setIsLoading }) => {
                         <div className='flex justify-center items-center gap-5'>
 
                             {/* image button */}
-                            <div
+                            <abbr
+                                title='Media'
                                 onClick={fileRefHandler}
                                 className='text-xl cursor-pointer text-blue-400'
                             >
@@ -197,15 +204,60 @@ const CreatePost = ({ isLoading, setIsLoading }) => {
                                     multiple
                                     onChange={fileChangeHandler}
                                 />
-                                <CiImageOn />
-                            </div>
+                                <FiImage />
+                            </abbr>
 
-                            {/* emoji button */}
-                            <abbr title="emoji" className='text-white '>
+                            {/* Gifs button */}
+                            <abbr title="Gifs" className='text-white '>
                                 <div className='text-xl cursor-pointer text-blue-400'>
-                                    <MdOutlineEmojiEmotions />
+                                    <HiOutlineGif />
                                 </div>
                             </abbr>
+
+                            {/* poll button */}
+                            <abbr title="Polls" className='text-white '>
+                                <div className='text-xl cursor-pointer text-blue-400'>
+                                    <BiPoll />
+                                </div>
+                            </abbr>
+
+                            {/* Emoji button */}
+                            <abbr
+                                title="Emoji"
+                                className='text-white relative '
+                            >
+                                <div
+                                    onClick={() => {
+                                        setOpenEmoji(!openEmoji);
+                                    }}
+                                    className='text-xl cursor-pointer text-blue-400'>
+                                    <MdOutlineEmojiEmotions />
+                                </div>
+
+                                {
+                                    openEmoji &&
+                                    <div className='absolute z-10 top-10 left-[50%] translate-x-[-50%]'>
+                                        <EmojiPicker
+                                            theme='dark'
+                                        />
+                                    </div>
+                                }
+                            </abbr>
+
+                            {/* schedule button */}
+                            <abbr title="Schedule" className='text-white '>
+                                <div className='text-xl cursor-pointer text-blue-400'>
+                                    <TbCalendarTime />
+                                </div>
+                            </abbr>
+
+                            {/* location button */}
+                            <abbr title="Location" className='text-white '>
+                                <div className='text-xl cursor-pointer text-blue-400'>
+                                    <GrLocation />
+                                </div>
+                            </abbr>
+
 
                         </div>
 

@@ -3,9 +3,15 @@ import { HiDotsHorizontal } from "react-icons/hi";
 import { FiShare } from "react-icons/fi";
 import { postFeatures } from "../constants/PostFeatures";
 import { getTime } from "../utils/getTime.js"
-
+import { useSelector } from "react-redux"
 
 const Post = ({ post }) => {
+
+    const userState = useSelector(state => state.auth.user);
+
+    console.log(userState);
+    console.log(post);
+
 
 
     return (
@@ -78,15 +84,24 @@ const Post = ({ post }) => {
                                     <abbr
                                         key={index}
                                         title={set.title}
+                                        onClick={set?.func}
                                     >
                                         <div
-                                            className=' text-[white]/[0.3] cursor-pointer hover:text-blue-400 transition-all duration-300 ease-in-out'
+                                            className=' text-[white]/[0.3] cursor-pointer hover:text-blue-400 transition-all text-lg duration-300 ease-in-out'
                                         >
-                                            <span>
-                                                {
+                                            {set.title === "Like" ? (
+
+                                                post?.likes.includes(userState?._id) ?
+                                                    set.icon2 :
                                                     set.icon1
-                                                }
-                                            </span>
+
+                                            ) : set.title === "Bookmark" ? (
+                                                post?.bookmarks.includes(userState?._id) ?
+                                                    set.icon2 :
+                                                    set.icon1
+                                            ) : (
+                                                set.icon1
+                                            )}
                                         </div>
                                     </abbr>
                                 ))
