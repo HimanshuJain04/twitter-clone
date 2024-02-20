@@ -239,6 +239,9 @@ const CreatePost = ({ isLoading, setIsLoading }) => {
                                     <div className='absolute z-10 top-10 left-[50%] translate-x-[-50%]'>
                                         <EmojiPicker
                                             theme='dark'
+                                            onEmojiClick={(e) => {
+                                                console.log(e)
+                                            }}
                                         />
                                     </div>
                                 }
