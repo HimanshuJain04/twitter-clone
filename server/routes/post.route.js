@@ -4,8 +4,7 @@ const router = express.Router();
 import { verifyJwtToken } from "../middlewares/auth.middleware.js"
 import {
     createPost,
-    likePost,
-    unlikePost,
+    postLikeHandler,
     bookmarkedHandler,
     createComment,
     deleteComment,
@@ -26,8 +25,7 @@ router.route("/fetch-posts").get(fetchAllPosts);
 
 
 // like and bookmark functionality
-router.route("/like-post/:postId").patch(likePost);
-router.route("/unlike-post/:postId").patch(unlikePost);
+router.route("/like-unlike-post/:postId").patch(postLikeHandler);
 router.route("/bookmarked-unbookmarked-post/:postId").patch(bookmarkedHandler);
 
 

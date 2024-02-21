@@ -230,7 +230,7 @@ export const deletePost = async (req, res) => {
 // ******************************** POST LIKE AND BOOKMARK OPERATIONS ***********************************
 
 
-export const likePost = async (req, res) => {
+export const postLikeHandler = async (req, res) => {
     try {
 
         const userId = req.user?._id;
@@ -248,15 +248,9 @@ export const likePost = async (req, res) => {
             )
         }
 
-        const updatedPost = await Post.findByIdAndUpdate(
-            { _id: postId },
-            {
-                $push: { likes: existedUser._id }
-            },
-            { new: true }
-        );
+        const existedPost = await Post.findById(postId);
 
-        if (!updatedPost) {
+        if (!existedPost) {
             return res.status(404).json(
                 {
                     message: "Post not found",
@@ -266,75 +260,48 @@ export const likePost = async (req, res) => {
             )
         }
 
-        return res.status(500).json(
+        const isLiked = existedPost.likes.includes(userId);
+
+        if (isLiked) {
+            // unlike logic
+
+            const tempPost = existedPost.likes.filter(id => {
+                id !== userId
+            });
+            existedPost.likes = tempPost;
+
+
+            const tempUserLike = existedUser.liked.filter(id => {
+                id !== postId
+            });
+            existedUser.liked = tempUserLike;
+
+        } else {
+
+            // like logic
+            existedPost.likes.push(userId);
+            existedUser.liked.push(postId);
+
+        }
+
+        await existedPost.save();
+        await existedUser.save();
+
+        const updatedUser = await User.findById(userId);
+
+        return res.status(200).json(
             {
                 success: true,
-                data: updatedPost,
-                message: "Liked the post successfully"
+                isLiked: !isLiked,
+                data: updatedUser,
+                message: "Liked or Unliked the post successfully"
             }
         )
     } catch (error) {
 
         return res.status(500).json(
             {
-                message: "Server failed to like the post,Please try again",
-                error: error.message,
-                success: false,
-                data: null
-            }
-        )
-    }
-}
-
-
-export const unlikePost = async (req, res) => {
-    try {
-
-        const userId = req.user?._id;
-        const { postId } = req.params;
-
-        const existedUser = await User.findById(userId);
-
-        if (!existedUser) {
-            return res.status(404).json(
-                {
-                    message: "User not found",
-                    success: false,
-                    data: null
-                }
-            )
-        }
-
-        const updatedPost = await Post.findByIdAndUpdate(
-            { _id: postId },
-            {
-                $pull: { likes: existedUser._id }
-            },
-            { new: true }
-        );
-
-        if (!updatedPost) {
-            return res.status(404).json(
-                {
-                    message: "Post not found",
-                    success: false,
-                    data: null
-                }
-            )
-        }
-
-        return res.status(500).json(
-            {
-                success: true,
-                data: updatedPost,
-                message: "Unliked the post successfully"
-            }
-        )
-    } catch (error) {
-
-        return res.status(500).json(
-            {
-                message: "Server failed to unlike the post,Please try again",
+                message: "Server failed to liked or unliked the post,Please try again",
                 error: error.message,
                 success: false,
                 data: null
