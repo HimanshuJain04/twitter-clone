@@ -13,3 +13,7 @@ export const fetchPosts = async () => {
 export const bookmarkPost = async (postId) => {
     return await jsonRequest.patch(`/post/bookmarked-unbookmarked-post/${postId}`);
 }
+
+export const likePost = async (postId) => {
+    return await jsonRequest.patch(`/post/like-unlike-post/${postId}`);
+}

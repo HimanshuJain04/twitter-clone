@@ -376,19 +376,19 @@ export const bookmarkedHandler = async (req, res) => {
 
         const isBookmarked = existedPost.bookmarks.includes(userId);
 
-        console.log("isBook : ", isBookmarked);
-
         if (isBookmarked) {
             // unbookmark logic
 
-            const tempPost = existedPost.bookmarks.filter((bookmarkId) => bookmarkId !== userId);
+            const tempPost = existedPost.bookmarks.filter(id => {
+                id !== userId
+            });
             existedPost.bookmarks = tempPost;
 
-            console.log("tempPost: ", tempPost);
 
-            const tempUserBookmark = existedUser.bookmarked.filter((bookmarkId) => bookmarkId !== postId);
+            const tempUserBookmark = existedUser.bookmarked.filter(id => {
+                id !== postId
+            });
             existedUser.bookmarked = tempUserBookmark;
-            console.log("tempUserBookmark: ", tempUserBookmark);
 
         } else {
             // bookmark logic
@@ -402,11 +402,10 @@ export const bookmarkedHandler = async (req, res) => {
 
         const updatedUser = await User.findById(userId);
 
-
         return res.status(200).json(
             {
                 success: true,
-                isBookmarked,
+                isBookmarked: !isBookmarked,
                 data: updatedUser,
                 message: "Bookmarked or Unbookmarked the post successfully"
             }

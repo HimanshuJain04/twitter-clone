@@ -23,7 +23,6 @@ const Login = () => {
 
         await dispatch(authLogin(data))
             .then(() => {
-                console.log("state: ", state)
 
                 if (state.isError) {
                     toast.error(state.isError?.message);

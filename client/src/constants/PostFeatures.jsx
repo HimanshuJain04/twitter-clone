@@ -5,7 +5,7 @@ import { FaHeart } from "react-icons/fa6";
 import { FaRegBookmark } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa6";
 import { IoStatsChartSharp } from "react-icons/io5";
-import { bookmarkPost } from "../services/postService";
+import { bookmarkPost, likePost } from "../services/postService";
 
 
 
@@ -19,7 +19,16 @@ function retweetHandler() {
 }
 
 
-function likeHandler() {
+async function likeHandler(postId) {
+    console.log(postId)
+
+    await likePost(postId)
+        .then((res) => {
+            console.log("User: ", res.data.data);
+        })
+        .catch((err) => {
+            console.log("Error when trying to like: ", err)
+        })
 
 }
 
@@ -34,7 +43,7 @@ async function bookmarkHandler(postId) {
 
     await bookmarkPost(postId)
         .then((res) => {
-            console.log(res);
+            console.log("User: ", res.data.data);
         })
         .catch((err) => {
             console.log("Error when trying to bookmark: ", err)
