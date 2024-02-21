@@ -4,6 +4,7 @@ import Post from '../../components/Post';
 import CreatePost from '../CreatePost';
 import { fetchPosts } from "../../services/postService.js";
 import TransparencySpinner from '../common/TransparencySpinner.jsx';
+import PostSkeleton from '../PostSkeleton.jsx';
 
 const Feeds = ({ isLoading, setIsLoading }) => {
 
@@ -13,17 +14,21 @@ const Feeds = ({ isLoading, setIsLoading }) => {
     ];
 
     const [allPosts, setAllPosts] = useState(null);
-
+    const [isSkeleton, setIsSkeleton] = useState(true);
 
     const [option, setOption] = useState(navLinks[0]);
 
     async function getAllPosts() {
+        setIsSkeleton(true);
         await fetchPosts()
             .then((res) => {
                 setAllPosts(res?.data?.data);
             })
             .catch((error) => {
                 console.log("Error: ", error)
+            })
+            .finally(() => {
+                setIsSkeleton(true);
             })
     }
 
@@ -71,20 +76,35 @@ const Feeds = ({ isLoading, setIsLoading }) => {
 
                 {/* Feeds */}
                 <div className='h-[calc(100vh-100px)] w-full overflow-y-auto'>
+                    {
+                        isSkeleton ? (
+                            <div className='flex flex-col justify-start gap-5 items-center'>
+                                <PostSkeleton />
+                                <PostSkeleton />
+                                <PostSkeleton />
+                                <PostSkeleton />
+                                <PostSkeleton />
+                            </div>
+                        ) : (
+                            <>
 
-                    <div>
-                        <CreatePost isLoading={isLoading} setIsLoading={setIsLoading} />
-                    </div>
+                                <div>
+                                    <CreatePost isLoading={isLoading} setIsLoading={setIsLoading} />
+                                </div>
 
-                    <div className='w-full  flex mt-5 flex-col gap-5 justify-start items-start'>
+                                <div className='w-full  flex mt-5 flex-col gap-5 justify-start items-start'>
 
-                        {
-                            allPosts?.map((post) => (
-                                <Post key={post?._id} post={post} />
-                            ))
-                        }
+                                    {
+                                        allPosts?.map((post) => (
+                                            <Post key={post?._id} post={post} />
+                                        ))
+                                    }
 
-                    </div>
+                                </div>
+                            </>
+                        )
+                    }
+
 
                 </div>
 

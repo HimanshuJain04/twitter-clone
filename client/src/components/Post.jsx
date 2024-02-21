@@ -1,13 +1,65 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { HiDotsHorizontal } from "react-icons/hi";
 import { FiShare } from "react-icons/fi";
-import { postFeatures } from "../constants/PostFeatures";
 import { getTime } from "../utils/getTime.js"
 import { useSelector } from "react-redux"
+import { FaRegComment } from "react-icons/fa";
+import { AiOutlineRetweet } from "react-icons/ai";
+import { FaRegHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa6";
+import { FaRegBookmark } from "react-icons/fa";
+import { FaBookmark } from "react-icons/fa6";
+import { IoStatsChartSharp } from "react-icons/io5";
+import { bookmarkPost, likePost } from "../services/postService.js";
+
+
 
 const Post = ({ post }) => {
 
     const userState = useSelector(state => state.auth.user);
+
+    const [isLiked, setisLiked] = useState(userState?.liked.includes(post?._id));
+    const [isBookmarked, setIsBookmarked] = useState(userState?.bookmarked.includes(post?._id));
+
+
+    function commentHandler() {
+        console.log("Comment")
+    }
+
+    function retweetHandler() {
+
+    }
+
+
+    async function likeHandler() {
+
+        await likePost(post._id)
+            .then((res) => {
+                setisLiked(res.data.isLiked);
+            })
+            .catch((err) => {
+                console.log("Error when trying to like: ", err)
+            })
+
+    }
+
+
+    function statsHandler() {
+
+    }
+
+
+    async function bookmarkHandler() {
+
+        await bookmarkPost(post._id)
+            .then((res) => {
+                setIsBookmarked(res.data.isBookmarked);
+            })
+            .catch((err) => {
+                console.log("Error when trying to bookmark: ", err)
+            })
+    }
+
 
 
     return (
@@ -75,33 +127,71 @@ const Post = ({ post }) => {
                     <div className='flex w-full mt-2 flex-row items-center gap-8'>
 
                         <div className='flex w-full items-center justify-between'>
-                            {
-                                postFeatures?.map((set, index) => (
-                                    <abbr
-                                        key={index}
-                                        title={set.title}
-                                        onClick={() => set.func(post?._id)}
-                                    >
-                                        <div
-                                            className=' text-[white]/[0.3] cursor-pointer hover:text-blue-400 transition-all text-lg duration-300 ease-in-out'
-                                        >
-                                            {set.title === "Like" ? (
 
-                                                post?.likes.includes(userState?._id) ?
-                                                    set.icon2 :
-                                                    set.icon1
+                            {/* Comment */}
+                            <abbr
+                                title="Comment"
+                                onClick={commentHandler}
+                            >
+                                <div
+                                    className=' text-[white]/[0.3] cursor-pointer hover:text-blue-400 transition-all text-lg duration-300 ease-in-out'
+                                >
+                                    <FaRegComment />
+                                </div>
+                            </abbr>
 
-                                            ) : set.title === "Bookmark" ? (
-                                                post?.bookmarks.includes(userState?._id) ?
-                                                    set.icon2 :
-                                                    set.icon1
-                                            ) : (
-                                                set.icon1
-                                            )}
-                                        </div>
-                                    </abbr>
-                                ))
-                            }
+                            {/* Retweet */}
+                            <abbr
+                                title="Retweet"
+                                onClick={retweetHandler}
+                            >
+                                <div
+                                    className=' text-[white]/[0.3] cursor-pointer hover:text-blue-400 transition-all text-lg duration-300 ease-in-out'
+                                >
+                                    <AiOutlineRetweet />
+                                </div>
+                            </abbr>
+
+                            {/* Like */}
+                            <abbr
+                                title="Like"
+                                onClick={likeHandler}
+                            >
+                                <div
+                                    className=' text-[white]/[0.3] cursor-pointer hover:text-blue-400 transition-all text-lg duration-300 ease-in-out'
+                                >
+                                    {
+                                        isLiked ? <FaHeart /> : <FaRegHeart />
+                                    }
+                                </div>
+                            </abbr>
+
+                            {/* Stats */}
+                            <abbr
+                                title="Stats"
+                                onClick={statsHandler}
+                            >
+                                <div
+                                    className=' text-[white]/[0.3] cursor-pointer hover:text-blue-400 transition-all text-lg duration-300 ease-in-out'
+                                >
+                                    <IoStatsChartSharp />
+                                </div>
+                            </abbr>
+
+                            {/* Bookmark */}
+                            <abbr
+                                title="Bookmark"
+                                onClick={bookmarkHandler}
+                            >
+                                <div
+                                    className=' text-[white]/[0.3] cursor-pointer hover:text-blue-400 transition-all text-lg duration-300 ease-in-out'
+                                >
+                                    {
+                                        isBookmarked ? <FaBookmark /> : <FaRegBookmark />
+                                    }
+                                </div>
+                            </abbr>
+
                         </div>
 
                         <abbr title="Share">
@@ -121,4 +211,4 @@ const Post = ({ post }) => {
     )
 }
 
-export default Post
+export default Post;
