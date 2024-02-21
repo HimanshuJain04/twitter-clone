@@ -344,7 +344,7 @@ export const unlikePost = async (req, res) => {
 }
 
 
-export const bookmarked = async (req, res) => {
+export const bookmarkedHandler = async (req, res) => {
     try {
 
         const userId = req.user?._id;

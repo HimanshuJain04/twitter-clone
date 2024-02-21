@@ -9,3 +9,7 @@ export const fetchPosts = async () => {
     return await jsonRequest.get("/post/fetch-posts");
 }
 
+
+export const bookmarkPost = async (postId) => {
+    return await jsonRequest.get(`/post/bookmarked-post/${postId}`);
+}

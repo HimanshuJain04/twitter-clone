@@ -6,8 +6,7 @@ import {
     createPost,
     likePost,
     unlikePost,
-    bookmarked,
-    unbookmarked,
+    bookmarkedHandler,
     createComment,
     deleteComment,
     likeOnComment,
@@ -29,8 +28,7 @@ router.route("/fetch-posts").get(fetchAllPosts);
 // like and bookmark functionality
 router.route("/like-post/:postId").patch(likePost);
 router.route("/unlike-post/:postId").patch(unlikePost);
-router.route("/bookmarked-post/:postId").patch(bookmarked);
-router.route("/unbookmarked-post/:postId").patch(unbookmarked);
+router.route("/bookmarked-unbookmarked-post/:postId").patch(bookmarkedHandler);
 
 
 // comment routes

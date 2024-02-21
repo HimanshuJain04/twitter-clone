@@ -9,10 +9,6 @@ const Post = ({ post }) => {
 
     const userState = useSelector(state => state.auth.user);
 
-    console.log(userState);
-    console.log(post);
-
-
 
     return (
         <div className='w-full'>
@@ -84,7 +80,7 @@ const Post = ({ post }) => {
                                     <abbr
                                         key={index}
                                         title={set.title}
-                                        onClick={set?.func}
+                                        onClick={() => set.func(post?._id)}
                                     >
                                         <div
                                             className=' text-[white]/[0.3] cursor-pointer hover:text-blue-400 transition-all text-lg duration-300 ease-in-out'

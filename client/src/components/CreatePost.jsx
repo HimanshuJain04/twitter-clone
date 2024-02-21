@@ -8,7 +8,7 @@ import { RiDeleteBin5Fill } from "react-icons/ri";
 import { BiPoll } from "react-icons/bi";
 import { TbCalendarTime } from "react-icons/tb";
 import { GrLocation } from "react-icons/gr";
-import EmojiPicker from 'emoji-picker-react';
+import InputEmoji from "react-input-emoji";
 
 
 
@@ -236,14 +236,14 @@ const CreatePost = ({ isLoading, setIsLoading }) => {
 
                                 {
                                     openEmoji &&
-                                    <div className='absolute z-10 top-10 left-[50%] translate-x-[-50%]'>
-                                        <EmojiPicker
-                                            theme='dark'
-                                            onEmojiClick={(e) => {
-                                                console.log(e)
-                                            }}
-                                        />
-                                    </div>
+                                    <InputEmoji
+                                        cleanOnEnter
+                                        theme='dark'
+                                        className="bg-white"
+                                        onEnter={(e) => {
+                                            console.log(e)
+                                        }}
+                                    />
                                 }
                             </abbr>
 

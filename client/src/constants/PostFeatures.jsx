@@ -5,6 +5,7 @@ import { FaHeart } from "react-icons/fa6";
 import { FaRegBookmark } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa6";
 import { IoStatsChartSharp } from "react-icons/io5";
+import { bookmarkPost } from "../services/postService";
 
 
 
@@ -28,7 +29,16 @@ function statsHandler() {
 }
 
 
-function bookmarkHandler() {
+async function bookmarkHandler(postId) {
+    console.log(postId)
+
+    await bookmarkPost(postId)
+        .then((res) => {
+            console.log(res)
+        })
+        .catch((err) => {
+            console.log("Error when trying to bookmark: ", err)
+        })
 
 }
 
