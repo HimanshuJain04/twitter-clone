@@ -34,7 +34,7 @@ async function bookmarkHandler(postId) {
 
     await bookmarkPost(postId)
         .then((res) => {
-            console.log(res)
+            console.log(res);
         })
         .catch((err) => {
             console.log("Error when trying to bookmark: ", err)

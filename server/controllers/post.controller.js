@@ -362,15 +362,9 @@ export const bookmarkedHandler = async (req, res) => {
             )
         }
 
-        const updatedPost = await Post.findByIdAndUpdate(
-            { _id: postId },
-            {
-                $push: { bookmarks: existedUser._id }
-            },
-            { new: true }
-        );
+        const existedPost = await Post.findById(postId);
 
-        if (!updatedPost) {
+        if (!existedPost) {
             return res.status(404).json(
                 {
                     message: "Post not found",
@@ -380,91 +374,48 @@ export const bookmarkedHandler = async (req, res) => {
             )
         }
 
-        const updatedUser = await User.findByIdAndUpdate(
-            { _id: existedUser._id },
-            {
-                $push: { bookmarked: updatedPost._id }
-            },
-            { new: true }
-        );
+        const isBookmarked = existedPost.bookmarks.includes(userId);
 
-        return res.status(500).json(
+        console.log("isBook : ", isBookmarked);
+
+        if (isBookmarked) {
+            // unbookmark logic
+
+            const tempPost = existedPost.bookmarks.filter((bookmarkId) => bookmarkId !== userId);
+            existedPost.bookmarks = tempPost;
+
+            console.log("tempPost: ", tempPost);
+
+            const tempUserBookmark = existedUser.bookmarked.filter((bookmarkId) => bookmarkId !== postId);
+            existedUser.bookmarked = tempUserBookmark;
+            console.log("tempUserBookmark: ", tempUserBookmark);
+
+        } else {
+            // bookmark logic
+            existedPost.bookmarks.push(userId);
+            existedUser.bookmarked.push(postId);
+
+        }
+
+        await existedPost.save();
+        await existedUser.save();
+
+        const updatedUser = await User.findById(userId);
+
+
+        return res.status(200).json(
             {
                 success: true,
+                isBookmarked,
                 data: updatedUser,
-                message: "Bookmarked the post successfully"
+                message: "Bookmarked or Unbookmarked the post successfully"
             }
         )
     } catch (error) {
 
         return res.status(500).json(
             {
-                message: "Server failed to bookmarked the post,Please try again",
-                error: error.message,
-                success: false,
-                data: null
-            }
-        )
-    }
-}
-
-
-export const unbookmarked = async (req, res) => {
-    try {
-
-        const userId = req.user?._id;
-        const { postId } = req.params;
-
-        const existedUser = await User.findById(userId);
-
-        if (!existedUser) {
-            return res.status(404).json(
-                {
-                    message: "User not found",
-                    success: false,
-                    data: null
-                }
-            )
-        }
-
-        const updatedPost = await Post.findByIdAndUpdate(
-            { _id: postId },
-            {
-                $pull: { bookmarks: existedUser._id }
-            },
-            { new: true }
-        );
-
-        if (!updatedPost) {
-            return res.status(404).json(
-                {
-                    message: "Post not found",
-                    success: false,
-                    data: null
-                }
-            )
-        }
-
-        const updatedUser = await User.findByIdAndUpdate(
-            { _id: existedUser._id },
-            {
-                $pull: { bookmarked: updatedPost._id }
-            },
-            { new: true }
-        );
-
-        return res.status(500).json(
-            {
-                success: true,
-                data: updatedUser,
-                message: "Unbookmarked the post successfully"
-            }
-        )
-    } catch (error) {
-
-        return res.status(500).json(
-            {
-                message: "Server failed to unbookmarked the post,Please try again",
+                message: "Server failed to bookmarked or unbookmarked the post,Please try again",
                 error: error.message,
                 success: false,
                 data: null

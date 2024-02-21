@@ -11,5 +11,5 @@ export const fetchPosts = async () => {
 
 
 export const bookmarkPost = async (postId) => {
-    return await jsonRequest.get(`/post/bookmarked-post/${postId}`);
+    return await jsonRequest.patch(`/post/bookmarked-unbookmarked-post/${postId}`);
 }
