@@ -13,6 +13,7 @@ import ForgotChangePassword from "./pages/auth/ForgotChangePassword";
 // pages
 import Home from "./pages/Home";
 import Landing from "./pages/Landing";
+import Profile from "./pages/Profile.jsx";
 
 
 
@@ -52,11 +53,16 @@ function App() {
 
           <Route path="/" exact element={<Landing />} />
           <Route path="/home" element={<Home />} />
+
+          {/* ***************AUTH*************** */}
           <Route path="/auth-login" element={<Login />} />
           <Route path="/auth-signup" element={<Signup />} />
           <Route path="/auth-forgot-password-email" element={<ForgotPassword />} />
           <Route path="/auth-verify-otp" element={<VerifyOtp />} />
           <Route path="/auth-forgot-password-change-password" element={<ForgotChangePassword />} />
+
+          {/* ******************OTHER PAGES************* */}
+          <Route path="/profile/:userName" element={<Profile />} />
 
         </Routes>
 

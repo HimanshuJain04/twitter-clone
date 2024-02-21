@@ -14,7 +14,7 @@ const Feeds = ({ isLoading, setIsLoading }) => {
     ];
 
     const [allPosts, setAllPosts] = useState(null);
-    const [isSkeleton, setIsSkeleton] = useState(true);
+    const [isSkeleton, setIsSkeleton] = useState(false);
 
     const [option, setOption] = useState(navLinks[0]);
 
@@ -28,7 +28,9 @@ const Feeds = ({ isLoading, setIsLoading }) => {
                 console.log("Error: ", error)
             })
             .finally(() => {
-                setIsSkeleton(true);
+                setTimeout(() => {
+                    setIsSkeleton(false);
+                }, 3000)
             })
     }
 
