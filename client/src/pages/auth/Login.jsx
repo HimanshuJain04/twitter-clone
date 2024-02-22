@@ -132,7 +132,7 @@ const Login = () => {
                                 <div className='flex flex-col gap-2 mt-5 justify-center items-center'>
                                     <p className='text-lg font-semibold text-white'>If you haven't an account</p>
                                     <Link
-                                        to="/auth-signup"
+                                        to="/auth/signup"
                                         className="text-blue-400 font-semibold hover:underline hover:text-blue-500 transition-all duration-300 ease-in-out"
                                     >Signup</Link>
                                 </div>

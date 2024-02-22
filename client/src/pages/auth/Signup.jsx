@@ -23,7 +23,7 @@ const Signup = () => {
         await signup(data)
             .then(() => {
                 toast.success("Signup successful");
-                navigate("/auth-verify-otp", {
+                navigate("/auth/verify-otp", {
                     state: {
                         email: data.email,
                         from: "SIGNUP"
@@ -36,7 +36,7 @@ const Signup = () => {
 
                 // redirect to verify email
                 if (error?.response?.status === 415) {
-                    navigate("/auth-verify-otp", { state: data.email });
+                    navigate("/auth/verify-otp", { state: data.email });
                     return;
                 }
 
@@ -175,7 +175,7 @@ const Signup = () => {
                                         {/* forgot password */}
                                         <div className='w-full justify-end flex items-start mt-1'>
                                             <Link
-                                                to="/auth-forgot-password-email"
+                                                to="/auth/forgot-password-email"
                                                 className='text-blue-400 hover:text-blue-500 font-semibold hover:underline transition-all duration-300 ease-in-out'
                                             >Forgot password</Link>
                                         </div>
@@ -202,7 +202,7 @@ const Signup = () => {
                                 <div className='flex flex-col gap-2 mt-3 justify-center items-center'>
                                     <p className='text-lg font-semibold text-white'>If you have already an account</p>
                                     <Link
-                                        to="/auth-login"
+                                        to="/auth/login"
                                         className="text-blue-400 font-semibold hover:underline hover:text-blue-500 transition-all duration-300 ease-in-out"
                                     >Login</Link>
                                 </div>

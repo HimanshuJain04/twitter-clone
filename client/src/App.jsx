@@ -15,6 +15,10 @@ import Home from "./pages/Home";
 import Landing from "./pages/Landing";
 import Profile from "./pages/Profile.jsx";
 
+// *************COMPONENTS**************
+import FeatureSidebar from "./components/common/FeaturSidebar"
+import TrendingSidebar from "./components/common/TrendingSidebar"
+
 
 
 function App() {
@@ -47,24 +51,35 @@ function App() {
 
   return (
     <>
-      <div className="min-h-screen w-screen bg-black">
+      <div className="flex justify-center items-center bg-black w-screen">
+        <div className='min-h-screen justify-between items-start  w-10/12 flex flex-row'>
 
-        <Routes>
 
-          <Route path="/" exact element={<Landing />} />
-          <Route path="/home" element={<Home />} />
+          <Routes>
 
-          {/* ***************AUTH*************** */}
-          <Route path="/auth-login" element={<Login />} />
-          <Route path="/auth-signup" element={<Signup />} />
-          <Route path="/auth-forgot-password-email" element={<ForgotPassword />} />
-          <Route path="/auth-verify-otp" element={<VerifyOtp />} />
-          <Route path="/auth-forgot-password-change-password" element={<ForgotChangePassword />} />
+            <Route path="/" exact element={<Landing />} />
 
-          {/* ******************OTHER PAGES************* */}
-          <Route path="/profile/:userName" element={<Profile />} />
 
-        </Routes>
+            {/* ***************AUTH*************** */}
+            <Route path="/auth" >
+              <Route path="login" element={<Login />} />
+              <Route path="signup" element={<Signup />} />
+              <Route path="forgot-password-email" element={<ForgotPassword />} />
+              <Route path="verify-otp" element={<VerifyOtp />} />
+              <Route path="forgot-password-change-password" element={<ForgotChangePassword />} />
+            </Route>
+
+            {/* ******************OTHER PAGES************* */}
+            {/* <Route path="/" exact element={<Landing />} >
+              <FeatureSidebar />
+              <Route path="home" element={<Home />} />
+              <Route path="profile" element={<Profile />} />
+              <TrendingSidebar />
+            </Route> */}
+
+          </Routes>
+
+        </div>
 
       </div>
     </>
