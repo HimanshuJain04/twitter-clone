@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authVerifyToken } from "./redux/slices/authSlice.js";
 import { useEffect } from "react"
@@ -24,6 +24,9 @@ import TrendingSidebar from "./components/common/TrendingSidebar"
 function App() {
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const isAuthOrLandingPage = location.pathname.startsWith('/auth') || location.pathname === '/';
+
 
   const dispatch = useDispatch();
   let authState = useSelector(state => state.auth);
@@ -54,11 +57,17 @@ function App() {
       <div className="flex justify-center items-center bg-black w-screen">
         <div className='min-h-screen justify-between items-start  w-10/12 flex flex-row'>
 
+          {
+            !isAuthOrLandingPage &&
+            <div>
+              <FeatureSidebar />
+            </div>
+          }
+
 
           <Routes>
 
             <Route path="/" exact element={<Landing />} />
-
 
             {/* ***************AUTH*************** */}
             <Route path="/auth" >
@@ -70,18 +79,20 @@ function App() {
             </Route>
 
             {/* ******************OTHER PAGES************* */}
-            {/* <Route path="/" exact element={<Landing />} >
-              <FeatureSidebar />
-              <Route path="home" element={<Home />} />
-              <Route path="profile" element={<Profile />} />
-              <TrendingSidebar />
-            </Route> */}
-
+            <Route path="home" element={<Home />} />
+            <Route path="profile" element={<Profile />} />
           </Routes>
+
+          {
+            !isAuthOrLandingPage &&
+            <div>
+              <TrendingSidebar />
+            </div>
+          }
 
         </div>
 
-      </div>
+      </div >
     </>
   )
 }

@@ -24,7 +24,7 @@ const ForgotChangePassword = () => {
         await changePassword({ ...data, email })
             .then(() => {
                 toast.success("Password changed successfully");
-                navigate("/auth-login");
+                navigate("/auth/login");
             })
             .catch((error) => {
 

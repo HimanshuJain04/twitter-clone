@@ -13,7 +13,7 @@ const VerifyOtp = () => {
 
     const { register, handleSubmit } = useForm();
 
-    const [timer, setTimer] = useState(1);
+    const [timer, setTimer] = useState(30);
 
     const { pathname, } = useLocation();
     const location = useLocation();
@@ -56,10 +56,10 @@ const VerifyOtp = () => {
                 toast.success("Otp verified successfully!");
 
                 if (from === "SIGNUP") {
-                    navigate("/auth-login");
+                    navigate("/auth/login");
 
                 } else {
-                    navigate("/auth-forgot-password-change-password",
+                    navigate("/auth/forgot-password-change-password",
                         {
                             state: email
                         }
@@ -82,7 +82,7 @@ const VerifyOtp = () => {
         await sendOtpToEmail(email)
             .then(() => {
                 toast.success("Otp resend!");
-                changeTime(1);
+                changeTime(30);
             })
             .catch((err) => {
                 toast.error(err?.response?.data?.message);
