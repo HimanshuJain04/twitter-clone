@@ -15,12 +15,14 @@ const FeaturSidebar = () => {
 
     <div>
       <div className='flex flex-col pr-10 pt-2 min-h-screen border-r-2 border-[white]/[0.15] justify-start items-start gap-1'>
+
         <div className='cursor-pointer p-4 transition-all ease-in-out duration-200 hover:bg-[white]/[0.1] rounded-full'>
           <img
             src={logo}
             className="h-7 w-auto  object-contain"
           />
         </div>
+
         {
           sideFeatures?.map((set) => (
             <div
@@ -35,7 +37,7 @@ const FeaturSidebar = () => {
               >
 
                 <span className='text-2xl'>{set.icon}</span>
-                <span className={`text-xl transition-all duration-200 ease-in-out ${option === set.title ? "font-bold" : "font-semibold"}`}>{set.title}</span>
+                <span className={`text-xl transition-all duration-200 ease-in-out ${option === set.title ? "font-bold" : ""}`}>{set.title}</span>
 
               </div>
             </div>

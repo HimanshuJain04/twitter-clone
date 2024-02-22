@@ -13,8 +13,8 @@ export const uploadFileToCloudinary = async (post) => {
         return await cloudinary.uploader.upload(post.tempFilePath, options);
 
     } catch (error) {
-        console.log("Error uploading to cloudinary")
-        throw new Error(error.message);
+        console.log("Error uploading to cloudinary: ", error)
+        throw new Error(error);
     }
 }
 

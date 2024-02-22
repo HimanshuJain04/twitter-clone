@@ -104,7 +104,7 @@ const Post = ({ post }) => {
                         {post?.description}
                     </div>
 
-                    {/* images */}
+                    {/* images |  video */}
                     {
                         post?.postUrls?.length > 0 &&
                         <div
@@ -116,7 +116,23 @@ const Post = ({ post }) => {
                                         key={url + index}
                                         className=''
                                     >
-                                        <img src={url} loading='lazy' alt="user-post" />
+                                        {
+                                            url.includes("mp4") ? (
+                                                <video
+                                                    src='url'
+                                                    controls
+                                                    alt="Video"
+                                                    loading="lazy"
+                                                />
+                                            ) : (
+                                                <img
+                                                    src={url}
+                                                    loading='lazy'
+                                                    alt="Image"
+                                                />
+
+                                            )
+                                        }
                                     </div>
                                 ))
                             }

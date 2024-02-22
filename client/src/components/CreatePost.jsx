@@ -171,10 +171,22 @@ const CreatePost = ({ isLoading, setIsLoading }) => {
                                                     </span>
                                                 </abbr>
 
-                                                <img
-                                                    className='w-full h-full object-contain'
-                                                    src={URL.createObjectURL(file)}
-                                                />
+                                                {
+                                                    file.type.includes("video") ? (
+                                                        <video
+                                                            controls
+                                                            src={URL.createObjectURL(file)}
+                                                        />
+                                                    ) : (
+                                                        <img
+                                                            className='w-full h-full object-contain'
+                                                            src={URL.createObjectURL(file)}
+                                                        />
+                                                    )
+
+                                                }
+
+
                                             </div>
                                         ))
                                     }
