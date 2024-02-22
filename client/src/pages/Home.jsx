@@ -6,9 +6,7 @@ const Home = () => {
 
     return (
         <div className='w-full flex justify-center items-center'>
-            <div className='min-h-screen justify-between items-start w-10/12 flex flex-row'>
-                <Feeds setIsLoading={setIsLoading} isLoading={isLoading} />
-            </div>
+            <Feeds setIsLoading={setIsLoading} isLoading={isLoading} />
         </div>
     )
 }

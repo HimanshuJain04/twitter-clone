@@ -13,34 +13,42 @@ import { RiFileListLine } from "react-icons/ri";
 export const sideFeatures = [
     {
         title: "Home",
-        icon: <MdHomeFilled />
+        icon: <MdHomeFilled />,
+        path: "/home",
     },
     {
         title: "Explore",
-        icon: <FiSearch />
+        path: "/explore",
+        icon: <FiSearch />,
     },
     {
         title: "Notifications",
+        path: "/notification",
         icon: <IoNotifications />
     },
     {
         title: "Messages",
+        path: "/messages",
         icon: <IoMailOutline />
     },
     {
         title: "Grok",
+        path: "/grok",
         icon: <TbSquareForbid />
     },
     {
         title: "Lists",
+        path: "/lists",
         icon: <RiFileListLine />
     },
     {
         title: "Communities",
+        path: "/communities",
         icon: <FiUsers />
     },
     {
         title: "Premium",
+        path: "/premium",
         icon: <img
             src={logo}
             className="h-5 w-auto object-contain"
@@ -48,6 +56,7 @@ export const sideFeatures = [
     },
     {
         title: "Profile",
+        path: "/my-profile",
         icon: <FaRegUser />
     },
     {
