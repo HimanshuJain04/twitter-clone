@@ -3,6 +3,8 @@ import React from 'react';
 
 const ProfileTemp = ({ user }) => {
 
+    console.log(user)
+
 
     return (
         <div className='w-full'>
@@ -15,8 +17,8 @@ const ProfileTemp = ({ user }) => {
                     </div>
                     {/* user info */}
                     <div>
-                        <p></p>
-                        <p></p>
+                        <p>{user?.fullName}</p>
+                        <p>{user?.posts?.length} posts</p>
                     </div>
                 </div>
 

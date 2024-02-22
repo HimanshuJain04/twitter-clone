@@ -10,14 +10,17 @@ import Signup from "./pages/auth/Signup";
 import VerifyOtp from "./pages/auth/VerifyOtp";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ForgotChangePassword from "./pages/auth/ForgotChangePassword";
+import MyProfile from "./pages/MyProfile";
+
 // pages
 import Home from "./pages/Home";
 import Landing from "./pages/Landing";
 import Profile from "./pages/Profile.jsx";
 
+
 // *************COMPONENTS**************
-import FeatureSidebar from "./components/common/FeaturSidebar"
-import TrendingSidebar from "./components/common/TrendingSidebar"
+import FeatureSidebar from "./components/common/FeaturSidebar";
+import TrendingSidebar from "./components/common/TrendingSidebar";
 
 
 
@@ -80,7 +83,8 @@ function App() {
 
             {/* ******************OTHER PAGES************* */}
             <Route path="home" element={<Home />} />
-            <Route path="profile" element={<Profile />} />
+            <Route path="my-profile" element={<MyProfile />} />
+            <Route path="profile/:userName" element={<Profile />} />
           </Routes>
 
           {
