@@ -1,5 +1,6 @@
 
-export const getTime = (postTime) => {
+
+export const getPostTime = (postTime) => {
     const now = new Date();
     const timeDifference = now - new Date(postTime);
     const secondsDifference = Math.floor(timeDifference / 1000);
@@ -23,3 +24,17 @@ export const getTime = (postTime) => {
         return `${secondsDifference}s`;
     }
 };
+
+
+export const getProfileTime = (profileTime) => {
+
+    const profileDate = new Date(profileTime);
+
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const shortMonthName = monthNames[profileDate.getMonth()];
+
+    const profileTimeString = `${shortMonthName} ${profileDate.getFullYear()}`;
+
+    return profileTimeString;
+}
+

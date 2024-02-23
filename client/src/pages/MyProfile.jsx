@@ -10,7 +10,7 @@ const MyProfile = () => {
 
 
     return (
-        <div>
+        <div className='w-full'>
             <ProfileTemp user={userState} />
         </div>
     )

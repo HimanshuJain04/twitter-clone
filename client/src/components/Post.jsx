@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { HiDotsHorizontal } from "react-icons/hi";
 import { FiShare } from "react-icons/fi";
-import { getTime } from "../utils/getTime.js"
+import { getPostTime } from "../utils/getTime.js"
 import { useSelector } from "react-redux"
 import { FaRegComment } from "react-icons/fa";
 import { AiOutlineRetweet } from "react-icons/ai";
@@ -90,7 +90,7 @@ const Post = ({ post }) => {
                             <div className='bg-[white]/[0.5] rounded-full h-[3px] w-[3px]'></div>
 
                             <span className='text-[white]/[0.5] font-light cursor-pointer'>
-                                {getTime(post?.createdAt)}</span>
+                                {getPostTime(post?.createdAt)}</span>
 
                         </div>
 
