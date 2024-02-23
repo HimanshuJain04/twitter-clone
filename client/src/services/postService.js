@@ -18,8 +18,8 @@ export const likePost = async (postId) => {
     return await jsonRequest.patch(`/post/like-unlike-post/${postId}`);
 }
 
-export const getUserPosts = async (userId) => {
-    return await jsonRequest.patch(`/post/getUserPosts/${userId}`);
+export const getUserPosts = async ({ userId = "", index }) => {
+    return await jsonRequest.get(`/post/getUserPosts?index=${index}&userId=${userId}`);
 }
 
 

@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import PostSkeleton from './common/PostSkeleton';
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getUserPosts } from "../services/postService.js";
+import Post from "../components/Post.jsx";
 
 
 const profileSection = [
@@ -37,7 +38,7 @@ const ProfileTemp = ({ user }) => {
     const [postData, setPostData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
-    const [index, setIndex] = useState(2);
+    const [index, setIndex] = useState(0);
 
 
     // const getPostData = async () => {
@@ -66,12 +67,22 @@ const ProfileTemp = ({ user }) => {
     // }, [option]);
 
     useEffect(() => {
-        getUserPosts()
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => console.log(err));
+        fetchMoreData();
     }, []);
+
+    const fetchMoreData = () => {
+        setLoading(true);
+
+        getUserPosts({ index })
+            .then(({ data }) => {
+                console.log(data);
+                setPostData((prevItems) => [...prevItems, ...data.data]);
+                setIndex((prevIndex) => prevIndex + 1);
+                data.data.length === 10 ? setHasMore(true) : setHasMore(false);
+            })
+            .catch((err) => console.log(err))
+            .finally(() => setLoading(false));
+    };
 
 
     return (
@@ -196,7 +207,7 @@ const ProfileTemp = ({ user }) => {
                     }
                 </div>
 
-                <div className='w-full mt-7'>
+                <div className='w-full mt-7 text-white'>
                     {
                         loading ? (
                             <div className='flex gap-2 flex-col justify-center items-start'>
@@ -208,7 +219,21 @@ const ProfileTemp = ({ user }) => {
                         ) : (
                             postData.length > 0 ? (
                                 <>
-                                    posts
+                                    <InfiniteScroll
+                                        dataLength={postData.length}
+                                        next={fetchMoreData}
+                                        hasMore={hasMore}
+                                    >
+                                        <div className='container'>
+                                            <div className='row'>
+                                                {
+                                                    postData.map((post) => (
+                                                        <Post post={post} key={post?._id} />
+                                                    ))
+                                                }
+                                            </div>
+                                        </div>
+                                    </InfiniteScroll>
                                 </>
                             ) : (
                                 <>

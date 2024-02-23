@@ -3,7 +3,7 @@ import Post from "../models/post.model.js";
 import Comment from "../models/comment.model.js";
 import { uploadFileToCloudinary, uploadMultipleFilesToCloudinary } from "../utils/fileUploader.js"
 
-
+const PAGE_SIZE = 10;
 
 // ******************************** POST CRUD OPERATIONS ***********************************
 
@@ -146,12 +146,12 @@ export const fetchAllPosts = async (req, res) => {
     }
 }
 
+
 export const getUserPosts = async (req, res) => {
     try {
 
-
-        const userId = req.user?._id || req.params.userId;
-
+        const userId = req.query.userId || req.user?._id;
+        const { index } = req.query;
 
         const existedUser = await User.findById(userId);
 
@@ -166,21 +166,22 @@ export const getUserPosts = async (req, res) => {
         }
 
 
-        const AllPosts = await Post.find(
-            { user: userId }
-        )
+        const startIndex = index * PAGE_SIZE;
+
+        const allPosts = await Post.find({ user: userId })
             .sort({ createdAt: -1 })
-            .limit(10);
-
-
-
+            .skip(startIndex)
+            .limit(PAGE_SIZE)
+            .populate("user")
+            .populate("comments")
+            .exec();
 
 
         return res.status(200).json(
             {
                 success: true,
                 data: allPosts,
-                message: "All Posts fetch successfully"
+                message: "User Posts fetch successfully"
             }
         );
 
@@ -188,7 +189,7 @@ export const getUserPosts = async (req, res) => {
 
         return res.status(500).json(
             {
-                message: "Server failed to fetch all posts,Please try again",
+                message: "Server failed to fetch user posts,Please try again",
                 error: error.message,
                 success: false,
                 data: null
