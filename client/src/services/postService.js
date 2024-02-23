@@ -17,3 +17,9 @@ export const bookmarkPost = async (postId) => {
 export const likePost = async (postId) => {
     return await jsonRequest.patch(`/post/like-unlike-post/${postId}`);
 }
+
+export const getUserPosts = async (userId) => {
+    return await jsonRequest.patch(`/post/getUserPosts/${userId}`);
+}
+
+

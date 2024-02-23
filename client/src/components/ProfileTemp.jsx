@@ -5,8 +5,10 @@ import { getProfileTime } from "../utils/getTime";
 import { IoLocationOutline } from "react-icons/io5";
 import { ImCalendar } from "react-icons/im";
 import toast from "react-hot-toast";
-import Spinner from "../components/common/Spinner";
 import PostSkeleton from './common/PostSkeleton';
+import InfiniteScroll from "react-infinite-scroll-component";
+import { getUserPosts } from "../services/postService.js";
+
 
 const profileSection = [
     {
@@ -27,7 +29,6 @@ const profileSection = [
 ];
 
 
-
 const ProfileTemp = ({ user }) => {
 
     const navigate = useNavigate();
@@ -35,32 +36,42 @@ const ProfileTemp = ({ user }) => {
     const [option, setOption] = useState(profileSection[0]);
     const [postData, setPostData] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
+    const [index, setIndex] = useState(2);
 
 
-    const getPostData = async () => {
-        setLoading(true);
+    // const getPostData = async () => {
+    //     setLoading(true);
 
-        if (option.title === "Posts") {
-            await getUserPosts()
-                .then(({ data }) => {
-                    console.log(data);
-                })
-                .catch((err) => {
-                    toast.error("Something went wrong,try again later");
-                    console.log("ERROR : PROFILE : => ", err)
-                })
-                .finally(() => {
-                    setLoading(false);
-                })
+    //     if (option.title === "Posts") {
+    //         await getUserPosts()
+    //             .then(({ data }) => {
+    //                 console.log(data);
+    //             })
+    //             .catch((err) => {
+    //                 toast.error("Something went wrong,try again later");
+    //                 console.log("ERROR : PROFILE : => ", err)
+    //             })
+    //             .finally(() => {
+    //                 setLoading(false);
+    //             })
 
-        }
+    //     }
 
-    }
+    // }
 
+
+    // useEffect(() => {
+    //     getPostData()
+    // }, [option]);
 
     useEffect(() => {
-        getPostData()
-    }, [option]);
+        getUserPosts()
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => console.log(err));
+    }, []);
 
 
     return (
@@ -185,10 +196,13 @@ const ProfileTemp = ({ user }) => {
                     }
                 </div>
 
-                <div className='w-full'>
+                <div className='w-full mt-7'>
                     {
                         loading ? (
-                            <div>
+                            <div className='flex gap-2 flex-col justify-center items-start'>
+                                <PostSkeleton />
+                                <PostSkeleton />
+                                <PostSkeleton />
                                 <PostSkeleton />
                             </div>
                         ) : (
@@ -204,7 +218,6 @@ const ProfileTemp = ({ user }) => {
                         )
                     }
                 </div>
-
 
             </div>
         </div >

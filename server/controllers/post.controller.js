@@ -6,6 +6,7 @@ import { uploadFileToCloudinary, uploadMultipleFilesToCloudinary } from "../util
 
 
 // ******************************** POST CRUD OPERATIONS ***********************************
+
 export const createPost = async (req, res) => {
     try {
 
@@ -122,6 +123,57 @@ export const fetchAllPosts = async (req, res) => {
             .find({})
             .populate("user")
             .exec();
+
+
+        return res.status(200).json(
+            {
+                success: true,
+                data: allPosts,
+                message: "All Posts fetch successfully"
+            }
+        );
+
+    } catch (error) {
+
+        return res.status(500).json(
+            {
+                message: "Server failed to fetch all posts,Please try again",
+                error: error.message,
+                success: false,
+                data: null
+            }
+        )
+    }
+}
+
+export const getUserPosts = async (req, res) => {
+    try {
+
+
+        const userId = req.user?._id || req.params.userId;
+
+
+        const existedUser = await User.findById(userId);
+
+        if (!existedUser) {
+            return res.status(404).json(
+                {
+                    message: "User not found",
+                    success: false,
+                    data: null
+                }
+            )
+        }
+
+
+        const AllPosts = await Post.find(
+            { user: userId }
+        )
+            .sort({ createdAt: -1 })
+            .limit(10);
+
+
+
 
 
         return res.status(200).json(

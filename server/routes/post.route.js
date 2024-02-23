@@ -11,6 +11,7 @@ import {
     likeOnComment,
     fetchAllPosts,
     deletePost,
+    getUserPosts,
     createCommentOnComment
 } from "../controllers/post.controller.js"
 
@@ -20,6 +21,7 @@ router.use(verifyJwtToken);
 
 // post route
 router.route("/create-post").post(createPost);
+router.route("/getUserPosts").get(getUserPosts);
 router.route("/delete-post/:postId").delete(deletePost);
 router.route("/fetch-posts").get(fetchAllPosts);
 
