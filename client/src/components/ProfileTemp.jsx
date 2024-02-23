@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import { useNavigate } from "react-router-dom"
 import { getProfileTime } from "../utils/getTime";
 import { IoLocationOutline } from "react-icons/io5";
 import { ImCalendar } from "react-icons/im";
+import toast from "react-hot-toast";
+import Spinner from "../components/common/Spinner";
 
 const profileSection = [
     {
@@ -29,12 +31,40 @@ const ProfileTemp = ({ user }) => {
 
     const navigate = useNavigate();
 
-    const [option, setOption] = useState(profileSection[0].title);
+    const [option, setOption] = useState(profileSection[0]);
+    const [postData, setPostData] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+
+    const getPostData = async () => {
+        setLoading(true);
+
+        if (option.title === "Posts") {
+            await getUserPosts()
+                .then(({ data }) => {
+                    console.log(data);
+                })
+                .catch((err) => {
+                    toast.error("Something went wrong,try again later");
+                    console.log("ERROR : PROFILE : => ", err)
+                })
+                .finally(() => {
+                    setLoading(false);
+                })
+
+        }
+
+    }
+
+
+    useEffect(() => {
+        getPostData()
+    }, [option]);
 
 
     return (
         <div className='w-full'>
-            <div className='w-full justify-start items-start flex flex-col bg-black min-h-screen'>
+            <div className='w-full justify-start items-start flex flex-col bg-black h-screen overflow-auto'>
 
                 {/* Navbar */}
                 <div className='flex z-10 sticky top-0 flex-row p-2 gap-5 backdrop-blur-lg justify-start w-full items-center'>
@@ -137,25 +167,41 @@ const ProfileTemp = ({ user }) => {
                 </div>
 
                 {/* To show different content, it's kind of navbar*/}
-                <div className='w-full'>
-                    <div className='flex w-full justify-between items-center'>
-                        {
-                            profileSection.map((set) => (
-                                <div
-                                    key={set}
-                                    onClick={() => setOption(set.title)}
-                                    className=' transition-all flex flex-col pt-4 duration-300 ease-in-out cursor-pointer hover:bg-[white]/[0.1] gap-2 w-full justify-between items-center'
-                                >
-                                    <span className={` transition-all px-1 text-[15px] duration-300 ease-in-out ${option === set.title ? "text-white font-semibold " : "text-[white]/[0.4]"}`}>{set.title}</span>
+                <div className='flex mt-5 w-full justify-between items-center'>
+                    {
+                        profileSection.map((set) => (
+                            <div
+                                key={set}
+                                onClick={() => setOption(set)}
+                                className=' transition-all flex flex-col pt-4 duration-300 ease-in-out cursor-pointer hover:bg-[white]/[0.1] gap-2 px-2 w-full justify-between items-center'
+                            >
+                                <span className={` transition-all px-1 text-[15px] duration-300 ease-in-out ${option.title === set.title ? "text-white font-semibold " : "text-[white]/[0.4]"}`}>{set.title}</span>
 
-                                    <span className={` bg-blue-400 transition-all duration-300 ease-in-out h-1 w-full rounded-full ${option === set.title ? "opacity-100" : " opacity-0"}`}></span>
+                                <span className={` bg-blue-400 transition-all duration-300 ease-in-out h-1 w-full rounded-full ${option.title === set.title ? "opacity-100" : " opacity-0"}`}></span>
 
-                                </div>
-                            ))
-                        }
-
-                    </div>
+                            </div>
+                        ))
+                    }
                 </div>
+
+                <div className='w-full'>
+                    {
+                        loading ? (
+                            <Spinner />
+                        ) : (
+                            postData.length > 0 ? (
+                                <>
+                                    posts
+                                </>
+                            ) : (
+                                <>
+                                    No post found
+                                </>
+                            )
+                        )
+                    }
+                </div>
+
 
             </div>
         </div >

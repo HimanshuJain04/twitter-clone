@@ -4,7 +4,7 @@ import Post from '../../components/Post';
 import CreatePost from '../CreatePost';
 import { fetchPosts } from "../../services/postService.js";
 import TransparencySpinner from '../common/TransparencySpinner.jsx';
-import PostSkeleton from '../PostSkeleton.jsx';
+import PostSkeleton from '../common/PostSkeleton.jsx';
 
 const Feeds = ({ isLoading, setIsLoading }) => {
 
