@@ -6,6 +6,7 @@ import { IoLocationOutline } from "react-icons/io5";
 import { ImCalendar } from "react-icons/im";
 import toast from "react-hot-toast";
 import Spinner from "../components/common/Spinner";
+import PostSkeleton from './common/PostSkeleton';
 
 const profileSection = [
     {
@@ -187,7 +188,9 @@ const ProfileTemp = ({ user }) => {
                 <div className='w-full'>
                     {
                         loading ? (
-                            <Spinner />
+                            <div>
+                                <PostSkeleton />
+                            </div>
                         ) : (
                             postData.length > 0 ? (
                                 <>

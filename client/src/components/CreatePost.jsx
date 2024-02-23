@@ -166,7 +166,7 @@ const CreatePost = ({ isLoading, setIsLoading }) => {
                                                         onClick={() => {
                                                             fileRemoveHandler(file);
                                                         }}
-                                                        className='absolute shadow-md shadow-black transition-all duration-300 ease-in-out text-black cursor-pointer top-3 right-3 rounded-full p-2 text-lg hover:bg-[black]/[0.8] hover:text-[white]/[0.9] bg-[white]/[0.9]'>
+                                                        className='absolute z-10 shadow-md shadow-black transition-all duration-300 ease-in-out text-black cursor-pointer top-3 right-3 rounded-full p-2 text-lg hover:bg-[black]/[0.8] hover:text-[white]/[0.9] bg-[white]/[0.9]'>
                                                         <RiDeleteBin5Fill />
                                                     </span>
                                                 </abbr>

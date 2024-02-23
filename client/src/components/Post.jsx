@@ -16,6 +16,8 @@ import { bookmarkPost, likePost } from "../services/postService.js";
 
 const Post = ({ post }) => {
 
+    console.log(post)
+
     const userState = useSelector(state => state.auth.user);
 
     const [isLiked, setisLiked] = useState(userState?.liked.includes(post?._id));
@@ -117,9 +119,9 @@ const Post = ({ post }) => {
                                         className=''
                                     >
                                         {
-                                            url.includes("mp4") ? (
+                                            (url.includes("mp4") || url.includes("video")) ? (
                                                 <video
-                                                    src='url'
+                                                    src={url}
                                                     controls
                                                     alt="Video"
                                                     loading="lazy"
@@ -130,7 +132,6 @@ const Post = ({ post }) => {
                                                     loading='lazy'
                                                     alt="Image"
                                                 />
-
                                             )
                                         }
                                     </div>
