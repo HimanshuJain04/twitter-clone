@@ -16,8 +16,6 @@ import { bookmarkPost, likePost } from "../services/postService.js";
 
 const Post = ({ post }) => {
 
-    console.log(post)
-
     const userState = useSelector(state => state.auth.user);
 
     const [isLiked, setisLiked] = useState(userState?.liked.includes(post?._id));

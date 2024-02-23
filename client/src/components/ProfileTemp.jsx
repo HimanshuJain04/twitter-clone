@@ -75,7 +75,6 @@ const ProfileTemp = ({ user }) => {
 
         getUserPosts({ index })
             .then(({ data }) => {
-                console.log(data);
                 setPostData((prevItems) => [...prevItems, ...data.data]);
                 setIndex((prevIndex) => prevIndex + 1);
                 data.data.length === 10 ? setHasMore(true) : setHasMore(false);
@@ -192,9 +191,9 @@ const ProfileTemp = ({ user }) => {
                 {/* To show different content, it's kind of navbar*/}
                 <div className='flex mt-5 w-full justify-between items-center'>
                     {
-                        profileSection.map((set) => (
+                        profileSection.map((set, index) => (
                             <div
-                                key={set}
+                                key={set + index}
                                 onClick={() => setOption(set)}
                                 className=' transition-all flex flex-col pt-4 duration-300 ease-in-out cursor-pointer hover:bg-[white]/[0.1] gap-2 px-2 w-full justify-between items-center'
                             >
