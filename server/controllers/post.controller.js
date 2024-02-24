@@ -153,19 +153,6 @@ export const getUserPosts = async (req, res) => {
         const userId = req.query.userId;
         const { index } = req.query;
 
-        const existedUser = await User.findById(userId);
-
-        if (!existedUser) {
-            return res.status(404).json(
-                {
-                    message: "User not found",
-                    success: false,
-                    data: null
-                }
-            )
-        }
-
-
         const startIndex = index * PAGE_SIZE;
 
         const allPosts = await Post.find({ user: userId })
@@ -203,19 +190,6 @@ export const getUserLikedPosts = async (req, res) => {
 
         const userId = req.query.userId;
         const { index } = req.query;
-
-        const existedUser = await User.findById(userId);
-
-        if (!existedUser) {
-            return res.status(404).json(
-                {
-                    message: "User not found",
-                    success: false,
-                    data: null
-                }
-            )
-        }
-
 
         const startIndex = index * PAGE_SIZE;
 
@@ -406,26 +380,16 @@ export const postLikeHandler = async (req, res) => {
             )
         }
 
-        const isLiked = existedPost.likes.includes(userId);
+        const isLiked = existedPost.likes.some(like => like.user.equals(userId));
 
         if (isLiked) {
-            // unlike logic
-
-            const tempPost = existedPost.likes.filter(id => {
-                id !== userId
-            });
-            existedPost.likes = tempPost;
-
-
-            const tempUserLike = existedUser.liked.filter(id => {
-                id !== postId
-            });
-            existedUser.liked = tempUserLike;
+            // Unlike logic
+            existedPost.likes = existedPost.likes.filter(like => !like.user.equals(userId));
+            existedUser.liked = existedUser.liked.filter(likedPost => !likedPost.equals(postId));
 
         } else {
-
-            // like logic
-            existedPost.likes.push(userId);
+            // Like logic
+            existedPost.likes.push({ user: userId, likedAt: new Date() });
             existedUser.liked.push(postId);
 
         }
