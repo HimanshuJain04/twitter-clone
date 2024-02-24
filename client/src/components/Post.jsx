@@ -11,14 +11,13 @@ import { FaRegBookmark } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa6";
 import { IoStatsChartSharp } from "react-icons/io5";
 import { bookmarkPost, likePost } from "../services/postService.js";
+import toast from "react-hot-toast"
 
 
 
 const Post = ({ post }) => {
 
     const userState = useSelector(state => state.auth.user);
-
-    console.log(post)
 
     const [isLiked, setisLiked] = useState(post?.likes?.some(like => like.user === userState?._id));
     const [isBookmarked, setIsBookmarked] = useState(post?.bookmarks?.some(bookmark => bookmark.user === userState?._id));
@@ -38,6 +37,10 @@ const Post = ({ post }) => {
         await likePost(post._id)
             .then((res) => {
                 setisLiked(res.data.isLiked);
+
+                toast.success(
+                    res.data.isLiked ? "Liked" : "Unliked"
+                )
             })
             .catch((err) => {
                 console.log("Error when trying to like: ", err)
@@ -56,6 +59,9 @@ const Post = ({ post }) => {
         await bookmarkPost(post._id)
             .then((res) => {
                 setIsBookmarked(res.data.isBookmarked);
+                toast.success(
+                    res.data.isBookmarked ? "Bookmarked" : "Unbookmarked"
+                )
             })
             .catch((err) => {
                 console.log("Error when trying to bookmark: ", err)

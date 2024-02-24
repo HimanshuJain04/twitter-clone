@@ -28,9 +28,7 @@ const Feeds = ({ isLoading, setIsLoading }) => {
                 console.log("Error: ", error)
             })
             .finally(() => {
-                setTimeout(() => {
-                    setIsSkeleton(false);
-                }, 3000)
+                setIsSkeleton(false);
             })
     }
 

@@ -194,7 +194,7 @@ export const getUserLikedPosts = async (req, res) => {
         const startIndex = index * PAGE_SIZE;
 
         const likedPosts = await Post.find({ 'likes.user': userId })
-            .sort({ createdAt: -1 }) // Assuming `createdAt` is the field to sort by
+            .sort({ 'likes.likedAt': -1 }) // Sort by likedAt timestamp in descending order
             .skip(startIndex)
             .limit(PAGE_SIZE)
             .populate("user") // Assuming `user` is the field referencing the user who made the post
