@@ -193,7 +193,7 @@ export const getUserLikedPosts = async (req, res) => {
 
         const startIndex = index * PAGE_SIZE;
 
-        const likedPosts = await Post.find({ _id: { $in: existedUser.liked } })
+        const likedPosts = await Post.find({ 'likes.user': userId })
             .sort({ createdAt: -1 }) // Assuming `createdAt` is the field to sort by
             .skip(startIndex)
             .limit(PAGE_SIZE)
@@ -378,18 +378,19 @@ export const postLikeHandler = async (req, res) => {
         }
 
         // Check if the user has already liked the post
-        const isLiked = existedPost.likes.some(like => like.user.equals(userId));
+        const isLiked = existedPost.likes?.some(like => like?.user?.equals(userId));
 
         // Update the post's likes and user's liked posts atomically
         const update = isLiked ?
             {
-                $pull: { likes: { user: userId } }, // Unlike the post
-                $pull: { liked: postId } // Remove the post from user's liked posts
+                $pull: { likes: { user: userId } }, // Unlike the post and remove the post from user's liked posts
+                $pullAll: { liked: [postId] } // Remove the post from user's liked posts
             } :
             {
                 $push: { likes: { user: userId, likedAt: new Date() } }, // Like the post
-                $push: { liked: postId } // Add the post to user's liked posts
+                $addToSet: { liked: postId } // Add the post to user's liked posts
             };
+
 
         // Update both the post and user in a single database call
         const [updatedPost, updatedUser] = await Promise.all([
@@ -442,17 +443,17 @@ export const bookmarkedHandler = async (req, res) => {
         }
 
         // Check if the post is already bookmarked by the user
-        const isBookmarked = existedPost.bookmarks.some(bookmark => bookmark.user.equals(userId));
+        const isBookmarked = existedPost.bookmarks?.some(bookmark => bookmark?.user?.equals(userId));
 
         // Update the post's bookmarks and user's bookmarked posts atomically
         const update = isBookmarked ?
             {
-                $pull: { bookmarks: { user: userId } }, // Unbookmark the post
-                $pull: { bookmarked: postId } // Remove the post from user's bookmarked posts
+                $pull: { bookmarks: { user: userId } }, // Unbookmark the post and remove the post from user's bookmarks
+                $pullAll: { bookmarked: [postId] } // Remove the post from user's bookmarked posts
             } :
             {
                 $push: { bookmarks: { user: userId, markedAt: new Date() } }, // Bookmark the post
-                $push: { bookmarked: postId } // Add the post to user's bookmarked posts
+                $addToSet: { bookmarked: postId } // Add the post to user's bookmarked posts
             };
 
         // Update both the post and user in a single database call

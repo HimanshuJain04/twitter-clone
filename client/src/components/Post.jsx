@@ -18,8 +18,10 @@ const Post = ({ post }) => {
 
     const userState = useSelector(state => state.auth.user);
 
-    const [isLiked, setisLiked] = useState(post?.likes.includes(userState?._id));
-    const [isBookmarked, setIsBookmarked] = useState(post?.bookmarks.includes(userState?._id));
+    console.log(post)
+
+    const [isLiked, setisLiked] = useState(post?.likes?.some(like => like.user === userState?._id));
+    const [isBookmarked, setIsBookmarked] = useState(post?.bookmarks?.some(bookmark => bookmark.user === userState?._id));
 
 
     function commentHandler() {
