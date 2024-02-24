@@ -148,7 +148,7 @@ const ProfileTemp = () => {
                 {/* cover | profile image */}
                 <div className='w-full flex flex-col gap-3 relative'>
                     {/* cover */}
-                    <div className=' overflow-hidden bg-gray-300 h-[200px] w-full'>
+                    <div className=' overflow-hidden bg-white/[0.5] h-[200px] w-full'>
                         {
                             user?.additionalDetails?.coverImg &&
                             <img

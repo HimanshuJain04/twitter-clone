@@ -18,26 +18,26 @@ export const likePost = async (postId) => {
     return await jsonRequest.patch(`/post/like-unlike-post/${postId}`);
 }
 
-export const getUserPosts = async (userId, index) => {
-    return await jsonRequest.get(`/post/getUserPosts?index=${index}&userId=${userId}`);
+export const getUserPosts = async (username, index) => {
+    return await jsonRequest.get(`/post/getUserPosts?index=${index}&username=${username}`);
 }
 
 
-export const getUserReplies = async (userId, index) => {
-    return await jsonRequest.get(`/post/getUserPosts?index=${index}&userId=${userId}`);
+export const getUserReplies = async (username, index) => {
+    return await jsonRequest.get(`/post/getUserPosts?index=${index}&username=${username}`);
 }
 
 
-export const getUserMediaPosts = async (userId, index) => {
-    return await jsonRequest.get(`/post/getUserMediaPosts?index=${index}&userId=${userId}`);
+export const getUserMediaPosts = async (username, index) => {
+    return await jsonRequest.get(`/post/getUserMediaPosts?index=${index}&username=${username}`);
 }
 
 
-export const getUserHighlights = async (userId, index) => {
-    return await jsonRequest.get(`/post/getUserPosts?index=${index}&userId=${userId}`);
+export const getUserHighlights = async (username, index) => {
+    return await jsonRequest.get(`/post/getUserPosts?index=${index}&username=${username}`);
 }
 
 
-export const getUserLikePosts = async (userId, index) => {
-    return await jsonRequest.get(`/post/getUserLikedPosts?index=${index}&userId=${userId}`);
+export const getUserLikePosts = async (username, index) => {
+    return await jsonRequest.get(`/post/getUserLikedPosts?index=${index}&username=${username}`);
 }

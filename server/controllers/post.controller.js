@@ -139,19 +139,30 @@ export const fetchAllPosts = async (req, res) => {
 export const getUserPosts = async (req, res) => {
     try {
 
-        const userId = req.query.userId;
+        const userName = req.query.username;
         const { index } = req.query;
+
+        const existedUser = await User.findOne({ userName });
+
+        if (!existedUser) {
+            return res.status(404).json(
+                {
+                    success: false,
+                    data: null,
+                    message: "User not found"
+                }
+            );
+        }
 
         const startIndex = index * PAGE_SIZE;
 
-        const allPosts = await Post.find({ user: userId })
+        const allPosts = await Post.find({ user: existedUser._id })
             .sort({ createdAt: -1 })
             .skip(startIndex)
             .limit(PAGE_SIZE)
             .populate("user")
             .populate("comments")
             .exec();
-
 
         return res.status(200).json(
             {
@@ -177,12 +188,26 @@ export const getUserPosts = async (req, res) => {
 export const getUserLikedPosts = async (req, res) => {
     try {
 
-        const userId = req.query.userId;
+        const userName = req.query.username;
         const { index } = req.query;
+
+
+        const existedUser = await User.findOne({ userName });
+
+        if (!existedUser) {
+            return res.status(404).json(
+                {
+                    success: false,
+                    data: null,
+                    message: "User not found"
+                }
+            );
+        }
+
 
         const startIndex = index * PAGE_SIZE;
 
-        const likedPosts = await Post.find({ 'likes.user': userId })
+        const likedPosts = await Post.find({ 'likes.user': existedUser._id })
             .sort({ 'likes.likedAt': -1 }) // Sort by likedAt timestamp in descending order
             .skip(startIndex)
             .limit(PAGE_SIZE)
@@ -215,11 +240,24 @@ export const getUserLikedPosts = async (req, res) => {
 export const getUserMediaPosts = async (req, res) => {
     try {
 
-        const userId = req.query.userId;
+        const userName = req.query.username;
         const { index } = req.query;
 
+
+        const existedUser = await User.findOne({ userName });
+
+        if (!existedUser) {
+            return res.status(404).json(
+                {
+                    success: false,
+                    data: null,
+                    message: "User not found"
+                }
+            );
+        }
+
         const mediaPosts = await Post.find({
-            user: userId,
+            user: existedUser._id,
             postUrls: { $exists: true, $ne: [] }
         })
             .sort({ createdAt: -1 })
@@ -251,7 +289,6 @@ export const getUserMediaPosts = async (req, res) => {
         )
     }
 }
-
 
 
 // TODO:Update
@@ -333,7 +370,6 @@ export const deletePost = async (req, res) => {
         )
     }
 }
-
 
 
 // ******************************** POST LIKE AND BOOKMARK OPERATIONS ***********************************
