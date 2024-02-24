@@ -91,7 +91,7 @@ const Post = ({ post }) => {
 
                 </div>
             }
-            <div className='flex flex-row py-3 px-5 gap-5 border-b-2 border-[white]/[0.2] justify-between items-start w-full'>
+            <div className='flex pb-5 flex-row py-3 px-5 gap-5 border-b-2 border-[white]/[0.2] justify-between items-start w-full'>
                 {/* for user image */}
                 <div className='w-[60px]'>
                     <img

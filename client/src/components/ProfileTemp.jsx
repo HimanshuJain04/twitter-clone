@@ -245,7 +245,7 @@ const ProfileTemp = () => {
                     }
                 </div>
 
-                <div className='w-full mt-7 text-white'>
+                <div className='w-full mt-7 mb-2 text-white'>
                     {
                         loading ? (
                             <div className='flex gap-2 flex-col justify-center items-start'>
