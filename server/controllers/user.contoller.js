@@ -73,13 +73,16 @@ export const userFollow = async (req, res) => {
 export const getUserDetailsByUsername = async (req, res) => {
     try {
 
-        const userId = req.user?._id;  // my-id
-        const anotherUserId = req.params?.userId; // aother user id
+        const userName = req.params.username;
 
-        const existedUser = await User.findById(userId);
-        const existedAnotherUser = await User.findById(anotherUserId);
+        const existedUser = await User
+            .findOne({ userName })
+            .select("fullName userName additionalDetails profileImg following followers posts createdAt")
+            .populate("additionalDetails")
+            .exec();
 
-        if (!existedUser || !existedAnotherUser) {
+
+        if (!existedUser) {
             return res.status(404).json(
                 {
                     message: "User not found",
@@ -89,44 +92,19 @@ export const getUserDetailsByUsername = async (req, res) => {
             )
         }
 
-        const isAlreadyFollowed = existedUser.following.includes(anotherUserId);
-
-        if (isAlreadyFollowed) {
-            existedUser.following.pop(anotherUserId);
-            existedAnotherUser.followers.pop(userId);
-
-        } else {
-            existedUser.following.push(anotherUserId);
-            existedAnotherUser.followers.push(userId);
-        }
-
-        await existedUser.save();
-        await existedAnotherUser.save();
-
-        const updatedUser = await User.findById(existedUser._id);
-
-        if (!updatedUser) {
-            return res.status(404).json(
-                {
-                    message: "User not found",
-                    success: false,
-                    data: null
-                }
-            )
-        }
-
-        return res.status(200).json(
+        return res.status(201).json(
             {
                 success: true,
-                data: updatedUser,
-                message: "Follow/Unfollow the user successfully"
+                data: existedUser,
+                message: "Fetch user details by username successfully"
             }
-        )
+        );
+
     } catch (error) {
 
         return res.status(500).json(
             {
-                message: "Server failed to follow/unfollow the user,Please try again",
+                message: "Server failed to fetch user details by username,Please try again",
                 error: error.message,
                 success: false,
                 data: null

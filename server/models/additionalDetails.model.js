@@ -5,6 +5,12 @@ const additionalDetailsSchema = new mongoose.Schema(
         coverImg: {
             type: String
         },
+        bio: {
+            type: String
+        },
+        city: {
+            type: String
+        },
         dob: {
             type: Date,
         },
