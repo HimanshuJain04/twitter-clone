@@ -23,23 +23,23 @@ export const getUserPosts = async (userId, index) => {
 }
 
 
-export const getUserReplies = async ({ userId = "", index }) => {
+export const getUserReplies = async (userId, index) => {
     return await jsonRequest.get(`/post/getUserPosts?index=${index}&userId=${userId}`);
 }
 
 
-export const getUserMediaPost = async ({ userId = "", index }) => {
+export const getUserMediaPost = async (userId, index) => {
     return await jsonRequest.get(`/post/getUserPosts?index=${index}&userId=${userId}`);
 }
 
 
-export const getUserHighlights = async ({ userId = "", index }) => {
+export const getUserHighlights = async (userId, index) => {
     return await jsonRequest.get(`/post/getUserPosts?index=${index}&userId=${userId}`);
 }
 
 
-export const getUserLikePosts = async ({ userId = "", index }) => {
-    return await jsonRequest.get(`/post/getUserPosts?index=${index}&userId=${userId}`);
+export const getUserLikePosts = async (userId, index) => {
+    return await jsonRequest.get(`/post/getUserLikedPosts?index=${index}&userId=${userId}`);
 }
 
 

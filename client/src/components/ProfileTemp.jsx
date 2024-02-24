@@ -49,19 +49,21 @@ const ProfileTemp = ({ user }) => {
     const [hasMore, setHasMore] = useState(true);
     const [index, setIndex] = useState(0);
 
-    // const userState = useSelector(state => state.auth.user)
-
 
     useEffect(() => {
-        fetchMoreData();
+        setIndex(0);
+        setPostData([]);
+        fetchMoreData(0);
     }, [option]);
 
-    const fetchMoreData = () => {
+
+    const fetchMoreData = (currentIndex) => {
+
         setLoading(true);
 
         let func;
 
-        switch (option) {
+        switch (option.title) {
 
             case "Posts":
                 func = getUserPosts;
@@ -88,11 +90,11 @@ const ProfileTemp = ({ user }) => {
                 break;
         }
 
-        func(user?._id, index)
+        func(user?._id, currentIndex)
             .then(({ data }) => {
                 setPostData((prevItems) => [...prevItems, ...data.data]);
-                setIndex((prevIndex) => prevIndex + 1);
-                data.data.length === 10 ? setHasMore(true) : setHasMore(false);
+                setIndex(currentIndex + 1);
+                data?.data?.length === 10 ? setHasMore(true) : setHasMore(false);
             })
             .catch((err) => console.log(err))
             .finally(() => setLoading(false));
@@ -235,7 +237,7 @@ const ProfileTemp = ({ user }) => {
                                 <>
                                     <InfiniteScroll
                                         dataLength={postData.length}
-                                        next={fetchMoreData}
+                                        next={() => fetchMoreData(index)}
                                         hasMore={hasMore}
                                     >
                                         <div className='container'>

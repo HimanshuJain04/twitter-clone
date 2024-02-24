@@ -150,7 +150,7 @@ export const fetchAllPosts = async (req, res) => {
 export const getUserPosts = async (req, res) => {
     try {
 
-        const userId = req.query.userId || req.user?._id;
+        const userId = req.query.userId;
         const { index } = req.query;
 
         const existedUser = await User.findById(userId);
@@ -197,6 +197,59 @@ export const getUserPosts = async (req, res) => {
         )
     }
 }
+
+export const getUserLikedPosts = async (req, res) => {
+    try {
+
+        const userId = req.query.userId;
+        const { index } = req.query;
+
+        const existedUser = await User.findById(userId);
+
+        if (!existedUser) {
+            return res.status(404).json(
+                {
+                    message: "User not found",
+                    success: false,
+                    data: null
+                }
+            )
+        }
+
+
+        const startIndex = index * PAGE_SIZE;
+
+        const likedPosts = await Post.find({ _id: { $in: existedUser.liked } })
+            .sort({ createdAt: -1 }) // Assuming `createdAt` is the field to sort by
+            .skip(startIndex)
+            .limit(PAGE_SIZE)
+            .populate("user") // Assuming `user` is the field referencing the user who made the post
+            .populate("comments") // Assuming `comments` is the field referencing the comments on the post
+            .exec();
+
+
+        return res.status(200).json(
+            {
+                success: true,
+                data: likedPosts,
+                message: "User liked Posts fetch successfully"
+            }
+        );
+
+    } catch (error) {
+
+        return res.status(500).json(
+            {
+                message: "Server failed to fetch user liked posts,Please try again",
+                error: error.message,
+                success: false,
+                data: null
+            }
+        )
+    }
+}
+
+
 
 // TODO:Update
 export const deletePost = async (req, res) => {
