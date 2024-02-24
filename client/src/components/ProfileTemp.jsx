@@ -7,8 +7,16 @@ import { ImCalendar } from "react-icons/im";
 import toast from "react-hot-toast";
 import PostSkeleton from './common/PostSkeleton';
 import InfiniteScroll from "react-infinite-scroll-component";
-import { getUserPosts } from "../services/postService.js";
 import Post from "../components/Post.jsx";
+import { useSelector } from "react-redux"
+import {
+    getUserPosts,
+    getUserReplies,
+    getUserMediaPost,
+    getUserHighlights,
+    getUserLikePosts
+
+} from "../services/postService.js";
 
 
 const profileSection = [
@@ -33,6 +41,7 @@ const profileSection = [
 const ProfileTemp = ({ user }) => {
 
     const navigate = useNavigate();
+    console.log(user)
 
     const [option, setOption] = useState(profileSection[0]);
     const [postData, setPostData] = useState([]);
@@ -40,40 +49,46 @@ const ProfileTemp = ({ user }) => {
     const [hasMore, setHasMore] = useState(true);
     const [index, setIndex] = useState(0);
 
+    // const userState = useSelector(state => state.auth.user)
 
-    // const getPostData = async () => {
-    //     setLoading(true);
-
-    //     if (option.title === "Posts") {
-    //         await getUserPosts()
-    //             .then(({ data }) => {
-    //                 console.log(data);
-    //             })
-    //             .catch((err) => {
-    //                 toast.error("Something went wrong,try again later");
-    //                 console.log("ERROR : PROFILE : => ", err)
-    //             })
-    //             .finally(() => {
-    //                 setLoading(false);
-    //             })
-
-    //     }
-
-    // }
-
-
-    // useEffect(() => {
-    //     getPostData()
-    // }, [option]);
 
     useEffect(() => {
         fetchMoreData();
-    }, []);
+    }, [option]);
 
     const fetchMoreData = () => {
         setLoading(true);
 
-        getUserPosts({ index })
+        let func;
+
+        switch (option) {
+
+            case "Posts":
+                func = getUserPosts;
+                break;
+
+            case "Replies":
+                func = getUserReplies;
+                break;
+
+            case "Highlights":
+                func = getUserHighlights;
+                break;
+
+            case "Media":
+                func = getUserMediaPost;
+                break;
+
+            case "Likes":
+                func = getUserLikePosts;
+                break;
+
+            default:
+                func = getUserPosts;
+                break;
+        }
+
+        func(user?._id, index)
             .then(({ data }) => {
                 setPostData((prevItems) => [...prevItems, ...data.data]);
                 setIndex((prevIndex) => prevIndex + 1);
