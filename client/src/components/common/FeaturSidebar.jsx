@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { sideFeatures } from "../../constants/SideFeatures";
 import { useNavigate } from "react-router-dom";
 import logo from "/logo.png";
-
+import { useSelector } from "react-redux"
 
 
 const FeaturSidebar = () => {
+  const userState = useSelector(state => state.auth.user)
 
   const [option, setoption] = useState(sideFeatures[0]?.title);
   const navigate = useNavigate();
@@ -31,7 +32,9 @@ const FeaturSidebar = () => {
               <div
                 onClick={() => {
                   setoption(set.title);
-                  navigate(set.path);
+                  navigate(
+                    set.title === "Profile" ? `${set.path}/${userState.userName}` : set.path
+                  );
                 }}
                 className='flex text-white gap-4 pl-3 pr-7 py-2 transition-all duration-300 ease-in-out hover:bg-[white]/[0.1] rounded-full cursor-pointer justify-start items-center'
               >

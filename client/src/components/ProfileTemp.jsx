@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 import { getProfileTime } from "../utils/getTime";
 import { IoLocationOutline } from "react-icons/io5";
 import { ImCalendar } from "react-icons/im";
@@ -14,8 +14,11 @@ import {
     getUserMediaPosts,
     getUserHighlights,
     getUserLikePosts
-
 } from "../services/postService.js";
+
+import {
+    getUserDetailsByUsername
+} from "../services/userService.js";
 
 
 const profileSection = [
@@ -37,13 +40,15 @@ const profileSection = [
 ];
 
 
-const ProfileTemp = ({ user }) => {
+const ProfileTemp = () => {
 
     const navigate = useNavigate();
-    console.log(user)
+    const { pathname } = useLocation();
+    const username = pathname.split("/").at(-1);
 
     const [option, setOption] = useState(profileSection[0]);
     const [postData, setPostData] = useState([]);
+    const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const [index, setIndex] = useState(0);
@@ -89,7 +94,7 @@ const ProfileTemp = ({ user }) => {
                 break;
         }
 
-        func(user?._id, currentIndex)
+        func(username, currentIndex)
             .then(({ data }) => {
                 setPostData((prevItems) => [...prevItems, ...data.data]);
                 setIndex(currentIndex + 1);
@@ -98,6 +103,24 @@ const ProfileTemp = ({ user }) => {
             .catch((err) => console.log(err))
             .finally(() => setLoading(false));
     };
+
+    useEffect(() => {
+
+        setLoading(true);
+        getUserDetailsByUsername(username)
+            .then(({ data }) => {
+                setUser(data.data);
+                console.log(data);
+            })
+            .catch((err) => {
+                setUser(null);
+                console.log("Error: ", err)
+            })
+            .finally(() => setLoading(false));
+
+        setUser();
+
+    }, [pathname]);
 
 
     return (

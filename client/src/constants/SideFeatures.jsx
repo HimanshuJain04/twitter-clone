@@ -56,7 +56,7 @@ export const sideFeatures = [
     },
     {
         title: "Profile",
-        path: "/my-profile",
+        path: "/profile",
         icon: <FaRegUser />
     },
     {

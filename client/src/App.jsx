@@ -10,7 +10,6 @@ import Signup from "./pages/auth/Signup";
 import VerifyOtp from "./pages/auth/VerifyOtp";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ForgotChangePassword from "./pages/auth/ForgotChangePassword";
-import MyProfile from "./pages/MyProfile";
 
 // pages
 import Home from "./pages/Home";
@@ -83,8 +82,7 @@ function App() {
 
             {/* ******************OTHER PAGES************* */}
             <Route path="home" element={<Home />} />
-            <Route path="my-profile" element={<MyProfile />} />
-            <Route path="profile/:userName" element={<Profile />} />
+            <Route path="profile/:username" element={<Profile />} />
           </Routes>
 
           {

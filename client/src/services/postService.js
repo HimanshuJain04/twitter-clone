@@ -41,6 +41,3 @@ export const getUserHighlights = async (userId, index) => {
 export const getUserLikePosts = async (userId, index) => {
     return await jsonRequest.get(`/post/getUserLikedPosts?index=${index}&userId=${userId}`);
 }
-
-
-
