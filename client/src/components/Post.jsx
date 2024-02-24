@@ -12,7 +12,7 @@ import { FaBookmark } from "react-icons/fa6";
 import { IoStatsChartSharp } from "react-icons/io5";
 import { bookmarkPost, likePost } from "../services/postService.js";
 import toast from "react-hot-toast"
-
+import { RxCross1 } from "react-icons/rx";
 
 
 const Post = ({ post }) => {
@@ -21,7 +21,7 @@ const Post = ({ post }) => {
 
     const [isLiked, setisLiked] = useState(post?.likes?.some(like => like.user === userState?._id));
     const [isBookmarked, setIsBookmarked] = useState(post?.bookmarks?.some(bookmark => bookmark.user === userState?._id));
-
+    const [openFile, setOpenFile] = useState(null);
 
     function commentHandler() {
         console.log("Comment")
@@ -71,7 +71,26 @@ const Post = ({ post }) => {
 
 
     return (
-        <div className='w-full'>
+        <div className='w-full relative'>
+            {
+                openFile &&
+                <div className='fixed flex justify-center items-center top-0 left-0 p-10 z-[20] w-full h-screen backdrop-blur-sm '>
+
+                    <span
+                        onClick={() => setOpenFile(null)}
+                        className='text-4xl cursor-pointer absolute top-5 right-10 text-white'
+                    >
+                        <RxCross1 />
+                    </span>
+
+                    <img
+                        src={openFile}
+                        className='max-h-full max-w-full object-contain'
+                        alt='image'
+                    />
+
+                </div>
+            }
             <div className='flex flex-row py-3 px-5 gap-5 border-b-2 border-[white]/[0.2] justify-between items-start w-full'>
                 {/* for user image */}
                 <div className='w-[60px]'>
@@ -122,7 +141,7 @@ const Post = ({ post }) => {
                                 post.postUrls?.map((url, index) => (
                                     <div
                                         key={url + index}
-                                        className=''
+                                        className='cursor-pointer'
                                     >
                                         {
                                             (url.includes("mp4") || url.includes("video")) ? (
@@ -131,9 +150,11 @@ const Post = ({ post }) => {
                                                     controls
                                                     alt="Video"
                                                     loading="lazy"
+                                                    className='w-full object-cover'
                                                 />
                                             ) : (
                                                 <img
+                                                    onClick={() => { setOpenFile(url) }}
                                                     src={url}
                                                     loading='lazy'
                                                     alt="Image"

@@ -10,17 +10,13 @@ const PAGE_SIZE = 10;
 export const createPost = async (req, res) => {
     try {
 
-        const {
-            description,
-        } = req.body;
-
+        const { description } = req.body;
         const userId = req.user?._id;
-
         const allPosts = req.files?.post;
 
 
         if (!userId || (!allPosts && !description)) {
-            return res.status(401).json(
+            return res.status(400).json(
                 {
                     message: "All fields are required",
                     success: false,
@@ -46,18 +42,13 @@ export const createPost = async (req, res) => {
 
         if (allPosts) {
 
-            let allPostResponse = [];
+            const uploadPromises = Array.isArray(allPosts)
+                ? allPosts.map(uploadFileToCloudinary)
+                : [uploadFileToCloudinary(allPosts)];
 
-            if (Array.isArray(allPosts)) {
-                allPostResponse = await uploadMultipleFilesToCloudinary(allPosts);
+            const allPostResponses = await Promise.all(uploadPromises);
 
-            } else {
-                const response = await uploadFileToCloudinary(allPosts);
-                allPostResponse.push(response);
-            }
-
-
-            if (allPostResponse.length === 0) {
+            if (!allPostResponses || allPostResponses.length === 0) {
                 return res.status(500).json(
                     {
                         message: "File upload failed",
@@ -67,9 +58,7 @@ export const createPost = async (req, res) => {
                 )
             }
 
-            allPostResponse.forEach((postRes) => {
-                postUrls.push(postRes?.secure_url);
-            })
+            postUrls = allPostResponses.map(response => response?.secure_url);
         }
 
         const newPost = await Post.create(
@@ -94,7 +83,7 @@ export const createPost = async (req, res) => {
         existedUser.posts.push(newPost._id);
         await existedUser.save();
 
-        return res.status(200).json(
+        return res.status(201).json(
             {
                 success: true,
                 data: newPost,
