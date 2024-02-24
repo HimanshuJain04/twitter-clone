@@ -249,6 +249,46 @@ export const getUserLikedPosts = async (req, res) => {
     }
 }
 
+export const getUserMediaPosts = async (req, res) => {
+    try {
+
+        const userId = req.query.userId;
+        const { index } = req.query;
+
+        const mediaPosts = await Post.find({
+            user: userId,
+            postUrls: { $exists: true, $ne: [] }
+        })
+            .sort({ createdAt: -1 })
+            .skip(index * PAGE_SIZE)
+            .limit(PAGE_SIZE)
+            .populate('user')
+            .populate("comments")
+            .exec();
+        // select: 'fullName userName profileImg', // Select only necessary fields
+
+
+        return res.status(200).json(
+            {
+                success: true,
+                data: mediaPosts,
+                message: "User media Posts fetch successfully"
+            }
+        );
+
+    } catch (error) {
+
+        return res.status(500).json(
+            {
+                message: "Server failed to fetch user media posts,Please try again",
+                error: error.message,
+                success: false,
+                data: null
+            }
+        )
+    }
+}
+
 
 
 // TODO:Update

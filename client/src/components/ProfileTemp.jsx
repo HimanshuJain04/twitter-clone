@@ -8,11 +8,10 @@ import toast from "react-hot-toast";
 import PostSkeleton from './common/PostSkeleton';
 import InfiniteScroll from "react-infinite-scroll-component";
 import Post from "../components/Post.jsx";
-import { useSelector } from "react-redux"
 import {
     getUserPosts,
     getUserReplies,
-    getUserMediaPost,
+    getUserMediaPosts,
     getUserHighlights,
     getUserLikePosts
 
@@ -78,7 +77,7 @@ const ProfileTemp = ({ user }) => {
                 break;
 
             case "Media":
-                func = getUserMediaPost;
+                func = getUserMediaPosts;
                 break;
 
             case "Likes":

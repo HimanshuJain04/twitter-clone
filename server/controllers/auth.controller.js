@@ -393,7 +393,7 @@ export const login = async (req, res) => {
 
         const loggedInUser = await User
             .findById(existedUser._id)
-            .select("-password -refreshToken");
+            .select("fullName userName email profileImg");
 
 
         // send response

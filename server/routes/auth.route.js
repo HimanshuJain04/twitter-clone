@@ -37,9 +37,11 @@ router.route("/verify-token").get(
             );
         }
 
-        const user = await User.findById(req.user?.id)
+        const loggedInUser = await User
+            .findById(req.user?.id)
+            .select("fullName userName email profileImg");
 
-        if (!user) {
+        if (!loggedInUser) {
             return res.status(404).json(
                 {
                     success: false,
@@ -53,7 +55,7 @@ router.route("/verify-token").get(
             {
                 success: true,
                 message: "Token Verified",
-                data: user
+                data: loggedInUser
             }
         )
 

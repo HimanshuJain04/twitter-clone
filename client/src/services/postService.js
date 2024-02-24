@@ -28,8 +28,8 @@ export const getUserReplies = async (userId, index) => {
 }
 
 
-export const getUserMediaPost = async (userId, index) => {
-    return await jsonRequest.get(`/post/getUserPosts?index=${index}&userId=${userId}`);
+export const getUserMediaPosts = async (userId, index) => {
+    return await jsonRequest.get(`/post/getUserMediaPosts?index=${index}&userId=${userId}`);
 }
 
 
