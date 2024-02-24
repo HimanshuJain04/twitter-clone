@@ -352,153 +352,130 @@ export const deletePost = async (req, res) => {
 
 export const postLikeHandler = async (req, res) => {
     try {
-
         const userId = req.user?._id;
         const { postId } = req.params;
 
-        const existedUser = await User.findById(userId);
+        // Find the user and the post
+        const [existedUser, existedPost] = await Promise.all([
+            User.findById(userId),
+            Post.findById(postId)
+        ]);
 
         if (!existedUser) {
-            return res.status(404).json(
-                {
-                    message: "User not found",
-                    success: false,
-                    data: null
-                }
-            )
-        }
-
-        const existedPost = await Post.findById(postId);
-
-        if (!existedPost) {
-            return res.status(404).json(
-                {
-                    message: "Post not found",
-                    success: false,
-                    data: null
-                }
-            )
-        }
-
-        const isLiked = existedPost.likes.some(like => like.user.equals(userId));
-
-        if (isLiked) {
-            // Unlike logic
-            existedPost.likes = existedPost.likes.filter(like => !like.user.equals(userId));
-            existedUser.liked = existedUser.liked.filter(likedPost => !likedPost.equals(postId));
-
-        } else {
-            // Like logic
-            existedPost.likes.push({ user: userId, likedAt: new Date() });
-            existedUser.liked.push(postId);
-
-        }
-
-        await existedPost.save();
-        await existedUser.save();
-
-        const updatedUser = await User.findById(userId);
-
-        return res.status(200).json(
-            {
-                success: true,
-                isLiked: !isLiked,
-                data: updatedUser,
-                message: "Liked or Unliked the post successfully"
-            }
-        )
-    } catch (error) {
-
-        return res.status(500).json(
-            {
-                message: "Server failed to liked or unliked the post,Please try again",
-                error: error.message,
+            return res.status(404).json({
+                message: "User not found",
                 success: false,
                 data: null
-            }
-        )
+            });
+        }
+
+        if (!existedPost) {
+            return res.status(404).json({
+                message: "Post not found",
+                success: false,
+                data: null
+            });
+        }
+
+        // Check if the user has already liked the post
+        const isLiked = existedPost.likes.some(like => like.user.equals(userId));
+
+        // Update the post's likes and user's liked posts atomically
+        const update = isLiked ?
+            {
+                $pull: { likes: { user: userId } }, // Unlike the post
+                $pull: { liked: postId } // Remove the post from user's liked posts
+            } :
+            {
+                $push: { likes: { user: userId, likedAt: new Date() } }, // Like the post
+                $push: { liked: postId } // Add the post to user's liked posts
+            };
+
+        // Update both the post and user in a single database call
+        const [updatedPost, updatedUser] = await Promise.all([
+            Post.findOneAndUpdate({ _id: postId }, update, { new: true }),
+            User.findOneAndUpdate({ _id: userId }, update, { new: true })
+        ]);
+
+        return res.status(200).json({
+            success: true,
+            isLiked: !isLiked,
+            data: updatedUser,
+            message: "Liked or unliked the post successfully"
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: "Server failed to like or unlike the post. Please try again",
+            error: error.message,
+            success: false,
+            data: null
+        });
     }
-}
+};
 
 
 export const bookmarkedHandler = async (req, res) => {
     try {
-
         const userId = req.user?._id;
         const { postId } = req.params;
 
-        const existedUser = await User.findById(userId);
+        // Find the user and the post
+        const [existedUser, existedPost] = await Promise.all([
+            User.findById(userId),
+            Post.findById(postId)
+        ]);
 
         if (!existedUser) {
-            return res.status(404).json(
-                {
-                    message: "User not found",
-                    success: false,
-                    data: null
-                }
-            )
-        }
-
-        const existedPost = await Post.findById(postId);
-
-        if (!existedPost) {
-            return res.status(404).json(
-                {
-                    message: "Post not found",
-                    success: false,
-                    data: null
-                }
-            )
-        }
-
-        const isBookmarked = existedPost.bookmarks.includes(userId);
-
-        if (isBookmarked) {
-            // unbookmark logic
-
-            const tempPost = existedPost.bookmarks.filter(id => {
-                id !== userId
-            });
-            existedPost.bookmarks = tempPost;
-
-
-            const tempUserBookmark = existedUser.bookmarked.filter(id => {
-                id !== postId
-            });
-            existedUser.bookmarked = tempUserBookmark;
-
-        } else {
-            // bookmark logic
-            existedPost.bookmarks.push(userId);
-            existedUser.bookmarked.push(postId);
-
-        }
-
-        await existedPost.save();
-        await existedUser.save();
-
-        const updatedUser = await User.findById(userId);
-
-        return res.status(200).json(
-            {
-                success: true,
-                isBookmarked: !isBookmarked,
-                data: updatedUser,
-                message: "Bookmarked or Unbookmarked the post successfully"
-            }
-        )
-    } catch (error) {
-
-        return res.status(500).json(
-            {
-                message: "Server failed to bookmarked or unbookmarked the post,Please try again",
-                error: error.message,
+            return res.status(404).json({
+                message: "User not found",
                 success: false,
                 data: null
-            }
-        )
+            });
+        }
+
+        if (!existedPost) {
+            return res.status(404).json({
+                message: "Post not found",
+                success: false,
+                data: null
+            });
+        }
+
+        // Check if the post is already bookmarked by the user
+        const isBookmarked = existedPost.bookmarks.some(bookmark => bookmark.user.equals(userId));
+
+        // Update the post's bookmarks and user's bookmarked posts atomically
+        const update = isBookmarked ?
+            {
+                $pull: { bookmarks: { user: userId } }, // Unbookmark the post
+                $pull: { bookmarked: postId } // Remove the post from user's bookmarked posts
+            } :
+            {
+                $push: { bookmarks: { user: userId, markedAt: new Date() } }, // Bookmark the post
+                $push: { bookmarked: postId } // Add the post to user's bookmarked posts
+            };
+
+        // Update both the post and user in a single database call
+        const [updatedPost, updatedUser] = await Promise.all([
+            Post.findOneAndUpdate({ _id: postId }, update, { new: true }),
+            User.findOneAndUpdate({ _id: userId }, update, { new: true })
+        ]);
+
+        return res.status(200).json({
+            success: true,
+            isBookmarked: !isBookmarked,
+            data: updatedUser,
+            message: "Bookmarked or unbookmarked the post successfully"
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: "Server failed to bookmark or unbookmark the post. Please try again",
+            error: error.message,
+            success: false,
+            data: null
+        });
     }
-}
+};
 
 
 // ******************************** POST COMMENTS OPERATIONS ***********************************
