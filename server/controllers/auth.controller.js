@@ -11,7 +11,7 @@ import { mailSender } from "../utils/mailSender.js";
 const options = {
     httpOnly: true,
     secure: true,
-    expiresIn: new Date() + 24 * 60 * 20 * 1000 //24 hours
+    expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours from now
 };
 
 const generateRandomOtp = () => {
@@ -404,7 +404,7 @@ export const login = async (req, res) => {
             .json(
                 {
                     success: true,
-                    data: { loggedInUser, accessToken, refreshToken },
+                    data: { loggedInUser, accessToken },
                     message: "User logged in successfully",
                 }
             );

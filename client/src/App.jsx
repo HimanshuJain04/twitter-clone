@@ -1,7 +1,8 @@
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authVerifyToken } from "./redux/slices/authSlice.js";
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+
 
 // *********** Import pages ***************
 // auth-page
@@ -26,33 +27,50 @@ import TrendingSidebar from "./components/common/TrendingSidebar";
 
 function App() {
 
-  const navigate = useNavigate();
   const location = useLocation();
   const isAuthOrLandingPage = location.pathname.startsWith('/auth') || location.pathname === '/';
 
+  const navigate = useNavigate();
+  const [tokenVerified, setTokenVerified] = useState(false);
 
   const dispatch = useDispatch();
-  let authState = useSelector(state => state.auth);
-
+  const authState = useSelector(state => state.auth);
 
   const tokenVerificationHandler = async () => {
     dispatch(authVerifyToken())
+    setTokenVerified(true);
   }
 
+
   useEffect(() => {
-    if (authState.user) {
-      navigate("/home");
-    } else {
-      navigate("/");
+    if (!tokenVerified && authState.user) {
+      // If the user is already authenticated, set token verification to true
+      setTokenVerified(true);
     }
-
-  }, [authState.user]);
-
+    if (!tokenVerified && !authState.user) {
+      // Verify token only once when the component mounts and user is not authenticated
+      tokenVerificationHandler();
+    }
+  }, [authState.user, tokenVerified]);
 
 
   useEffect(() => {
-    tokenVerificationHandler();
-  }, []);
+    // Once token is verified, navigate based on the URL path
+    if (tokenVerified) {
+      if (authState.user) {
+        if (location.pathname === '/') {
+          navigate("/home");
+          return;
+        }
+        // If user is authenticated, navigate based on the URL path
+        navigate(location.pathname);
+      } else {
+        // If user is not authenticated, navigate to landing page
+        navigate("/");
+      }
+    }
+  }, [authState.user, location.pathname, navigate, tokenVerified]);
+
 
 
   return (

@@ -9,7 +9,6 @@ const Landing = () => {
 
     const navigate = useNavigate();
 
-
     return (
         <div>
             <div className='w-screen flex flex-col justify-center items-center min-h-screen'>
