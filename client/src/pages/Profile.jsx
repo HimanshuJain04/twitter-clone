@@ -114,9 +114,13 @@ const Profile = () => {
 
         setLoading(true);
 
-        await userFollowHandler()
+        await userFollowHandler(user._id)
             .then(({ data }) => {
-                console.log(data.data)
+                toast.success(
+                    data.isFollow ? "Follow" : "Unfollow"
+                );
+
+                setUser(data.data.updatedUser);
 
             }).catch((err) => {
                 toast.error("Something went wrong");
@@ -143,7 +147,6 @@ const Profile = () => {
         setUser();
 
     }, [pathname]);
-
 
 
     return (
@@ -218,8 +221,8 @@ const Profile = () => {
                                     <div className='w-full flex justify-end px-5'>
                                         <button
                                             onClick={followHandler}
-                                            className={`text-white border-2 font-bold  py-2 px-10 rounded-full  ` + (
-                                                user?.followers?.includes(userState._id) ? "bg-black border-white" : " bg-blue-400 border-blue-400"
+                                            className={`text-white border-[1px] font-bold  py-2 px-10 rounded-full  ` + (
+                                                user?.followers?.includes(userState._id) ? "bg-black border-white/[0.7]" : " bg-blue-400 border-blue-400"
                                             )}
                                         >
                                             {
