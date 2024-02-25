@@ -82,6 +82,9 @@ export const getUserDetailsByUsername = async (req, res) => {
             .populate("additionalDetails")
             .exec();
 
+        const len = existedUser.posts.length;
+        existedUser.posts = [];
+
 
         if (!existedUser) {
             return res.status(404).json(
@@ -96,7 +99,7 @@ export const getUserDetailsByUsername = async (req, res) => {
         return res.status(201).json(
             {
                 success: true,
-                data: existedUser,
+                data: { existedUser, postLength: len },
                 message: "Fetch user details by username successfully"
             }
         );
@@ -113,6 +116,7 @@ export const getUserDetailsByUsername = async (req, res) => {
         )
     }
 }
+
 
 export const updateUserDetails = async (req, res) => {
     try {

@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import PostSkeleton from './common/PostSkeleton';
 import InfiniteScroll from "react-infinite-scroll-component";
 import Post from "../components/Post.jsx";
+import { FaLink } from "react-icons/fa6";
 import {
     getUserPosts,
     getUserReplies,
@@ -49,6 +50,7 @@ const ProfileTemp = () => {
     const [option, setOption] = useState(profileSection[0]);
     const [postData, setPostData] = useState([]);
     const [user, setUser] = useState(null);
+    const [postLen, setPostLen] = useState(0);
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const [index, setIndex] = useState(0);
@@ -104,13 +106,14 @@ const ProfileTemp = () => {
             .finally(() => setLoading(false));
     };
 
+
     useEffect(() => {
 
         setLoading(true);
         getUserDetailsByUsername(username)
             .then(({ data }) => {
-                setUser(data.data);
-                console.log(data);
+                setUser(data.data.existedUser);
+                setPostLen(data.data.postLength)
             })
             .catch((err) => {
                 setUser(null);
@@ -121,6 +124,7 @@ const ProfileTemp = () => {
         setUser();
 
     }, [pathname]);
+
 
 
     return (
@@ -141,7 +145,7 @@ const ProfileTemp = () => {
                     {/* user info */}
                     <div className='flex flex-col justify-start items-start'>
                         <p className='text-white font-bold text-lg'>{user?.fullName}</p>
-                        <p className='text-white/[0.4] text-sm font-semibold'>{user?.posts?.length} posts</p>
+                        <p className='text-white/[0.4] text-sm font-semibold'>{postLen} posts</p>
                     </div>
                 </div>
 
@@ -199,17 +203,35 @@ const ProfileTemp = () => {
                     {/* location and joinedAt */}
                     <div className='flex gap-3 text-[15px] font-light text-[white]/[0.5]'>
                         {
-                            user?.additionalDetails?.location &&
+                            user?.additionalDetails?.city &&
                             <span className='flex gap-2 justify-center items-center'>
                                 <IoLocationOutline className='text-xl' />
-                                <p>{user?.additionalDetails?.location}</p>
+                                <p>{user?.additionalDetails?.city}</p>
                             </span>
                         }
-                        <span className='flex  gap-2 justify-center items-center'>
+
+                        <span className='flex gap-2 justify-center items-center'>
                             <ImCalendar />
                             <p>Joined {getProfileTime(user?.createdAt)}</p>
                         </span>
                     </div>
+
+                    {
+                        user?.additionalDetails?.link &&
+                        <div className='text-[15px] font-light text-[white]/[0.5]'>
+                            <span className='flex gap-2 justify-center items-center'>
+                                <FaLink className='text-xl' />
+                                <a
+                                    target='_blank'
+                                    href={user?.additionalDetails?.link}
+                                    className='hover:underline text-blue-400'
+                                >
+                                    {user?.additionalDetails?.link}
+                                </a>
+                            </span>
+
+                        </div>
+                    }
 
                     {/* Followers | Following  */}
                     <div className='flex justify-center items-center font-light gap-5'>

@@ -8,8 +8,7 @@ import { BiMessageDetail } from "react-icons/bi";
 import { MdOutlineEmail } from "react-icons/md";
 import { MdOutlinePermPhoneMsg } from "react-icons/md";
 import { GrAccessibility } from "react-icons/gr";
-import { CiCamera } from "react-icons/ci";
-import { useLocation } from "react-router-dom"
+import { FaCamera } from "react-icons/fa"; import { useLocation, useNavigate } from "react-router-dom"
 import { updateUserDetails } from "../services/userService.js"
 import Spinner from "../components/common/Spinner.jsx";
 
@@ -85,6 +84,7 @@ const EditProfile = () => {
     const [loading, setLoading] = useState(false);
     const inputRef = useRef(null);
     const location = useLocation();
+    const navigate = useNavigate();
     const { state } = location;
 
     const [userCurrentState, setUserCurrentState] = useState(
@@ -125,6 +125,7 @@ const EditProfile = () => {
 
         await updateUserDetails(updatedValues)
             .then(({ data }) => {
+                navigate(`/profile/${state.userName}`)
                 console.log(data)
             })
             .catch((error) => {
@@ -154,8 +155,8 @@ const EditProfile = () => {
                             />
                             <input type="file" hidden ref={inputRef} />
 
-                            <div className="w-full h-full flex justify-center items-center text-9xl transition-all duration-200 ease-in-out text-black opacity-0 group-hover:opacity-30 object-cover absolute z-[5]  ">
-                                <CiCamera />
+                            <div className="w-full opacity-0 h-full bg-black -bottom-[200px] flex text-center justify-center items-center text-3xl transition-all duration-700 ease-in-out text-white  group-hover:bottom-0 group-hover:opacity-70 object-cover absolute z-[5]  ">
+                                <FaCamera />
                             </div>
 
                         </div>
@@ -223,5 +224,6 @@ const EditProfile = () => {
         </div >
     )
 }
+
 
 export default EditProfile;

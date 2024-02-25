@@ -15,7 +15,7 @@ const additionalDetailsSchema = new mongoose.Schema(
             type: String
         },
         dob: {
-            type: Date,
+            type: String,
         },
         phoneNo: {
             type: Number,
