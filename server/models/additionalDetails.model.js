@@ -11,6 +11,9 @@ const additionalDetailsSchema = new mongoose.Schema(
         city: {
             type: String
         },
+        link: {
+            type: String
+        },
         dob: {
             type: Date,
         },

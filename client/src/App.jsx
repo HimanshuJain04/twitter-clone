@@ -15,6 +15,7 @@ import ForgotChangePassword from "./pages/auth/ForgotChangePassword";
 import Home from "./pages/Home";
 import Landing from "./pages/Landing";
 import Profile from "./pages/Profile.jsx";
+import EditProfile from "./pages/EditProfile.jsx";
 
 
 // *************COMPONENTS**************
@@ -83,6 +84,7 @@ function App() {
             {/* ******************OTHER PAGES************* */}
             <Route path="home" element={<Home />} />
             <Route path="profile/:username" element={<Profile />} />
+            <Route path="edit-profile" element={<EditProfile />} />
           </Routes>
 
           {
