@@ -7,93 +7,109 @@ import { TiAttachment } from "react-icons/ti";
 import { BiMessageDetail } from "react-icons/bi";
 import { MdOutlineEmail } from "react-icons/md";
 import { MdOutlinePermPhoneMsg } from "react-icons/md";
-import { MdLink } from "react-icons/md";
-import { FaRegMessage } from "react-icons/fa6";
 import { GrAccessibility } from "react-icons/gr";
 import { CiCamera } from "react-icons/ci";
+import { useLocation } from "react-router-dom"
+
+
+const fields = [
+    {
+        name: "fullName",
+        placeholder: "Enter your full name",
+        type: "text",
+        isReadOnly: false,
+        icon: <FaRegUser />,
+    },
+    {
+        name: "userName",
+        placeholder: "Enter your user name",
+        type: "text",
+        isReadOnly: true,
+        icon: <FiUser />,
+    },
+    {
+        name: "email",
+        placeholder: "Enter your email address",
+        type: "email",
+        isReadOnly: true,
+        icon: <MdOutlineEmail />,
+    },
+    {
+        name: "city",
+        placeholder: "Enter your city",
+        type: "text",
+        isReadOnly: false,
+        icon: <TiLocationOutline />,
+    },
+    {
+        name: "link",
+        placeholder: "Enter your link",
+        type: "text",
+        isReadOnly: false,
+        icon: <TiAttachment />,
+    },
+    {
+        name: "dob",
+        placeholder: "Enter your date of birth",
+        type: "date",
+        isReadOnly: false,
+        icon: <MdOutlineDateRange />,
+    },
+    {
+        name: "gender",
+        placeholder: "Enter your gender",
+        type: "select",
+        isReadOnly: false,
+        icon: <GrAccessibility />,
+    },
+    {
+        name: "phoneNo",
+        placeholder: "Enter your phone number",
+        type: "text",
+        isReadOnly: false,
+        icon: <MdOutlinePermPhoneMsg />,
+    },
+    {
+        name: "bio",
+        placeholder: "Enter your bio",
+        type: "textarea",
+        isReadOnly: false,
+        icon: <BiMessageDetail />,
+    },
+];
 
 
 const EditProfile = () => {
 
-    const [userCurrentState, setUserCurrentState] = useState([]);
     const [loading, setLoading] = useState(false);
     const inputRef = useRef(null);
+    const location = useLocation();
+    const { state } = location;
 
-    const fields = [
+    const [userCurrentState, setUserCurrentState] = useState(
         {
-            name: "fullName",
-            placeholder: "Enter your full name",
-            type: "text",
-            isReadOnly: false,
-            icon: <FaRegUser />,
-        },
-        {
-            name: "userName",
-            placeholder: "Enter your user name",
-            type: "text",
-            isReadOnly: true,
-            icon: <FiUser />,
-        },
-        {
-            name: "email",
-            placeholder: "Enter your email address",
-            type: "email",
-            isReadOnly: true,
-            icon: <MdOutlineEmail />,
-        },
-        {
-            name: "city",
-            placeholder: "Enter your city",
-            type: "text",
-            isReadOnly: false,
-            icon: <TiLocationOutline />,
-        },
-        {
-            name: "bio",
-            placeholder: "Enter your bio",
-            type: "textarea",
-            isReadOnly: false,
-            icon: <BiMessageDetail />,
-        },
-        {
-            name: "link",
-            placeholder: "Enter your link",
-            type: "text",
-            isReadOnly: false,
-            icon: <TiAttachment />,
-        },
-        {
-            name: "phoneNo",
-            placeholder: "Enter your phone number",
-            type: "text",
-            isReadOnly: false,
-            icon: <MdOutlinePermPhoneMsg />,
-        },
-        {
-            name: "dob",
-            placeholder: "Enter your date of birth",
-            type: "date",
-            isReadOnly: false,
-            icon: <MdOutlineDateRange />,
-        },
-        {
-            name: "gender",
-            placeholder: "Enter your gender",
-            type: "select",
-            isReadOnly: false,
-            icon: <GrAccessibility />,
-        },
-    ];
+            userName: state.userName,
+            fullName: state.fullName,
+            email: state.email,
+            profileImg: state.profileImg,
+            gender: state.additionalDetails.gender,
+            bio: state.additionalDetails.bio,
+            phoneNo: state.additionalDetails.phoneNo,
+            dob: state.additionalDetails.dob,
+            link: state.additionalDetails.link,
+            city: state.additionalDetails.city,
+        }
+    );
 
-    useEffect(() => {
+    function changeHandler(e) {
+        setUserCurrentState(
+            {
+                ...userCurrentState,
+                [e.target.name]: e.target.value
+            }
+        )
+    }
 
-        setLoading(true);
-
-        // get user data and set
-
-        setLoading(false);
-
-    }, []);
 
     return (
         <div className='w-full'>
@@ -102,13 +118,13 @@ const EditProfile = () => {
                 {/* profile image */}
                 <div onClick={() => inputRef.current.click()} className='w-[200px] relative flex cursor-pointer group justify-center items-center overflow-hidden shrink-0 h-[200px] rounded-full bg-gray-600'>
                     <img
-                        src=""
+                        src={userCurrentState.profileImg}
                         alt="profile-image"
-                        className=''
+                        className=' w-full h-full object-cover'
                     />
                     <input type="file" hidden ref={inputRef} />
 
-                    <div className="w-full h-full flex justify-center items-center text-9xl transition-all duration-200 ease-in-out text-black opacity-0 group-hover:opacity-20 object-cover absolute z-[5]  ">
+                    <div className="w-full h-full flex justify-center items-center text-9xl transition-all duration-200 ease-in-out text-black opacity-0 group-hover:opacity-30 object-cover absolute z-[5]  ">
                         <CiCamera />
                     </div>
 
@@ -130,14 +146,31 @@ const EditProfile = () => {
                                 }
                             </label>
 
-                            <input
-                                type={field.type}
-                                name={field.name}
-                                id={field.name}
-                                readOnly={field.isReadOnly}
-                                placeholder={field.placeholder}
-                                className='outline-none placeholder:text-[white]/[0.4] w-[350px] p-3 text-white bg-transparent text-lg font-semibold'
-                            />
+                            {
+                                field.name === "bio" ? (
+                                    <textarea
+                                        name={field.name}
+                                        value={userCurrentState[field.name]}
+                                        id={field.name}
+                                        onChange={changeHandler}
+                                        placeholder={field.placeholder}
+                                        className={`outline-none placeholder:text-gray-400 resize-none min-h-[150px] w-[350px] p-3 text-white  bg-transparent text-lg font-semibold`}
+                                    />
+                                ) : (
+                                    <input
+                                        type={field.type}
+                                        name={field.name}
+                                        value={userCurrentState[field.name]}
+                                        id={field.name}
+                                        onChange={changeHandler}
+                                        readOnly={field.isReadOnly}
+                                        placeholder={field.placeholder}
+                                        className={`outline-none placeholder:text-gray-400 w-[350px] p-3 ${field.isReadOnly ? "text-white opacity-70" : "text-white"}  bg-transparent text-lg font-semibold`}
+                                    />
+                                )
+                            }
+
+
 
                         </div>
                     ))}

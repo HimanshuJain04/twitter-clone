@@ -169,7 +169,7 @@ const ProfileTemp = () => {
                     </div>
 
                     {/* edit button */}
-                    <div onClick={() => navigate("/edit-profile")} className='w-full flex justify-end px-5'>
+                    <div onClick={() => navigate("/edit-profile", { state: user })} className='w-full flex justify-end px-5'>
                         <button
                             className='font-bold text-[white] text-sm hover:bg-[white]/[0.1] transition-all duration-200 ease-in-out rounded-full px-5 py-2 border-[1px] border-[white]/[0.4]'
                         >

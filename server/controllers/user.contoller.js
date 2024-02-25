@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import AdditionalDetails from "../models/additionalDetails.model.js";
 
 
 
@@ -77,7 +78,7 @@ export const getUserDetailsByUsername = async (req, res) => {
 
         const existedUser = await User
             .findOne({ userName })
-            .select("fullName userName additionalDetails profileImg following followers posts createdAt")
+            .select("fullName email userName additionalDetails profileImg following followers posts createdAt")
             .populate("additionalDetails")
             .exec();
 
@@ -105,6 +106,63 @@ export const getUserDetailsByUsername = async (req, res) => {
         return res.status(500).json(
             {
                 message: "Server failed to fetch user details by username,Please try again",
+                error: error.message,
+                success: false,
+                data: null
+            }
+        )
+    }
+}
+
+export const updateUserDetails = async (req, res) => {
+    try {
+
+        const userId = req?.user?._id;
+
+        const {
+            fullName,
+            city,
+            link,
+            dob,
+            gender,
+            phoneNo,
+            bio
+        } = req.body;
+
+        const existedUser = await User
+            .findById(userId);
+
+        const existedAdditionlDetails = await AdditionalDetails
+            .findById(existedUser.additionalDetails);
+
+
+        console.log(existedUser)
+        console.log(existedAdditionlDetails)
+
+
+        if (!existedUser) {
+            return res.status(404).json(
+                {
+                    message: "User not found",
+                    success: false,
+                    data: null
+                }
+            )
+        }
+
+        return res.status(201).json(
+            {
+                success: true,
+                data: existedUser,
+                message: "Update user details successfully"
+            }
+        );
+
+    } catch (error) {
+
+        return res.status(500).json(
+            {
+                message: "Server failed to update user details,Please try again",
                 error: error.message,
                 success: false,
                 data: null
