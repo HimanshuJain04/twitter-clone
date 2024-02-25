@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import { useNavigate, useLocation } from "react-router-dom"
 import { getProfileTime } from "../utils/getTime.js";
@@ -48,6 +48,7 @@ const Profile = () => {
 
     const navigate = useNavigate();
     const { pathname } = useLocation();
+    const coverRef = useRef(null);
     const username = pathname.split("/").at(-1);
     const userState = useSelector(state => state.auth.user);
 
@@ -58,6 +59,7 @@ const Profile = () => {
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const [index, setIndex] = useState(0);
+    const [coverImg, setCoverImg] = useState();
 
 
     useEffect(() => {
@@ -137,6 +139,7 @@ const Profile = () => {
             .then(({ data }) => {
                 setUser(data.data.existedUser);
                 setPostLen(data.data.postLength)
+                setCoverImg(data.data.existedUser?.additionalDetails?.coverImg)
             })
             .catch((err) => {
                 setUser(null);
@@ -175,19 +178,30 @@ const Profile = () => {
                 <div className='w-full flex flex-col gap-3 relative'>
 
                     {/* cover */}
-                    <div className=' relative group cursor-pointer overflow-hidden bg-white/[0.5] h-[200px] w-full'>
+                    <div className=' relative group overflow-hidden bg-white/[0.5] h-[200px] w-full'>
                         {
-                            user?.additionalDetails?.coverImg &&
+                            coverImg &&
                             <img
-                                src={user?.additionalDetails?.coverImg}
+                                src={
+                                    coverImg && URL.createObjectURL(coverImg)
+                                }
                                 className='w-full h-auto object-cover'
                                 alt="cover-Img"
                             />
                         }
 
-                        <div className="w-full opacity-0 h-full bg-black -bottom-[200px] flex text-center justify-center items-center text-5xl transition-all duration-700 ease-in-out text-white  group-hover:bottom-0 group-hover:opacity-60 object-cover absolute z-0  ">
-                            <AiOutlineCamera />
-                        </div>
+                        {
+                            userState?._id === user?._id &&
+                            <>
+                                <input onChange={(e) => setCoverImg(e.target.files[0])} ref={coverRef} type="file" hidden />
+                                <div onClick={() => coverRef.current.click()} className="w-full opacity-0 cursor-pointer h-full bg-black -bottom-[100px] flex text-center justify-center items-center text-5xl transition-all duration-700 ease-in-out text-white  group-hover:bottom-0 group-hover:opacity-60 object-cover absolute z-0  ">
+                                    <AiOutlineCamera />
+                                </div>
+
+                            </>
+                        }
+
+
 
                     </div>
 
@@ -208,7 +222,7 @@ const Profile = () => {
                                     className='w-full flex justify-end px-5'
                                 >
                                     <button
-                                        className='font-bold  text-[white] text-sm hover:bg-[white]/[0.1] transition-all duration-200 ease-in-out rounded-full px-5 py-2 border-[1px] border-[white]/[0.4]'
+                                        className='font-bold  text-[white] text-sm hover:bg-[white]/[0.12] transition-all duration-300 ease-in-out rounded-full px-10 py-2 border-[1px] border-[white]/[0.7]'
                                     >
                                         Edit profile
                                     </button>
@@ -221,8 +235,8 @@ const Profile = () => {
                                     <div className='w-full flex justify-end px-5'>
                                         <button
                                             onClick={followHandler}
-                                            className={`text-white border-[1px] font-bold  py-2 px-10 rounded-full  ` + (
-                                                user?.followers?.includes(userState._id) ? "bg-black border-white/[0.7]" : " bg-blue-400 border-blue-400"
+                                            className={`text-white transition-all duration-200 ease-in-out border-[1px] font-bold  py-2 px-10 rounded-full  ` + (
+                                                user?.followers?.includes(userState._id) ? "bg-black border-white/[0.7] hover:bg-[white]/[0.1]" : " bg-blue-400 border-blue-400 hover:bg-blue-300"
                                             )}
                                         >
                                             {
