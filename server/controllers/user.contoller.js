@@ -135,12 +135,7 @@ export const updateUserDetails = async (req, res) => {
         const existedAdditionlDetails = await AdditionalDetails
             .findById(existedUser.additionalDetails);
 
-
-        console.log(existedUser)
-        console.log(existedAdditionlDetails)
-
-
-        if (!existedUser) {
+        if (!existedUser || !existedAdditionlDetails) {
             return res.status(404).json(
                 {
                     message: "User not found",
@@ -150,10 +145,33 @@ export const updateUserDetails = async (req, res) => {
             )
         }
 
+        const fieldsToUpdate = {
+            city,
+            link,
+            dob,
+            gender,
+            phoneNo,
+            bio
+        };
+
+        Object.entries(fieldsToUpdate).forEach(([key, value]) => {
+            if (value !== undefined) {
+                existedAdditionlDetails[key] = value;
+            }
+        });
+
+        await existedUser.save();
+        await existedAdditionlDetails.save();
+
+        const user = await User
+            .findById(userId)
+            .populate("additionalDetails")
+            .exec();
+
         return res.status(201).json(
             {
                 success: true,
-                data: existedUser,
+                data: null,
                 message: "Update user details successfully"
             }
         );
