@@ -199,13 +199,18 @@ const Post = ({ post }) => {
                             {/* Like */}
                             <abbr
                                 title="Like"
-                                onClick={likeHandler}
                             >
                                 <div
-                                    className=' text-[white]/[0.3] cursor-pointer hover:text-blue-400 transition-all text-lg duration-300 ease-in-out'
+                                    className=' text-[white]/[0.3] flex justify-center items-center gap-1 '
                                 >
+                                    <span onClick={likeHandler} className='cursor-pointer hover:text-blue-400 transition-all text-lg duration-300 ease-in-out'>
+                                        {
+                                            isLiked ? <FaHeart className='text-red-900' /> : <FaRegHeart />
+                                        }
+                                    </span>
                                     {
-                                        isLiked ? <FaHeart /> : <FaRegHeart />
+                                        post?.likes?.length > 0 &&
+                                        <span className='text-white/[0.5] text-sm' >{post?.likes?.length}</span>
                                     }
                                 </div>
                             </abbr>
@@ -250,7 +255,7 @@ const Post = ({ post }) => {
 
                 </div>
 
-            </div>
+            </div >
         </div >
     )
 }
