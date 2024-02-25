@@ -9,3 +9,9 @@ export const getUserDetailsByUsername = async (username) => {
 export const updateUserDetails = async (data) => {
     return await jsonRequest.patch(`/user/updateUserDetails`, data);
 }
+
+export const userFollowHandler = async (anotherUserId) => {
+    return await jsonRequest.patch(`/user/userFollowHandler/${anotherUserId}`);
+}
+
+

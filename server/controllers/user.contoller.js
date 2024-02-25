@@ -9,7 +9,7 @@ export const userFollow = async (req, res) => {
     try {
 
         const userId = req.user?._id;  // my-id
-        const anotherUserId = req.params?.userId; // aother user id
+        const { anotherUserId } = req.params; // another user id
 
         const existedUser = await User.findById(userId);
         const existedAnotherUser = await User.findById(anotherUserId);

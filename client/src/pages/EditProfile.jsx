@@ -86,7 +86,9 @@ const EditProfile = () => {
     const inputRef = useRef(null);
     const location = useLocation();
     const navigate = useNavigate();
-    const { state } = location;
+    let state = location.state;
+
+    console.log(state);
 
     const [userCurrentState, setUserCurrentState] = useState(
         {
