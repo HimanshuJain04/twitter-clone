@@ -8,7 +8,8 @@ import { BiMessageDetail } from "react-icons/bi";
 import { MdOutlineEmail } from "react-icons/md";
 import { MdOutlinePermPhoneMsg } from "react-icons/md";
 import { GrAccessibility } from "react-icons/gr";
-import { FaCamera } from "react-icons/fa"; import { useLocation, useNavigate } from "react-router-dom"
+import { MdOutlinePhotoCameraFront } from "react-icons/md";
+import { useLocation, useNavigate } from "react-router-dom"
 import { updateUserDetails } from "../services/userService.js"
 import Spinner from "../components/common/Spinner.jsx";
 
@@ -155,8 +156,8 @@ const EditProfile = () => {
                             />
                             <input type="file" hidden ref={inputRef} />
 
-                            <div className="w-full opacity-0 h-full bg-black -bottom-[200px] flex text-center justify-center items-center text-3xl transition-all duration-700 ease-in-out text-white  group-hover:bottom-0 group-hover:opacity-70 object-cover absolute z-[5]  ">
-                                <FaCamera />
+                            <div className="w-full opacity-0 h-full bg-black -bottom-[200px] flex text-center justify-center items-center text-5xl transition-all duration-700 ease-in-out text-white  group-hover:bottom-0 group-hover:opacity-80 object-cover absolute z-[5]  ">
+                                <MdOutlinePhotoCameraFront />
                             </div>
 
                         </div>

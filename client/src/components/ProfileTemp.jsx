@@ -9,6 +9,7 @@ import PostSkeleton from './common/PostSkeleton';
 import InfiniteScroll from "react-infinite-scroll-component";
 import Post from "../components/Post.jsx";
 import { FaLink } from "react-icons/fa6";
+import { AiOutlineCamera } from "react-icons/ai";
 import {
     getUserPosts,
     getUserReplies,
@@ -151,8 +152,9 @@ const ProfileTemp = () => {
 
                 {/* cover | profile image */}
                 <div className='w-full flex flex-col gap-3 relative'>
+
                     {/* cover */}
-                    <div className=' overflow-hidden bg-white/[0.5] h-[200px] w-full'>
+                    <div className=' relative group cursor-pointer overflow-hidden bg-white/[0.5] h-[200px] w-full'>
                         {
                             user?.additionalDetails?.coverImg &&
                             <img
@@ -161,6 +163,11 @@ const ProfileTemp = () => {
                                 alt="cover-Img"
                             />
                         }
+
+                        <div className="w-full opacity-0 h-full bg-black -bottom-[200px] flex text-center justify-center items-center text-5xl transition-all duration-700 ease-in-out text-white  group-hover:bottom-0 group-hover:opacity-60 object-cover absolute z-0  ">
+                            <AiOutlineCamera />
+                        </div>
+
                     </div>
 
                     {/* profile */}
