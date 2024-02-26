@@ -26,6 +26,7 @@ const Post = ({ post }) => {
 
     const [commentBoxOpen, setCommentBoxOpen] = useState(false);
 
+
     function commentHandler() {
         setCommentBoxOpen(true);
     }
@@ -182,12 +183,18 @@ const Post = ({ post }) => {
                             {/* Comment */}
                             <abbr
                                 title="Comment"
-                                onClick={commentHandler}
                             >
-                                <div
-                                    className=' text-[white]/[0.3] cursor-pointer hover:text-blue-400 transition-all text-lg duration-300 ease-in-out'
-                                >
-                                    <FaRegComment />
+                                <div className=' text-[white]/[0.3] flex justify-center items-center gap-1 '>
+                                    <span
+                                        onClick={commentHandler}
+                                        className=' text-[white]/[0.3] cursor-pointer hover:text-blue-400 transition-all text-lg duration-300 ease-in-out'
+                                    >
+                                        <FaRegComment />
+                                    </span>
+                                    {
+                                        post?.comments?.length > 0 &&
+                                        <span className='text-white/[0.5] text-sm' >{post?.comments?.length}</span>
+                                    }
                                 </div>
                             </abbr>
 
