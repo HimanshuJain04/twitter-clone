@@ -182,3 +182,70 @@ export const updateUserDetails = async (req, res) => {
     }
 }
 
+
+export const updateUserCoverImage = async (req, res) => {
+    try {
+
+        const userId = req?.user?._id;
+
+        const { } = req.files;
+
+        const existedUser = await User
+            .findById(userId);
+
+        const existedAdditionlDetails = await AdditionalDetails
+            .findById(existedUser.additionalDetails);
+
+        if (!existedUser || !existedAdditionlDetails) {
+            return res.status(404).json(
+                {
+                    message: "User not found",
+                    success: false,
+                    data: null
+                }
+            )
+        }
+
+        const fieldsToUpdate = {
+            city,
+            link,
+            dob,
+            gender,
+            phoneNo,
+            bio
+        };
+
+        Object.entries(fieldsToUpdate).forEach(([key, value]) => {
+            if (value !== undefined) {
+                existedAdditionlDetails[key] = value;
+            }
+        });
+
+        await existedUser.save();
+        await existedAdditionlDetails.save();
+
+        const user = await User
+            .findById(userId)
+            .populate("additionalDetails")
+            .exec();
+
+        return res.status(201).json(
+            {
+                success: true,
+                data: null,
+                message: "Update user details successfully"
+            }
+        );
+
+    } catch (error) {
+
+        return res.status(500).json(
+            {
+                message: "Server failed to update user details,Please try again",
+                error: error.message,
+                success: false,
+                data: null
+            }
+        )
+    }
+}
