@@ -66,7 +66,7 @@ function App() {
         navigate(location.pathname);
       } else {
         // If user is not authenticated, navigate to landing page
-        // navigate("/");
+        navigate("/");
       }
     }
   }, [authState.user, location.pathname, navigate, tokenVerified]);

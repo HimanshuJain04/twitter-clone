@@ -10,6 +10,8 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Post from "../components/Post.jsx";
 import { FaLink } from "react-icons/fa6";
 import { AiOutlineCamera } from "react-icons/ai";
+import { MdDelete } from "react-icons/md";
+import { IoIosSave } from "react-icons/io";
 import {
     getUserPosts,
     getUserReplies,
@@ -20,7 +22,8 @@ import {
 
 import {
     getUserDetailsByUsername,
-    userFollowHandler
+    userFollowHandler,
+    updateUserCoverImage,
 } from "../services/userService.js";
 
 
@@ -66,7 +69,7 @@ const Profile = () => {
         setIndex(0);
         setPostData([]);
         fetchMoreData(0);
-    }, [option]);
+    }, [option])
 
 
     const fetchMoreData = (currentIndex) => {
@@ -110,7 +113,7 @@ const Profile = () => {
             })
             .catch((err) => console.log(err))
             .finally(() => setLoading(false));
-    };
+    }
 
     const followHandler = async () => {
 
@@ -127,6 +130,23 @@ const Profile = () => {
             }).catch((err) => {
                 toast.error("Something went wrong");
                 console.log("ERROR: ", err);
+            })
+            .finally(() => setLoading(false))
+    }
+
+
+    async function coverImgUpdateHandler() {
+        setLoading(true);
+
+        await updateUserCoverImage(coverImg)
+            .then(({ data }) => {
+                console.log(data)
+                setUser(data.data);
+                toast.success("Cover image updated");
+            })
+            .catch((err) => {
+                toast.error("Cover image update failed")
+                console.log("Error: ", err)
             })
             .finally(() => setLoading(false))
     }
@@ -150,6 +170,7 @@ const Profile = () => {
         setUser();
 
     }, [pathname]);
+
 
 
     return (
@@ -183,7 +204,8 @@ const Profile = () => {
                             coverImg &&
                             <img
                                 src={
-                                    coverImg && URL.createObjectURL(coverImg)
+                                    (typeof coverImg === 'string' || coverImg instanceof String)
+                                        ? coverImg : URL.createObjectURL(coverImg)
                                 }
                                 className='w-full h-auto object-cover'
                                 alt="cover-Img"
@@ -194,9 +216,25 @@ const Profile = () => {
                             userState?._id === user?._id &&
                             <>
                                 <input onChange={(e) => setCoverImg(e.target.files[0])} ref={coverRef} type="file" hidden />
+
                                 <div onClick={() => coverRef.current.click()} className="w-full opacity-0 cursor-pointer h-full bg-black -bottom-[100px] flex text-center justify-center items-center text-5xl transition-all duration-700 ease-in-out text-white  group-hover:bottom-0 group-hover:opacity-60 object-cover absolute z-0  ">
                                     <AiOutlineCamera />
                                 </div>
+
+                                {/* button */}
+                                {
+                                    coverImg !== user?.additionalDetails?.coverImg &&
+
+                                    <div className='absolute flex justify-center items-center gap-4 top-3 right-5  transition-all duration-300 text-2xl ease-in-out font-bold px-5 py-2 rounded-lg  text-white z-10'>
+
+                                        <span onClick={() => { setCoverImg(user.additionalDetails.coverImg) }} className=' bg-black/[0.5]  rounded-full p-3  transition-all duration-300 ease-in-out cursor-pointer hover:bg-black/[0.2] '>
+                                            <MdDelete />
+                                        </span>
+                                        <span onClick={coverImgUpdateHandler} className=' bg-black/[0.5]  rounded-full p-3  transition-all duration-300 ease-in-out cursor-pointer hover:bg-black/[0.2] '>
+                                            <IoIosSave />
+                                        </span>
+                                    </div>
+                                }
 
                             </>
                         }
