@@ -102,7 +102,7 @@ function App() {
             {/* ******************OTHER PAGES************* */}
             <Route path="home" element={<Home />} />
             <Route path="profile/:username" element={<Profile />} />
-            <Route path="edit-profile" element={<EditProfile />} />
+            <Route path="edit-profile/:username" element={<EditProfile />} />
           </Routes>
 
           {

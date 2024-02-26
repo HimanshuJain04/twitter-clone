@@ -176,6 +176,8 @@ const Profile = () => {
 
     }, [pathname]);
 
+    console.log(user)
+
 
 
     return (
@@ -189,7 +191,7 @@ const Profile = () => {
 
                             {/* navigation */}
                             <span
-                                onClick={() => navigate(-1)}
+                                onClick={() => navigate("/home")}
                                 className='text-white text-2xl cursor-pointer px-2 py-1 rounded-full hover:bg-[white]/[0.1]'
                             >
                                 <MdOutlineKeyboardBackspace />
@@ -263,7 +265,7 @@ const Profile = () => {
                                 userState?._id === user?._id ?
                                     (
                                         //  edit button
-                                        <div onClick={() => navigate("/edit-profile", { state: user })}
+                                        <div onClick={() => navigate(`/edit-profile/${user.userName}`)}
                                             className='w-full flex justify-end px-5'
                                         >
                                             <button
@@ -294,7 +296,6 @@ const Profile = () => {
                                         </>
                                     )
                             }
-
 
 
                         </div>

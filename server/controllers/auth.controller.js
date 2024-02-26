@@ -130,8 +130,6 @@ export const signup = async (req, res) => {
         // GenerateRandomOtp and send otp through email
         const mailResult = await sendMail(email);
 
-        console.log("mailResult: ", mailResult)
-
         if (!mailResult) {
             return res.status(500).json(
                 {
@@ -145,10 +143,10 @@ export const signup = async (req, res) => {
         // creating additional details
         const additionalDetails = await AdditionalDetails.create(
             {
-                coverImg: null,
-                dob: null,
-                phoneNo: null,
-                gender: null
+                coverImg: undefined,
+                dob: undefined,
+                phoneNo: undefined,
+                gender: undefined
             }
         );
 

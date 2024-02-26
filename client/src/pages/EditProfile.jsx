@@ -10,7 +10,7 @@ import { MdOutlinePermPhoneMsg } from "react-icons/md";
 import { GrAccessibility } from "react-icons/gr";
 import { MdOutlinePhotoCameraFront } from "react-icons/md";
 import { useLocation, useNavigate } from "react-router-dom"
-import { updateUserDetails } from "../services/userService.js"
+import { updateUserDetails, getUserDetailsByUsername } from "../services/userService.js"
 import Spinner from "../components/common/Spinner.jsx";
 
 const fields = [
@@ -84,26 +84,58 @@ const EditProfile = () => {
 
     const [loading, setLoading] = useState(false);
     const inputRef = useRef(null);
-    const location = useLocation();
     const navigate = useNavigate();
-    let state = location.state;
+    const { pathname } = useLocation();
 
-    console.log(state);
 
     const [userCurrentState, setUserCurrentState] = useState(
         {
-            userName: state.userName,
-            fullName: state.fullName,
-            email: state.email,
-            profileImg: state.profileImg,
-            gender: state.additionalDetails.gender,
-            bio: state.additionalDetails.bio,
-            phoneNo: state.additionalDetails.phoneNo,
-            dob: state.additionalDetails.dob,
-            link: state.additionalDetails.link,
-            city: state.additionalDetails.city,
+            userName: "",
+            fullName: "",
+            email: "",
+            profileImg: "",
+            gender: "",
+            bio: "",
+            phoneNo: "",
+            dob: "",
+            link: "",
+            city: "",
         }
     );
+
+    async function fetchUserData() {
+        setLoading(true);
+        const username = pathname.split("/").at(-1);
+
+        await getUserDetailsByUsername(username)
+            .then(({ data }) => {
+                setUserCurrentState(
+                    {
+                        userName: data.data.existedUser?.userName,
+                        fullName: data.data.existedUser?.fullName,
+                        email: data.data.existedUser?.email,
+                        profileImg: data.data.existedUser?.profileImg,
+                        gender: data.data.existedUser?.additionalDetails.gender,
+                        bio: data.data.existedUser?.additionalDetails.bio,
+                        phoneNo: data.data.existedUser?.additionalDetails.phoneNo,
+                        dob: data.data.existedUser?.additionalDetails.dob,
+                        link: data.data.existedUser?.additionalDetails.link,
+                        city: data.data.existedUser?.additionalDetails.city,
+                    }
+                )
+            })
+            .catch((err) => {
+                console.log("Error: ", err)
+            })
+            .finally(() => {
+                setLoading(false)
+            })
+
+    }
+
+    useEffect(() => {
+        fetchUserData();
+    }, []);
 
     function changeHandler(e) {
         setUserCurrentState(
