@@ -13,6 +13,7 @@ import { IoStatsChartSharp } from "react-icons/io5";
 import { bookmarkPost, likePost } from "../services/postService.js";
 import toast from "react-hot-toast"
 import { RxCross1 } from "react-icons/rx";
+import CreateComment from './CreateComment.jsx';
 
 
 const Post = ({ post }) => {
@@ -23,8 +24,10 @@ const Post = ({ post }) => {
     const [isBookmarked, setIsBookmarked] = useState(post?.bookmarks?.some(bookmark => bookmark.user === userState?._id));
     const [openFile, setOpenFile] = useState(null);
 
+    const [commentBoxOpen, setCommentBoxOpen] = useState(false);
+
     function commentHandler() {
-        console.log("Comment")
+        setCommentBoxOpen(true);
     }
 
     function retweetHandler() {
@@ -72,6 +75,10 @@ const Post = ({ post }) => {
 
     return (
         <div className='w-full relative'>
+            {
+                commentBoxOpen &&
+                <CreateComment userId={userState._id} postId={post._id} />
+            }
             {
                 openFile &&
                 <div className='fixed flex justify-center items-center top-0 left-0 p-10 z-[20] w-full h-screen backdrop-blur-sm '>
