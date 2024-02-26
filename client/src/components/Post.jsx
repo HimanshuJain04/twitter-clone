@@ -77,7 +77,7 @@ const Post = ({ post }) => {
         <div className='w-full relative'>
             {
                 commentBoxOpen &&
-                <CreateComment userId={userState._id} postId={post._id} />
+                <CreateComment setCommentBoxOpen={setCommentBoxOpen} postId={post._id} />
             }
             {
                 openFile &&

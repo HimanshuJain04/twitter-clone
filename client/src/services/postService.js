@@ -20,7 +20,7 @@ export const likePost = async (postId) => {
 
 
 export const createComment = async (data) => {
-    return await fileUploadRequest.post(`/post/create-post`, data);
+    return await fileUploadRequest.post(`/post/create-comment`, data);
 }
 
 
