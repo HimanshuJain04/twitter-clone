@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
 import toast from "react-hot-toast";
-import { useSelector } from "react-redux";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { FiImage } from "react-icons/fi";
 import { HiOutlineGif } from "react-icons/hi2";
