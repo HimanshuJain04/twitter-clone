@@ -18,6 +18,12 @@ export const likePost = async (postId) => {
     return await jsonRequest.patch(`/post/like-unlike-post/${postId}`);
 }
 
+
+export const createComment = async (data) => {
+    return await fileUploadRequest.post(`/post/create-post`, data);
+}
+
+
 export const getUserPosts = async (username, index) => {
     return await jsonRequest.get(`/post/getUserPosts?index=${index}&username=${username}`);
 }
