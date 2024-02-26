@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const additionalDetailsSchema = new mongoose.Schema(
     {
+        user: {
+            type: mongoose.Types.ObjectId,
+            ref: "User"
+        },
         coverImg: {
             type: String
         },

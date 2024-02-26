@@ -15,7 +15,7 @@ import {
 router.route("/getUserDetailsByUsername/:username").get(getUserDetailsByUsername);
 router.route("/updateUserDetails").patch(verifyJwtToken, updateUserDetails);
 router.route("/userFollowHandler/:anotherUserId").patch(verifyJwtToken, userFollow);
-router.route("/updateUserCoverImage").patch(verifyJwtToken, updateUserCoverImage);
+router.route("/updateUserCoverImage").post(verifyJwtToken, updateUserCoverImage);
 
 
 export default router;

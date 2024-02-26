@@ -1,6 +1,6 @@
 import User from "../models/user.model.js";
 import AdditionalDetails from "../models/additionalDetails.model.js";
-
+import { uploadFileToCloudinary } from "../utils/fileUploader.js"
 
 
 // ******************************** FOLLOW OPERATIONS ***********************************
@@ -182,19 +182,20 @@ export const updateUserDetails = async (req, res) => {
     }
 }
 
-
+// TODO: update -> remove calls
 export const updateUserCoverImage = async (req, res) => {
     try {
 
         const userId = req?.user?._id;
 
-        const { } = req.files;
+        const { post } = req.files;
 
         const existedUser = await User
             .findById(userId);
 
         const existedAdditionlDetails = await AdditionalDetails
             .findById(existedUser.additionalDetails);
+
 
         if (!existedUser || !existedAdditionlDetails) {
             return res.status(404).json(
@@ -206,34 +207,23 @@ export const updateUserCoverImage = async (req, res) => {
             )
         }
 
-        const fieldsToUpdate = {
-            city,
-            link,
-            dob,
-            gender,
-            phoneNo,
-            bio
-        };
+        const imageRes = await uploadFileToCloudinary(post);
 
-        Object.entries(fieldsToUpdate).forEach(([key, value]) => {
-            if (value !== undefined) {
-                existedAdditionlDetails[key] = value;
-            }
-        });
+        existedAdditionlDetails.coverImg = imageRes.secure_url;
 
-        await existedUser.save();
         await existedAdditionlDetails.save();
 
         const user = await User
             .findById(userId)
+            .select("fullName email userName additionalDetails profileImg following followers posts createdAt")
             .populate("additionalDetails")
             .exec();
 
         return res.status(201).json(
             {
                 success: true,
-                data: null,
-                message: "Update user details successfully"
+                data: user,
+                message: "Update user cover image  successfully"
             }
         );
 
@@ -241,7 +231,7 @@ export const updateUserCoverImage = async (req, res) => {
 
         return res.status(500).json(
             {
-                message: "Server failed to update user details,Please try again",
+                message: "Server failed to update user cover image,Please try again",
                 error: error.message,
                 success: false,
                 data: null

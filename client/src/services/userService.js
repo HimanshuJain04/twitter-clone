@@ -16,7 +16,7 @@ export const userFollowHandler = async (anotherUserId) => {
 
 
 export const updateUserCoverImage = async (file) => {
-    return await fileUploadRequest.patch(`/user/updateUserCoverImage`, file);
+    return await fileUploadRequest.post(`/user/updateUserCoverImage`, file);
 }
 
 
