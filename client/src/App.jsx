@@ -40,9 +40,9 @@ function App() {
   const tokenVerificationHandler = async () => {
     await dispatch(authVerifyToken())
       .then(() => {
-        if (!authState) {
-          navigate("/home")
-        }
+        // if (!authState) {
+        //   navigate("/home")
+        // }
       })
   }
 
@@ -50,15 +50,13 @@ function App() {
 
     if (!authState) {
       tokenVerificationHandler();
-      if ((pathname.startsWith('/auth') || pathname === '/')) {
+      if (pathname.startsWith('/auth')) {
         navigate(pathname);
       } else {
         navigate("/");
       }
     }
   }, [pathname, authState]);
-
-
 
 
 

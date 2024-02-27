@@ -48,6 +48,8 @@ const profileSection = [
 import { useSelector } from "react-redux";
 
 
+
+
 const Profile = () => {
 
     const navigate = useNavigate();
@@ -71,7 +73,7 @@ const Profile = () => {
         setIndex(0);
         setPostData([]);
         fetchMoreData(0);
-    }, [option])
+    }, [option]);
 
 
     const fetchMoreData = (currentIndex) => {

@@ -16,6 +16,7 @@ import { RxCross1 } from "react-icons/rx";
 import CreateComment from './CreateComment.jsx';
 
 
+
 const Post = ({ post }) => {
 
     const userState = useSelector(state => state.auth.user);
@@ -78,8 +79,9 @@ const Post = ({ post }) => {
         <div className='w-full relative'>
             {
                 commentBoxOpen &&
-                <CreateComment setCommentBoxOpen={setCommentBoxOpen} postId={post._id} />
+                <CreateComment setCommentBoxOpen={setCommentBoxOpen} post={post} />
             }
+
             {
                 openFile &&
                 <div className='fixed flex justify-center items-center top-0 left-0 p-10 z-[20] w-full h-screen backdrop-blur-sm '>
