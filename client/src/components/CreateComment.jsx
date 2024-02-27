@@ -54,7 +54,7 @@ const CreateComment = ({ post, setCommentBoxOpen }) => {
 
                 loading ?
                     <Spinner /> :
-                    <div className='w-[500px] relative shadow-lg border-[1px] border-white shadow-white/[0.2] bg-black rounded-lg p-5  pr-10  '>
+                    <div className='w-[500px] relative shadow-lg border-[1px] border-white shadow-white/[0.2] bg-black rounded-lg'>
 
                         {/* cross icon */}
                         <span onClick={() => setCommentBoxOpen(false)} className='text-white text-2xl absolute cursor-pointer top-3
@@ -63,36 +63,49 @@ const CreateComment = ({ post, setCommentBoxOpen }) => {
                         </span>
 
 
+                        <div className='flex w-full gap-2 p-5 justify-start items-start'>
 
-                        <div className='flex flex-col gap-2 justify-normal items-start'>
-                            {/* user details */}
-                            <div className='w-full justify-start flex items-center gap-2'>
-
+                            {/* left part for image and bar  */}
+                            <div className='flex flex-col justify-start gap-3 items-center h-full'>
                                 {/* user profile image */}
                                 <div className='rounded-full h-12 w-12 overflow-hidden'>
                                     <img src={post.user.profileImg} className='h-full w-full rounded-full object-contain' alt="userImage" />
                                 </div>
-                                <span className='text-white font-bold hover:underline cursor-pointer'>{post?.user?.fullName}</span>
-
-                                <span className='text-[white]/[0.5] font-light cursor-pointer'>@{post?.user?.userName}</span>
-
-                                <div className='bg-[white]/[0.5] rounded-full h-[3px] w-[3px]'></div>
-
-                                <span className='text-[white]/[0.5] font-light cursor-pointer'>
-                                    {getPostTime(post?.createdAt)}</span>
+                                <span className=' w-[2px] rounded-full bg-white'> </span>
                             </div>
 
-                            {/* post descritpion */}
-                            <div className='text-white text-lg '>
-                                {post?.description}
+                            {/* right paart for description and user details */}
+                            <div className='flex flex-col h-full gap-2 justify-start items-start'>
+
+                                {/* user info */}
+                                <div className='flex items-center justify-center gap-1'>
+                                    <span className='text-white font-bold hover:underline cursor-pointer'>{post?.user?.fullName}</span>
+
+                                    <span className='text-[white]/[0.5] font-light cursor-pointer'>@{post?.user?.userName}</span>
+
+                                    <div className='bg-[white]/[0.5] rounded-full h-[3px] w-[3px]'></div>
+
+                                    <span className='text-[white]/[0.5] font-light '>
+                                        {getPostTime(post?.createdAt)}</span>
+                                </div>
+
+                                {/* post descritpion */}
+                                <div className='text-white text-lg '>
+                                    {post?.description}
+                                </div>
+
+                                {/* replying to  */}
+                                <div>
+                                    <p className='cursor-pointer text-blue-400 hover:text-blue-500 transition-all duration-300 ease-in-out hover:underline'>replying to @{post.user.userName}</p>
+                                </div>
                             </div>
 
                         </div>
 
-
-
                         {/* createPost */}
-                        <CreatePost />
+                        <div className='w-full '>
+                            <CreatePost />
+                        </div>
 
                     </div>
             }
