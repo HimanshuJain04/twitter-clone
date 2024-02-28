@@ -89,7 +89,7 @@ const Feeds = ({ isLoading, setIsLoading }) => {
                             <>
 
                                 <div>
-                                    <CreatePost isLoading={isLoading} setIsLoading={setIsLoading} />
+                                    <CreatePost type={"Post"} setIsLoading={setIsLoading} />
                                 </div>
 
                                 <div className='w-full  flex mt-5 flex-col gap-5 justify-start items-start'>

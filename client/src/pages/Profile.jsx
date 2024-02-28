@@ -178,8 +178,6 @@ const Profile = () => {
 
     }, [pathname]);
 
-    console.log(user)
-
 
 
     return (

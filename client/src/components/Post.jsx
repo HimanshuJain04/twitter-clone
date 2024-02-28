@@ -14,13 +14,14 @@ import { bookmarkPost, likePost } from "../services/postService.js";
 import toast from "react-hot-toast"
 import { RxCross1 } from "react-icons/rx";
 import CreateComment from './CreateComment.jsx';
+import { useNavigate } from "react-router-dom"
 
 
 
 const Post = ({ post }) => {
 
     const userState = useSelector(state => state.auth.user);
-
+    const navigate = useNavigate();
     const [isLiked, setisLiked] = useState(post?.likes?.some(like => like.user === userState?._id));
     const [isBookmarked, setIsBookmarked] = useState(post?.bookmarks?.some(bookmark => bookmark.user === userState?._id));
     const [openFile, setOpenFile] = useState(null);
@@ -120,7 +121,7 @@ const Post = ({ post }) => {
 
                         <div className='flex justify-center  items-center gap-2'>
 
-                            <span className='text-white font-bold hover:underline cursor-pointer'>{post?.user?.fullName}</span>
+                            <span onClick={() => navigate(`/profile/${post?.user?.userName}`)} className='text-white font-bold hover:underline cursor-pointer'>{post?.user?.fullName}</span>
 
                             <span className='text-[white]/[0.5] font-light cursor-pointer'>@{post?.user?.userName}</span>
 

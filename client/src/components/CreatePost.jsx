@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { FiImage } from "react-icons/fi"; import { HiOutlineGif } from "react-icons/hi2";
 import { MdOutlineEmojiEmotions } from "react-icons/md";
 import { useSelector } from "react-redux";
-import { createPost as createPostApi } from "../services/postService.js"
+import { createPost as createPostApi, createComment as createCommentApi } from "../services/postService.js"
 import toast from "react-hot-toast";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { BiPoll } from "react-icons/bi";
@@ -12,7 +12,7 @@ import InputEmoji from "react-input-emoji";
 
 
 
-const CreatePost = ({ isLoading, setIsLoading }) => {
+const CreatePost = ({ setIsLoading, type, postId, setCommentBoxOpen }) => {
 
     const state = useSelector(state => state.auth);
 
@@ -82,7 +82,7 @@ const CreatePost = ({ isLoading, setIsLoading }) => {
     }
 
 
-    const createPostHandler = async () => {
+    const createHandler = async () => {
 
         setIsLoading(true);
 
@@ -95,20 +95,41 @@ const CreatePost = ({ isLoading, setIsLoading }) => {
 
         }
 
-        await createPostApi(fd)
-            .then((response) => {
-                toast.success("Post created!");
-                setDescription("");
-                setFiles([]);
-                console.log("response: ", response)
+        if (type === "Post") {
+            await createPostApi(fd)
+                .then(() => {
+                    toast.success("Post created!");
+                    setDescription("");
+                    setFiles([]);
+                }).catch((error) => {
+                    console.log("error: ", error);
+                    toast.error(error.message);
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                })
 
-            }).catch((error) => {
-                console.log("error: ", error);
-                toast.error(error.message);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            })
+        } else {
+
+            fd.append("postId", postId);
+
+            await createCommentApi(fd)
+                .then(() => {
+                    toast.success("Comment created!");
+                    setDescription("");
+                    setFiles([]);
+                    setCommentBoxOpen(false);
+
+                }).catch((error) => {
+                    console.log("error: ", error);
+                    toast.error(error.message);
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                });
+
+        }
+
     }
 
 
@@ -118,16 +139,16 @@ const CreatePost = ({ isLoading, setIsLoading }) => {
             <div className='w-ful py-3  gap-2 flex justify-start items-start px-5 border-b-2 border-[white]/[0.2]'>
 
                 {/* user-image */}
-                <div className='overflow-hidden rounded-full h-[60px] w-[60px]'>
+                <div className='overflow-hidden rounded-full h-12 w-12'>
                     <img
                         src={state?.user?.profileImg}
                         alt="profile-Image"
-                        className='h-14 w-14 object-contain p-1 rounded-full'
+                        className='h-full w-full rounded-full object-contain'
                     />
                 </div>
 
                 {/* other content */}
-                <div className='flex flex-col mt-2 justify-start items-start w-full'>
+                <div className='flex flex-col mt-2 justify-start items-start w-[calc(100%-50px)]'>
                     {/* input field and image */}
                     <div className='w-full '>
 
@@ -280,7 +301,7 @@ const CreatePost = ({ isLoading, setIsLoading }) => {
                         <div>
                             <button
                                 disabled={description.trim().length === 0 && files.length === 0}
-                                onClick={createPostHandler}
+                                onClick={createHandler}
                                 className='bg-blue-400 disabled:opacity-50 text-white py-2 px-10 font-bold rounded-full'
                             >Post
                             </button>

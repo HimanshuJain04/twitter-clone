@@ -1,51 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react'
-import toast from "react-hot-toast";
-import { RiDeleteBin5Fill } from "react-icons/ri";
-import { FiImage } from "react-icons/fi";
-import { HiOutlineGif } from "react-icons/hi2";
-import { createComment } from "../services/postService.js";
 import Spinner from "../components/common/TransparencySpinner.jsx"
 import { RxCross1 } from "react-icons/rx";
 import CreatePost from "./CreatePost.jsx";
 import { getPostTime } from "../utils/getTime.js";
-
+import { useNavigate } from "react-router-dom"
 
 
 const CreateComment = ({ post, setCommentBoxOpen }) => {
 
     const [loading, setLoading] = useState(false);
-
-
-    async function createCommentHandler() {
-
-        setLoading(true);
-
-        const fd = new FormData();
-
-        if (file) {
-            fd.append(file, "file", file.name);
-        }
-
-        if (description.trim().length > 0) {
-            fd.append("description", description);
-        }
-
-        fd.append("postId", postId)
-
-        await createComment(fd)
-            .then(({ data }) => {
-                console.log(data)
-                toast.success("Comment created!");
-                setCommentBoxOpen(false)
-            })
-            .catch((err) => {
-                toast.error("Something went wrong")
-                console.log("Error: ", err)
-            })
-            .finally(() => setLoading(false))
-    }
-
-
+    const navigate = useNavigate();
 
 
     return (
@@ -96,7 +60,12 @@ const CreateComment = ({ post, setCommentBoxOpen }) => {
 
                                 {/* replying to  */}
                                 <div>
-                                    <p className='cursor-pointer text-blue-400 hover:text-blue-500 transition-all duration-300 ease-in-out hover:underline'>replying to @{post.user.userName}</p>
+                                    <p className='  text-blue-400 '>replying to @
+                                        <span
+                                            onClick={() => {
+                                                navigate(`/profile/${post?.user?.userName}`)
+                                            }}
+                                            className='cursor-pointer hover:text-blue-500 transition-all duration-300 ease-in-out hover:underline'>{post?.user?.userName}</span></p>
                                 </div>
                             </div>
 
@@ -104,7 +73,7 @@ const CreateComment = ({ post, setCommentBoxOpen }) => {
 
                         {/* createPost */}
                         <div className='w-full '>
-                            <CreatePost />
+                            <CreatePost setIsLoading={setLoading} setCommentBoxOpen={setCommentBoxOpen} type={"Comment"} postId={post._id} />
                         </div>
 
                     </div>

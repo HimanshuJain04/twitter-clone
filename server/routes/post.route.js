@@ -7,14 +7,11 @@ import {
     postLikeHandler,
     bookmarkedHandler,
     createComment,
-    deleteComment,
-    likeOnComment,
     fetchAllPosts,
     deletePost,
     getUserLikedPosts,
     getUserMediaPosts,
     getUserPosts,
-    createCommentOnComment
 } from "../controllers/post.controller.js"
 
 
@@ -37,9 +34,9 @@ router.route("/bookmarked-unbookmarked-post/:postId").patch(bookmarkedHandler);
 
 // comment routes
 router.route("/create-comment").post(createComment);
-router.route("/delete-comment/:commentId").delete(deleteComment);
-router.route("/create-reply-comment").post(createCommentOnComment);
-router.route("/like-comment/:commentId").patch(likeOnComment);
+// router.route("/delete-comment/:commentId").delete(deleteComment);
+// router.route("/create-reply-comment").post(createCommentOnComment);
+// router.route("/like-comment/:commentId").patch(likeOnComment);
 
 
 
