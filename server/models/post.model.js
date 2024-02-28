@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const postSchema = new mongoose.Schema(
     {
+        isComment: {
+            type: Boolean,
+            default: false,
+        },
         postUrls: [
             {
                 type: String
