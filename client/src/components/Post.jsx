@@ -102,9 +102,9 @@ const Post = ({ post }) => {
 
                 </div>
             }
-            <div className='flex pb-5 flex-row py-3 px-5 gap-5 border-b-2 border-[white]/[0.2] justify-between items-start w-full'>
+            <div className='flex cursor-pointer  pb-5 flex-row py-3 px-5 gap-5 border-b-2 border-[white]/[0.2] justify-between items-start w-full'>
                 {/* for user image */}
-                <div className='w-[60px]'>
+                <div onClick={() => navigate(`/post/${post._id}`)} className='w-[60px]'>
                     <img
                         src={post?.user?.profileImg}
                         alt="user-image"
@@ -137,10 +137,14 @@ const Post = ({ post }) => {
                         </div>
                     </div>
 
-                    {/* post descritpion */}
-                    <div className='text-white text-lg '>
-                        {post?.description}
-                    </div>
+                    {
+                        post?.description &&
+                        // {/* post descritpion */ }
+                        <div className='text-white text-lg '>
+                            {post?.description}
+                        </div>
+                    }
+
 
                     {/* images |  video */}
                     {
@@ -276,5 +280,4 @@ const Post = ({ post }) => {
         </div >
     )
 }
-
 export default Post;

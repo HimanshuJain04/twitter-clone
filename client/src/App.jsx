@@ -23,6 +23,7 @@ import EditProfile from "./pages/EditProfile.jsx";
 import FeatureSidebar from "./components/common/FeaturSidebar";
 import TrendingSidebar from "./components/common/TrendingSidebar";
 import { RxVercelLogo } from "react-icons/rx";
+import PostPage from "./pages/PostPage.jsx";
 
 
 
@@ -90,6 +91,7 @@ function App() {
             <Route path="home" element={<Home />} />
             <Route path="profile/:username" element={<Profile />} />
             <Route path="edit-profile/:username" element={<EditProfile />} />
+            <Route path="post/:postId" element={<PostPage />} />
           </Routes>
 
           {

@@ -605,6 +605,43 @@ export const createComment = async (req, res) => {
 }
 
 
+export const getPostDetails = async (req, res) => {
+    try {
+        const { postId } = req.params;
+
+        const existedPost = await Post.findById(postId);
+
+        if (!existedPost) {
+            return res.status(404).json(
+                {
+                    message: "Post not found",
+                    success: false,
+                    data: null
+                }
+            )
+        }
+
+        return res.status(500).json(
+            {
+                success: true,
+                data: [],
+                message: ""
+            }
+        )
+    } catch (error) {
+
+        return res.status(500).json(
+            {
+                message: "erver failed to create post,Please try again",
+                error: error.message,
+                success: false,
+                data: null
+            }
+        )
+    }
+}
+
+
 export const createPgost = (req, res) => {
     try {
 

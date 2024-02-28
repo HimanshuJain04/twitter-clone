@@ -19,6 +19,12 @@ export const likePost = async (postId) => {
 }
 
 
+export const getPostDetails = async (postId) => {
+    return await jsonRequest.get(`/post/getPostDetails/${postId}`);
+}
+
+
+
 export const createComment = async (data) => {
     return await fileUploadRequest.post(`/post/create-comment`, data);
 }
