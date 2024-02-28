@@ -26,7 +26,7 @@ const PostPage = () => {
             .finally(() => {
                 setLoading(false);
             })
-    }, [pathname])
+    }, [pathname]);
 
 
     return (
@@ -41,29 +41,21 @@ const PostPage = () => {
                                 <Post post={postData} isdetailedPage={true} />
                             </div>
 
-                            <div className='w-full flex gap-2  '>
-
-                                <div className='w-1 bg-white h-full'></div>
-
-                                {/* Comments */}
-                                <div className='w-full '>
-                                    {
-                                        postData?.comments?.map((commentPost) => (
-                                            <div key={commentPost._id}>
-                                                <Post post={commentPost} />
-                                            </div>
-                                        ))
-                                    }
-                                </div>
-
+                            {/* Comments */}
+                            <div className='w-full '>
+                                {
+                                    postData?.comments?.map((commentPost) => (
+                                        <div key={commentPost._id}>
+                                            <Post post={commentPost} />
+                                        </div>
+                                    ))
+                                }
                             </div>
 
                         </div>
                     )
-
                 }
             </div>
-
         </div>
     )
 }

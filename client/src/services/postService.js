@@ -36,7 +36,7 @@ export const getUserPosts = async (username, index) => {
 
 
 export const getUserReplies = async (username, index) => {
-    return await jsonRequest.get(`/post/getUserPosts?index=${index}&username=${username}`);
+    return await jsonRequest.get(`/post/getUserComments?index=${index}&username=${username}`);
 }
 
 

@@ -10,6 +10,7 @@ import {
     fetchAllPosts,
     deletePost,
     getUserLikedPosts,
+    getUserComments,
     getUserMediaPosts,
     getUserPosts,
     getPostById,
@@ -23,6 +24,7 @@ router.use(verifyJwtToken);
 router.route("/create-post").post(createPost);
 router.route("/getUserPosts").get(getUserPosts);
 router.route("/getUserLikedPosts").get(getUserLikedPosts);
+router.route("/getUserComments").get(getUserComments);
 router.route("/getUserMediaPosts").get(getUserMediaPosts);
 router.route("/delete-post/:postId").delete(deletePost);
 router.route("/getPostDetails/:postId").get(getPostById);
