@@ -188,56 +188,61 @@ export const getUserPosts = async (req, res) => {
     }
 }
 
+
 export const getUserComments = async (req, res) => {
     try {
-
         const userName = req.query.username;
         const { index } = req.query;
 
         const existedUser = await User.findOne({ userName });
 
         if (!existedUser) {
-            return res.status(404).json(
-                {
-                    success: false,
-                    data: null,
-                    message: "User not found"
-                }
-            );
+            return res.status(404).json({
+                success: false,
+                data: null,
+                message: "User not found"
+            });
         }
 
         const startIndex = index * PAGE_SIZE;
 
-        const allPosts = await Post.find(
-            {
-                user: existedUser._id,
-                isComment: true,
-            }
-        )
+        // Fetch user's comments with populated user information
+        const userComments = await Post.find({
+            user: existedUser._id,
+            isComment: true,
+        })
             .sort({ createdAt: -1 })
             .skip(startIndex)
             .limit(PAGE_SIZE)
             .populate("user", ["fullName", "userName", "profileImg"])
             .exec();
 
-        return res.status(200).json(
-            {
-                success: true,
-                data: allPosts,
-                message: "User Posts fetch successfully"
-            }
-        );
+
+        // Fetch parent post for each comment
+        const commentsWithParentPosts = await Promise.all(userComments.map(async (comment) => {
+            const parentPost = await Post
+                .findOne({ comments: { $in: [comment._id] } })
+                .populate("user", ["fullName", "userName", "profileImg"])
+                .exec();
+            return {
+                comment,
+                parentPost
+            };
+        }));
+
+        return res.status(200).json({
+            success: true,
+            data: commentsWithParentPosts,
+            message: "User comments with parent posts fetched successfully"
+        });
 
     } catch (error) {
-
-        return res.status(500).json(
-            {
-                message: "Server failed to fetch user posts,Please try again",
-                error: error.message,
-                success: false,
-                data: null
-            }
-        )
+        return res.status(500).json({
+            message: "Server failed to fetch user comments with parent posts. Please try again.",
+            error: error.message,
+            success: false,
+            data: null
+        });
     }
 }
 

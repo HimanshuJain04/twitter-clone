@@ -147,7 +147,7 @@ const Post = ({ post, isdetailedPage }) => {
                             </div>
                         ) : (
                             <div className='text-white text-lg '>
-                                {`${post?.description.substring(0, 100)}${post?.description.length > 100 ? "..." : ""}`}
+                                {`${post?.description?.substring(0, 100)}${post?.description?.length > 100 ? "..." : ""}`}
                             </div>
                         )
                     }

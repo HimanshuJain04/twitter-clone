@@ -26,7 +26,8 @@ import {
     userFollowHandler,
     updateUserCoverImage,
 } from "../services/userService.js";
-
+import { useSelector } from "react-redux";
+import ReplyPost from '../components/ReplyPost.jsx';
 
 const profileSection = [
     {
@@ -45,8 +46,6 @@ const profileSection = [
         title: "Likes",
     }
 ];
-import { useSelector } from "react-redux";
-
 
 
 
@@ -111,6 +110,7 @@ const Profile = () => {
 
         func(username, currentIndex)
             .then(({ data }) => {
+                console.log(data.data)
                 setPostData((prevItems) => [...prevItems, ...data.data]);
                 setIndex(currentIndex + 1);
                 data?.data?.length === 10 ? setHasMore(true) : setHasMore(false);
@@ -404,8 +404,18 @@ const Profile = () => {
                                                 <div className='container'>
                                                     <div className='row'>
                                                         {
-                                                            postData.map((post) => (
-                                                                <Post post={post} key={post?._id} />
+                                                            postData.map((post, index) => (
+                                                                <div key={post?._id + "" + index}>
+                                                                    {
+                                                                        option.title === "Replies" ? (
+                                                                            <>
+                                                                                <ReplyPost parentPost={post.parentPost} commentPost={post.comment} />
+                                                                            </>
+                                                                        ) : (
+                                                                            <Post post={post} />
+                                                                        )
+                                                                    }
+                                                                </div>
                                                             ))
                                                         }
                                                     </div>
