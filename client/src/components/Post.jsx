@@ -139,10 +139,17 @@ const Post = ({ post, isdetailedPage }) => {
 
                     {
                         post?.description &&
-                        // {/* post descritpion */ }
-                        <div className='text-white text-lg '>
-                            {`${post?.description.substring(0, 100)}${post?.description.length > 100 ? "..." : ""}`}
-                        </div>
+                            // {/* post descritpion */ }
+
+                            isdetailedPage ? (
+                            <div className='text-white text-lg '>
+                                {post?.description}
+                            </div>
+                        ) : (
+                            <div className='text-white text-lg '>
+                                {`${post?.description.substring(0, 100)}${post?.description.length > 100 ? "..." : ""}`}
+                            </div>
+                        )
                     }
 
                     {/* images |  video */}
