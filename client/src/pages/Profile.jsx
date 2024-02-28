@@ -119,6 +119,7 @@ const Profile = () => {
             .finally(() => setLoading(false));
     }
 
+
     const followHandler = async () => {
 
         setLoading(true);
@@ -401,24 +402,22 @@ const Profile = () => {
                                                 next={() => fetchMoreData(index)}
                                                 hasMore={hasMore}
                                             >
-                                                <div className='container'>
-                                                    <div className='row'>
-                                                        {
-                                                            postData.map((post, index) => (
-                                                                <div key={post?._id + "" + index}>
-                                                                    {
-                                                                        option.title === "Replies" ? (
-                                                                            <>
-                                                                                <ReplyPost parentPost={post.parentPost} commentPost={post.comment} />
-                                                                            </>
-                                                                        ) : (
-                                                                            <Post post={post} />
-                                                                        )
-                                                                    }
-                                                                </div>
-                                                            ))
-                                                        }
-                                                    </div>
+                                                <div className='flex flex-col gap-5 justify-start '>
+                                                    {
+                                                        postData.map((post, index) => (
+                                                            <div key={post?._id + "" + index}>
+                                                                {
+                                                                    option.title === "Replies" ? (
+                                                                        <>
+                                                                            <ReplyPost parentPost={post.parentPost} commentPost={post.comment} />
+                                                                        </>
+                                                                    ) : (
+                                                                        <Post post={post} />
+                                                                    )
+                                                                }
+                                                            </div>
+                                                        ))
+                                                    }
                                                 </div>
                                             </InfiniteScroll>
                                         </>
