@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom"
 
 
 
-const Post = ({ post }) => {
+const Post = ({ post, isdetailedPage }) => {
 
     const userState = useSelector(state => state.auth.user);
     const navigate = useNavigate();
@@ -141,10 +141,9 @@ const Post = ({ post }) => {
                         post?.description &&
                         // {/* post descritpion */ }
                         <div className='text-white text-lg '>
-                            {post?.description}
+                            {`${post?.description.substring(0, 100)}${post?.description.length > 100 ? "..." : ""}`}
                         </div>
                     }
-
 
                     {/* images |  video */}
                     {
@@ -251,13 +250,19 @@ const Post = ({ post }) => {
                             {/* Bookmark */}
                             <abbr
                                 title="Bookmark"
-                                onClick={bookmarkHandler}
                             >
-                                <div
-                                    className=' text-[white]/[0.3] cursor-pointer hover:text-blue-400 transition-all text-lg duration-300 ease-in-out'
-                                >
+                                <div className=' text-[white]/[0.3] flex justify-center items-center gap-1 '>
+                                    <span
+                                        onClick={bookmarkHandler}
+                                        className=' text-[white]/[0.3] cursor-pointer hover:text-blue-400 transition-all text-lg duration-300 ease-in-out'
+                                    >
+                                        {
+                                            isBookmarked ? <FaBookmark /> : <FaRegBookmark />
+                                        }
+                                    </span>
                                     {
-                                        isBookmarked ? <FaBookmark /> : <FaRegBookmark />
+                                        post?.bookmarks?.length > 0 &&
+                                        <span className='text-white/[0.5] text-sm' >{post?.bookmarks?.length}</span>
                                     }
                                 </div>
                             </abbr>
