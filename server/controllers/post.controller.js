@@ -608,7 +608,15 @@ export const getPostById = async (req, res) => {
 
         const existedPost = await Post
             .findById(postId)
-            .populate("comments")
+            .populate(
+                {
+                    path: "comments",
+                    populate: {
+                        path: "user",
+                        select: ["fullName", "userName", "profileImg"]
+                    }
+                }
+            )
             .populate("user", ["fullName", "userName", "profileImg"])
             .exec();
 
