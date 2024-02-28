@@ -109,7 +109,7 @@ export const fetchAllPosts = async (req, res) => {
 
         const allPosts = await Post
             .find({})
-            .populate("user")
+            .populate("user", ["fullName", "userName", "profileImg"])
             .exec();
 
 
@@ -159,8 +159,7 @@ export const getUserPosts = async (req, res) => {
             .sort({ createdAt: -1 })
             .skip(startIndex)
             .limit(PAGE_SIZE)
-            .populate("user")
-            .populate("comments")
+            .populate("user", ["fullName", "userName", "profileImg"])
             .exec();
 
         return res.status(200).json(
@@ -210,8 +209,7 @@ export const getUserLikedPosts = async (req, res) => {
             .sort({ 'likes.likedAt': -1 }) // Sort by likedAt timestamp in descending order
             .skip(startIndex)
             .limit(PAGE_SIZE)
-            .populate("user") // Assuming `user` is the field referencing the user who made the post
-            .populate("comments") // Assuming `comments` is the field referencing the comments on the post
+            .populate("user", ["fullName", "userName", "profileImg"])
             .exec();
 
 
@@ -262,8 +260,7 @@ export const getUserMediaPosts = async (req, res) => {
             .sort({ createdAt: -1 })
             .skip(index * PAGE_SIZE)
             .limit(PAGE_SIZE)
-            .populate('user')
-            .populate("comments")
+            .populate("user", ["fullName", "userName", "profileImg"])
             .exec();
         // select: 'fullName userName profileImg', // Select only necessary fields
 
@@ -425,7 +422,7 @@ export const postLikeHandler = async (req, res) => {
         return res.status(200).json({
             success: true,
             isLiked: !isLiked,
-            data: updatedUser,
+            data: null,
             message: "Liked or unliked the post successfully"
         });
     } catch (error) {
@@ -489,7 +486,7 @@ export const bookmarkedHandler = async (req, res) => {
         return res.status(200).json({
             success: true,
             isBookmarked: !isBookmarked,
-            data: updatedUser,
+            data: null,
             message: "Bookmarked or unbookmarked the post successfully"
         });
     } catch (error) {
@@ -586,7 +583,7 @@ export const createComment = async (req, res) => {
         return res.status(201).json(
             {
                 success: true,
-                data: newPost,
+                data: null,
                 message: "Comment-post created successfully"
             }
         );
@@ -605,11 +602,16 @@ export const createComment = async (req, res) => {
 }
 
 
-export const getPostDetails = async (req, res) => {
+export const getPostById = async (req, res) => {
     try {
         const { postId } = req.params;
 
-        const existedPost = await Post.findById(postId);
+        const existedPost = await Post
+            .findById(postId)
+            .populate("comments")
+            .populate("user", ["fullName", "userName", "profileImg"])
+            .exec();
+
 
         if (!existedPost) {
             return res.status(404).json(
@@ -621,23 +623,25 @@ export const getPostDetails = async (req, res) => {
             )
         }
 
-        return res.status(500).json(
+        return res.status(200).json(
             {
                 success: true,
-                data: [],
-                message: ""
+                data: existedPost,
+                message: "Fetched post details by id successfully"
             }
-        )
+        );
+
     } catch (error) {
 
         return res.status(500).json(
             {
-                message: "erver failed to create post,Please try again",
+                message: "Server failed to fetch post by id,Please try again",
                 error: error.message,
                 success: false,
                 data: null
             }
-        )
+        );
+
     }
 }
 

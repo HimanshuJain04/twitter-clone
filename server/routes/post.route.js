@@ -12,7 +12,7 @@ import {
     getUserLikedPosts,
     getUserMediaPosts,
     getUserPosts,
-    getPostDetails,
+    getPostById,
 } from "../controllers/post.controller.js"
 
 
@@ -25,7 +25,7 @@ router.route("/getUserPosts").get(getUserPosts);
 router.route("/getUserLikedPosts").get(getUserLikedPosts);
 router.route("/getUserMediaPosts").get(getUserMediaPosts);
 router.route("/delete-post/:postId").delete(deletePost);
-router.route("/getPostDetails/:postId").get(getPostDetails);
+router.route("/getPostDetails/:postId").get(getPostById);
 router.route("/fetch-posts").get(fetchAllPosts);
 
 
