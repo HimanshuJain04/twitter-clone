@@ -14,6 +14,7 @@ import toast from "react-hot-toast"
 import { RxCross1 } from "react-icons/rx";
 import CreateComment from './CreateComment.jsx';
 import { useNavigate } from "react-router-dom";
+import { viewsConvertor } from "../utils/viewsConvertor.js"
 import {
     bookmarkPost,
     likePost,
@@ -89,7 +90,6 @@ const Post = ({ post, isdetailedPage, isFeeds }) => {
                 });
         }
     }, []);
-
 
 
     return (
@@ -271,7 +271,7 @@ const Post = ({ post, isdetailedPage, isFeeds }) => {
                                     </span>
                                     {
                                         post?.views > 0 &&
-                                        <span className='text-white/[0.5] text-sm' >{post?.views}</span>
+                                        <span className='text-white/[0.5] text-sm' >{viewsConvertor(post.views)}</span>
                                     }
 
                                 </div>
