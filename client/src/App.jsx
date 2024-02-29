@@ -2,7 +2,7 @@ import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authVerifyToken } from "./redux/slices/authSlice.js";
 import { useEffect, useState } from "react"
-
+import ProtectedRoutes from "./components/ProtectedRoutes.jsx";
 
 // *********** Import pages ***************
 // auth-page
@@ -32,35 +32,6 @@ function App() {
   const { pathname } = useLocation();
   const isAuthOrLandingPage = pathname.startsWith('/auth') || pathname === '/';
 
-  const navigate = useNavigate();
-  const [tokenVerified, setTokenVerified] = useState(false);
-
-  const dispatch = useDispatch();
-  const authState = useSelector(state => state.auth.user);
-
-  const tokenVerificationHandler = async () => {
-    await dispatch(authVerifyToken())
-      .then(() => {
-        // if (!authState) {
-        //   navigate("/home")
-        // }
-      })
-  }
-
-  useEffect(() => {
-
-    if (!authState) {
-      tokenVerificationHandler();
-      if (pathname.startsWith('/auth')) {
-        navigate(pathname);
-      } else {
-        navigate("/");
-      }
-    }
-  }, [pathname, authState]);
-
-
-
   return (
     <>
       <div className="flex justify-center items-center bg-black w-screen">
@@ -76,7 +47,7 @@ function App() {
 
           <Routes>
 
-            <Route path="/" exact element={<Landing />} />
+            <Route path="/" element={<Landing />} />
 
             {/* ***************AUTH*************** */}
             <Route path="/auth" >
@@ -87,11 +58,16 @@ function App() {
               <Route path="forgot-password-change-password" element={<ForgotChangePassword />} />
             </Route>
 
-            {/* ******************OTHER PAGES************* */}
-            <Route path="home" element={<Home />} />
-            <Route path="profile/:username" element={<Profile />} />
-            <Route path="edit-profile/:username" element={<EditProfile />} />
-            <Route path="post/:postId" element={<PostPage />} />
+            <Route element={<ProtectedRoutes />}>
+
+              {/* ******************OTHER PAGES************* */}
+              <Route path="/home" exact element={<Home />} />
+              <Route path="/profile/:username" element={<Profile />} />
+              <Route path="/edit-profile/:username" element={<EditProfile />} />
+              <Route path="/post/:postId" element={<PostPage />} />
+
+            </Route>
+
           </Routes>
 
           {
