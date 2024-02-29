@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { HiDotsHorizontal } from "react-icons/hi";
 import { FiShare } from "react-icons/fi";
 import { getPostTime } from "../utils/getTime.js"
@@ -10,15 +10,20 @@ import { FaHeart } from "react-icons/fa6";
 import { FaRegBookmark } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa6";
 import { IoStatsChartSharp } from "react-icons/io5";
-import { bookmarkPost, likePost } from "../services/postService.js";
 import toast from "react-hot-toast"
 import { RxCross1 } from "react-icons/rx";
 import CreateComment from './CreateComment.jsx';
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
+import {
+    bookmarkPost,
+    likePost,
+    increaseViewsOnPost
+} from "../services/postService.js";
 
 
 
-const Post = ({ post, isdetailedPage }) => {
+
+const Post = ({ post, isdetailedPage, isFeeds }) => {
 
     const userState = useSelector(state => state.auth.user);
     const navigate = useNavigate();
@@ -59,12 +64,6 @@ const Post = ({ post, isdetailedPage }) => {
 
     }
 
-
-    function statsHandler() {
-
-    }
-
-
     async function bookmarkHandler() {
 
         await bookmarkPost(post._id)
@@ -80,6 +79,16 @@ const Post = ({ post, isdetailedPage }) => {
                 console.log("Error when trying to bookmark: ", err)
             })
     }
+
+    useEffect(() => {
+        if (isFeeds) {
+            increaseViewsOnPost(post?._id)
+                .catch((err) => {
+                    console.log("ERROR: ", err);
+                    toast.error("Something went wrong");
+                });
+        }
+    }, []);
 
 
 
@@ -252,12 +261,19 @@ const Post = ({ post, isdetailedPage }) => {
                             {/* Stats */}
                             <abbr
                                 title="Stats"
-                                onClick={statsHandler}
                             >
-                                <div
-                                    className=' text-[white]/[0.3] cursor-pointer hover:text-blue-400 transition-all text-lg duration-300 ease-in-out'
+                                <div className=' text-[white]/[0.3] flex justify-center items-center gap-1 '
                                 >
-                                    <IoStatsChartSharp />
+                                    <span
+                                        className=' text-[white]/[0.3] cursor-pointer hover:text-blue-400 transition-all text-lg duration-300 ease-in-out'
+                                    >
+                                        <IoStatsChartSharp />
+                                    </span>
+                                    {
+                                        post?.views > 0 &&
+                                        <span className='text-white/[0.5] text-sm' >{post?.views}</span>
+                                    }
+
                                 </div>
                             </abbr>
 

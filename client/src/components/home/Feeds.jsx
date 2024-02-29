@@ -96,10 +96,9 @@ const Feeds = ({ isLoading, setIsLoading }) => {
 
                                     {
                                         allPosts?.map((post) => (
-                                            <Post key={post?._id} post={post} />
+                                            <Post key={post?._id} isFeeds={true} post={post} />
                                         ))
                                     }
-
                                 </div>
                             </>
                         )

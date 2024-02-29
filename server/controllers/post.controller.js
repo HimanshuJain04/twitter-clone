@@ -359,7 +359,7 @@ export const increaseViewsOnPost = async (req, res) => {
 
         const existedPost = await Post.findById(postId);
 
-        existedPost.views = existsPost.views + 1;
+        existedPost.views = existedPost.views + 1;
 
         existedPost.save();
 
@@ -374,7 +374,7 @@ export const increaseViewsOnPost = async (req, res) => {
 
         return res.status(500).json(
             {
-                message: "erver failed to increase views on post,Please try again",
+                message: "Server failed to increase views on post,Please try again",
                 error: error.message,
                 success: false,
                 data: null
