@@ -422,9 +422,11 @@ const Profile = () => {
                                             </InfiniteScroll>
                                         </>
                                     ) : (
-                                        <>
-                                            No post found
-                                        </>
+                                        <div className='w-full mt-5'>
+                                            <p className='text-3xl font-bold text-center'>
+                                                No post found
+                                            </p>
+                                        </div>
                                     )
                                 )
                             }

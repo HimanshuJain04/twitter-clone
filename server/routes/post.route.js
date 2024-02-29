@@ -8,6 +8,7 @@ import {
     bookmarkedHandler,
     createComment,
     fetchAllPosts,
+    increaseViewsOnPost,
     deletePost,
     getUserLikedPosts,
     getUserComments,
@@ -28,6 +29,7 @@ router.route("/getUserComments").get(getUserComments);
 router.route("/getUserMediaPosts").get(getUserMediaPosts);
 router.route("/delete-post/:postId").delete(deletePost);
 router.route("/getPostDetails/:postId").get(getPostById);
+router.route("/increaseViewsOnPost/:postId").patch(increaseViewsOnPost);
 router.route("/fetch-posts").get(fetchAllPosts);
 
 

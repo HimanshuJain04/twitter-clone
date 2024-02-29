@@ -246,6 +246,7 @@ export const getUserComments = async (req, res) => {
     }
 }
 
+
 export const getUserLikedPosts = async (req, res) => {
     try {
 
@@ -297,6 +298,7 @@ export const getUserLikedPosts = async (req, res) => {
     }
 }
 
+
 export const getUserMediaPosts = async (req, res) => {
     try {
 
@@ -342,6 +344,37 @@ export const getUserMediaPosts = async (req, res) => {
         return res.status(500).json(
             {
                 message: "Server failed to fetch user media posts,Please try again",
+                error: error.message,
+                success: false,
+                data: null
+            }
+        )
+    }
+}
+
+export const increaseViewsOnPost = async (req, res) => {
+    try {
+
+        const { postId } = req.params;
+
+        const existedPost = await Post.findById(postId);
+
+        existedPost.views = existsPost.views + 1;
+
+        existedPost.save();
+
+        return res.status(200).json(
+            {
+                success: true,
+                data: null,
+                message: "Post views increased successfully"
+            }
+        )
+    } catch (error) {
+
+        return res.status(500).json(
+            {
+                message: "erver failed to increase views on post,Please try again",
                 error: error.message,
                 success: false,
                 data: null

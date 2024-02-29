@@ -25,6 +25,8 @@ const Post = ({ post, isdetailedPage }) => {
     const [isLiked, setisLiked] = useState(post?.likes?.some(like => like.user === userState?._id));
     const [isBookmarked, setIsBookmarked] = useState(post?.bookmarks?.some(bookmark => bookmark.user === userState?._id));
     const [openFile, setOpenFile] = useState(null);
+    const [likedCount, setLikedCount] = useState(post?.likes?.length);
+    const [bookmarkCount, setBookmarkCount] = useState(post?.bookmarks?.length);
 
     const [commentBoxOpen, setCommentBoxOpen] = useState(false);
 
@@ -47,6 +49,9 @@ const Post = ({ post, isdetailedPage }) => {
                 toast.success(
                     res.data.isLiked ? "Liked" : "Unliked"
                 )
+
+                res.data.isLiked ? setLikedCount(likedCount + 1) : setLikedCount(likedCount - 1);
+
             })
             .catch((err) => {
                 console.log("Error when trying to like: ", err)
@@ -68,6 +73,8 @@ const Post = ({ post, isdetailedPage }) => {
                 toast.success(
                     res.data.isBookmarked ? "Bookmarked" : "Unbookmarked"
                 )
+                res.data.isBookmarked ? setBookmarkCount(bookmarkCount + 1) : setBookmarkCount(bookmarkCount - 1);
+
             })
             .catch((err) => {
                 console.log("Error when trying to bookmark: ", err)
@@ -236,8 +243,8 @@ const Post = ({ post, isdetailedPage }) => {
                                         }
                                     </span>
                                     {
-                                        post?.likes?.length > 0 &&
-                                        <span className='text-white/[0.5] text-sm' >{post?.likes?.length}</span>
+                                        likedCount > 0 &&
+                                        <span className='text-white/[0.5] text-sm' >{likedCount}</span>
                                     }
                                 </div>
                             </abbr>
@@ -268,10 +275,12 @@ const Post = ({ post, isdetailedPage }) => {
                                         }
                                     </span>
                                     {
-                                        post?.bookmarks?.length > 0 &&
-                                        <span className='text-white/[0.5] text-sm' >{post?.bookmarks?.length}</span>
+                                        isdetailedPage &&
+                                        bookmarkCount > 0 &&
+                                        <span className='text-white/[0.5] text-sm' >{bookmarkCount}</span>
                                     }
                                 </div>
+
                             </abbr>
 
                         </div>
