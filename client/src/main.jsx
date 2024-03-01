@@ -12,6 +12,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <Toaster />
       <App />
-    </BrowserRouter>,
+    </BrowserRouter>
   </Provider>
 );

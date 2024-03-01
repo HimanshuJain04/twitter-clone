@@ -1,7 +1,7 @@
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { Routes, Route } from "react-router-dom";
+import { useDispatch, } from "react-redux";
 import { authVerifyToken } from "./redux/slices/authSlice.js";
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import ProtectedRoutes from "./components/ProtectedRoutes.jsx";
 
 // *********** Import pages ***************
@@ -14,24 +14,16 @@ import ForgotChangePassword from "./pages/auth/ForgotChangePassword";
 
 // pages
 import Home from "./pages/Home";
-import Landing from "./pages/Landing";
 import Profile from "./pages/Profile.jsx";
 import EditProfile from "./pages/EditProfile.jsx";
 
 
 // *************COMPONENTS**************
-import FeatureSidebar from "./components/common/FeaturSidebar";
-import TrendingSidebar from "./components/common/TrendingSidebar";
-import { RxVercelLogo } from "react-icons/rx";
 import PostPage from "./pages/PostPage.jsx";
 
 
 
 function App() {
-
-  const { pathname } = useLocation();
-  const isAuthOrLandingPage = pathname.startsWith('/auth');
-
 
   const dispatch = useDispatch();
 
@@ -44,15 +36,7 @@ function App() {
   return (
     <>
       <div className="flex justify-center items-center bg-black w-screen">
-        <div className='min-h-screen justify-between items-start  w-10/12 flex flex-row'>
-
-          {
-            !isAuthOrLandingPage &&
-            <div>
-              <FeatureSidebar />
-            </div>
-          }
-
+        <div className='h-screen w-10/12  '>
 
           <Routes>
 
@@ -75,15 +59,7 @@ function App() {
 
           </Routes>
 
-          {
-            !isAuthOrLandingPage &&
-            <div>
-              <TrendingSidebar />
-            </div>
-          }
-
         </div>
-
       </div >
     </>
   )
