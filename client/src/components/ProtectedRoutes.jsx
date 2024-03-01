@@ -1,17 +1,15 @@
 import React from 'react'
 import { Outlet, Navigate } from 'react-router-dom'
-
+import { useSelector } from "react-redux"
+import Landing from '../pages/Landing';
 
 const ProtectedRoutes = () => {
-    let auth = { 'token': true }
+    const userAuth = useSelector(state => state.auth.user);
+    // const userAuth = false;
 
     return (
-        <div>
-            {
-                auth.token ? <Outlet /> : <Navigate to="/" />
-            }
-        </div>
+        userAuth ? <Outlet /> : <Landing />
     )
 }
 
-export default ProtectedRoutes
+export default ProtectedRoutes;

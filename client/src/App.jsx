@@ -30,7 +30,16 @@ import PostPage from "./pages/PostPage.jsx";
 function App() {
 
   const { pathname } = useLocation();
-  const isAuthOrLandingPage = pathname.startsWith('/auth') || pathname === '/';
+  const isAuthOrLandingPage = pathname.startsWith('/auth');
+
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Call the authentication verification function here
+    dispatch(authVerifyToken());
+  }, [dispatch]);
+
 
   return (
     <>
@@ -47,8 +56,6 @@ function App() {
 
           <Routes>
 
-            <Route path="/" element={<Landing />} />
-
             {/* ***************AUTH*************** */}
             <Route path="/auth" >
               <Route path="login" element={<Login />} />
@@ -58,14 +65,12 @@ function App() {
               <Route path="forgot-password-change-password" element={<ForgotChangePassword />} />
             </Route>
 
-            <Route element={<ProtectedRoutes />}>
-
-              {/* ******************OTHER PAGES************* */}
-              <Route path="/home" exact element={<Home />} />
-              <Route path="/profile/:username" element={<Profile />} />
-              <Route path="/edit-profile/:username" element={<EditProfile />} />
-              <Route path="/post/:postId" element={<PostPage />} />
-
+            {/* ****************** OTHER PROTECTED PAGES ************* */}
+            <Route path="/" element={<ProtectedRoutes />}>
+              <Route path="" exact element={<Home />} />
+              <Route path="profile/:username" element={<Profile />} />
+              <Route path="edit-profile/:username" element={<EditProfile />} />
+              <Route path="post/:postId" element={<PostPage />} />
             </Route>
 
           </Routes>
