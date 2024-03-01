@@ -14,7 +14,7 @@ export const sideFeatures = [
     {
         title: "Home",
         icon: <MdHomeFilled />,
-        path: "/home",
+        path: "/",
     },
     {
         title: "Explore",

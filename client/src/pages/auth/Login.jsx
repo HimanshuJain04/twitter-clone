@@ -28,7 +28,7 @@ const Login = () => {
                     toast.error(state.isError?.message);
 
                 } else {
-                    navigate("/home");
+                    navigate("/");
                 }
             })
     };
