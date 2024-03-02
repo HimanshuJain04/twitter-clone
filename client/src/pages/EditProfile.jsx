@@ -133,7 +133,6 @@ const EditProfile = () => {
             .finally(() => {
                 setLoading(false)
             })
-
     }
 
     useEffect(() => {
