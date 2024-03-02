@@ -103,7 +103,7 @@ const EditProfile = () => {
         }
     );
 
-    let userOriginalData = null;
+    const [originalData, setOriginalData] = useState(null);
 
     async function fetchUserData() {
         setLoading(true);
@@ -111,7 +111,19 @@ const EditProfile = () => {
 
         await getUserDetailsByUsername(username)
             .then(({ data }) => {
-                userOriginalData = data.data;
+                setOriginalData({
+                    userName: data.data.existedUser?.userName,
+                    fullName: data.data.existedUser?.fullName,
+                    email: data.data.existedUser?.email,
+                    profileImg: data.data.existedUser?.profileImg,
+                    gender: data.data.existedUser?.additionalDetails.gender,
+                    bio: data.data.existedUser?.additionalDetails.bio,
+                    phoneNo: data.data.existedUser?.additionalDetails.phoneNo,
+                    dob: data.data.existedUser?.additionalDetails.dob,
+                    link: data.data.existedUser?.additionalDetails.link,
+                    city: data.data.existedUser?.additionalDetails.city,
+                });
+
                 setUserCurrentState(
                     {
                         userName: data.data.existedUser?.userName,
@@ -135,31 +147,16 @@ const EditProfile = () => {
             })
     }
 
-    useEffect(() => {
-        fetchUserData();
-    }, []);
-
-    function changeHandler(e) {
-        setUserCurrentState(
-            {
-                ...userCurrentState,
-                [e.target.name]: e.target.value
-            }
-        )
-    }
-
     async function updateHandler() {
 
         setLoading(true);
-
         const updatedValues = {};
 
         Object.entries(userCurrentState).forEach(([key, value]) => {
-            if (userCurrentState[key] !== state[key] && userCurrentState[key] !== null) {
+            if (originalData[key] !== value && value !== null) {
                 updatedValues[key] = value;
             }
         });
-
 
         await updateUserDetails(updatedValues)
             .then(({ data }) => {
@@ -172,8 +169,20 @@ const EditProfile = () => {
             .finally(() => {
                 setLoading(false);
             });
-
     }
+
+    function changeHandler(e) {
+        setUserCurrentState(
+            {
+                ...userCurrentState,
+                [e.target.name]: e.target.value
+            }
+        )
+    }
+
+    useEffect(() => {
+        fetchUserData();
+    }, []);
 
 
     return (
