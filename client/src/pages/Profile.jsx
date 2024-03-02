@@ -13,6 +13,7 @@ import { AiOutlineCamera } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 import Spinner from "../components/common/Spinner.jsx"
 import { IoIosSave } from "react-icons/io";
+import Highlights from "../components/Highlights.jsx";
 import {
     getUserPosts,
     getUserReplies,
@@ -70,11 +71,14 @@ const Profile = () => {
     useEffect(() => {
         setIndex(0);
         setPostData([]);
+        setHasMore(true);
         fetchMoreData(0);
     }, [option]);
 
 
     const fetchMoreData = (currentIndex) => {
+
+        if (option.title === "Highlights") return;
 
         setLoading(true);
 
@@ -88,10 +92,6 @@ const Profile = () => {
 
             case "Replies":
                 func = getUserReplies;
-                break;
-
-            case "Highlights":
-                func = getUserHighlights;
                 break;
 
             case "Media":
@@ -109,7 +109,6 @@ const Profile = () => {
 
         func(username, currentIndex)
             .then(({ data }) => {
-                console.log(data.data)
                 setPostData((prevItems) => [...prevItems, ...data.data]);
                 setIndex(currentIndex + 1);
                 data?.data?.length === 10 ? setHasMore(true) : setHasMore(false);
@@ -421,11 +420,12 @@ const Profile = () => {
                                             </InfiniteScroll>
                                         </>
                                     ) : (
-                                        <div className='w-full mt-5'>
-                                            <p className='text-3xl font-bold text-center'>
-                                                No post found
-                                            </p>
-                                        </div>
+                                        option.title === "Highlights" ? <Highlights /> :
+                                            <div className='w-full mt-10 mb-20'>
+                                                <p className='text-3xl font-bold text-center'>
+                                                    No post found
+                                                </p>
+                                            </div>
                                     )
                                 )
                             }
