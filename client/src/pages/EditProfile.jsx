@@ -10,6 +10,7 @@ import { MdOutlinePermPhoneMsg } from "react-icons/md";
 import { GrAccessibility } from "react-icons/gr";
 import { MdOutlinePhotoCameraFront } from "react-icons/md";
 import { useLocation, useNavigate } from "react-router-dom"
+import toast from "react-hot-toast";
 import { updateUserDetails, getUserDetailsByUsername } from "../services/userService.js"
 import Spinner from "../components/common/Spinner.jsx";
 
@@ -147,6 +148,7 @@ const EditProfile = () => {
             })
     }
 
+
     async function updateHandler() {
 
         setLoading(true);
@@ -158,10 +160,25 @@ const EditProfile = () => {
             }
         });
 
-        await updateUserDetails(updatedValues)
-            .then(({ data }) => {
+        // empty object | nothing to update
+        if (Object.entries(updatedValues).length === 0) {
+            toast.error("Make changes to update profile");
+            setLoading(false);
+            return;
+        }
+
+        const formData = new FormData();
+
+        // Append updated values to formData
+        Object.entries(updatedValues).forEach(([key, value]) => {
+            formData.append(key, value);
+        });
+
+
+        await updateUserDetails(formData)
+            .then(() => {
+                toast.success('Pofile updated!');
                 navigate(`/profile/${userCurrentState.userName}`)
-                console.log(data)
             })
             .catch((error) => {
                 console.log("ERROR : ", error);

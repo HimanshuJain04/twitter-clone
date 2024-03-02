@@ -122,6 +122,8 @@ export const updateUserDetails = async (req, res) => {
             bio
         } = req.body;
 
+        const file = req.files?.profileImg;
+
         const existedUser = await User
             .findById(userId);
 
@@ -152,6 +154,11 @@ export const updateUserDetails = async (req, res) => {
                 existedAdditionlDetails[key] = value;
             }
         });
+
+        if (file) {
+            const imageRes = await uploadFileToCloudinary(file);
+            existedUser.profileImg = imageRes.secure_url;
+        }
 
         await existedUser.save();
         await existedAdditionlDetails.save();
