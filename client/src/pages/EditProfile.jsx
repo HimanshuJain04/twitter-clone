@@ -103,12 +103,15 @@ const EditProfile = () => {
         }
     );
 
+    let userOriginalData = null;
+
     async function fetchUserData() {
         setLoading(true);
         const username = pathname.split("/").at(-1);
 
         await getUserDetailsByUsername(username)
             .then(({ data }) => {
+                userOriginalData = data.data;
                 setUserCurrentState(
                     {
                         userName: data.data.existedUser?.userName,
@@ -158,9 +161,10 @@ const EditProfile = () => {
             }
         });
 
+
         await updateUserDetails(updatedValues)
             .then(({ data }) => {
-                navigate(`/profile/${state.userName}`)
+                navigate(`/profile/${userCurrentState.userName}`)
                 console.log(data)
             })
             .catch((error) => {
@@ -183,12 +187,22 @@ const EditProfile = () => {
 
                         {/* profile image */}
                         <div onClick={() => inputRef.current.click()} className='w-[200px] relative flex cursor-pointer group justify-center items-center overflow-hidden shrink-0 h-[200px] rounded-full bg-gray-600'>
+
                             <img
-                                src={userCurrentState.profileImg}
+                                src={
+                                    (typeof userCurrentState.profileImg === 'string' || userCurrentState.profileImg instanceof String)
+                                        ? userCurrentState.profileImg : URL.createObjectURL(userCurrentState.profileImg)
+                                }
                                 alt="profile-image"
                                 className=' w-full h-full object-cover'
                             />
-                            <input type="file" hidden ref={inputRef} />
+
+                            <input
+                                name='profileImg'
+                                type="file"
+                                onChange={(e) => setUserCurrentState({ ...userCurrentState, [e.target.name]: e.target.files[0] })}
+                                hidden ref={inputRef}
+                            />
 
                             <div className="w-full opacity-0 h-full bg-black -bottom-[200px] flex text-center justify-center items-center text-5xl transition-all duration-700 ease-in-out text-white  group-hover:bottom-0 group-hover:opacity-80 object-cover absolute z-[5]  ">
                                 <MdOutlinePhotoCameraFront />
