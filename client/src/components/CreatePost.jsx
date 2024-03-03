@@ -132,23 +132,21 @@ const CreatePost = ({ setIsLoading, type, postId, setCommentBoxOpen }) => {
 
     }
 
-
-
     return (
         <div className='w-full'>
-            <div className='w-ful py-3  gap-2 flex justify-start items-start px-5 border-b-2 border-[white]/[0.2]'>
+            <div className='w-ful py-3  gap-2 flex justify-between items-start px-5 border-b-2 border-[white]/[0.2]'>
 
                 {/* user-image */}
                 <div className='overflow-hidden rounded-full h-12 w-12'>
                     <img
                         src={state?.user?.profileImg}
                         alt="profile-Image"
-                        className='h-full w-full rounded-full object-contain'
+                        className='h-full w-full rounded-full object-cover'
                     />
                 </div>
 
                 {/* other content */}
-                <div className='flex flex-col mt-2 justify-start items-start w-[calc(100%-50px)]'>
+                <div className='flex flex-col mt-2 justify-start items-start w-[calc(100%-60px)]'>
                     {/* input field and image */}
                     <div className='w-full '>
 
@@ -313,7 +311,7 @@ const CreatePost = ({ setIsLoading, type, postId, setCommentBoxOpen }) => {
 
             </div>
         </div >
-    )
+    );
 }
 
 export default CreatePost;

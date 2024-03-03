@@ -13,6 +13,7 @@ import { AiOutlineCamera } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 import Spinner from "../components/common/Spinner.jsx"
 import { IoIosSave } from "react-icons/io";
+import ShowUsersList from "../components/ShowUsersList.jsx";
 import Highlights from "../components/Highlights.jsx";
 import {
     getUserPosts,
@@ -66,6 +67,7 @@ const Profile = () => {
     const [hasMore, setHasMore] = useState(true);
     const [index, setIndex] = useState(0);
     const [coverImg, setCoverImg] = useState();
+    const [showFollowers, setShowFollowers] = useState(false);
 
 
     useEffect(() => {
@@ -183,7 +185,14 @@ const Profile = () => {
         <div className='w-full'>
             {
                 pageloading ? <Spinner /> : (
-                    <div className='w-full justify-start items-start flex flex-col bg-black h-screen overflow-auto'>
+                    <div className='w-full relative justify-start items-start flex flex-col bg-black h-screen overflow-auto'>
+
+                        {
+                            showFollowers &&
+                            <div>
+                                <ShowUsersList title={showFollowers} accounts={showFollowers === "Following" ? user.following : user.followers} />
+                            </div>
+                        }
 
                         {/* Navbar */}
                         <div className='flex z-10 sticky top-0 flex-row p-2 gap-5 backdrop-blur-lg justify-start w-full items-center'>
@@ -351,12 +360,12 @@ const Profile = () => {
 
                             {/* Followers | Following  */}
                             <div className='flex justify-center items-center font-light gap-5'>
-                                <div className='flex gap-1 text-white justify-center items-center'>
+                                <div onClick={() => setShowFollowers("Following")} className=' cursor-pointer flex gap-1 text-white justify-center items-center'>
                                     <span className='font-semibold'>{user?.following?.length}</span>
                                     <p className='text-[white]/[0.5] text-[15px]'>Following</p>
                                 </div>
 
-                                <div className='flex gap-1 text-white justify-center items-center'>
+                                <div onClick={() => setShowFollowers("Followers")} className=' cursor-pointer flex gap-1 text-white justify-center items-center'>
                                     <span className='font-semibold'>{user?.followers?.length}</span>
                                     <p className='text-[white]/[0.5] text-[15px]'>Followers</p>
                                 </div>
