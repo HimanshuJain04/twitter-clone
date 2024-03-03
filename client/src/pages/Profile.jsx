@@ -19,7 +19,6 @@ import {
     getUserPosts,
     getUserReplies,
     getUserMediaPosts,
-    getUserHighlights,
     getUserLikePosts
 } from "../services/postService.js";
 
@@ -190,7 +189,7 @@ const Profile = () => {
                         {
                             showFollowers &&
                             <div>
-                                <ShowUsersList title={showFollowers} accounts={showFollowers === "Following" ? user.following : user.followers} />
+                                <ShowUsersList title={showFollowers} setShowFollowers={setShowFollowers} accounts={showFollowers === "Following" ? user.following : user.followers} />
                             </div>
                         }
 

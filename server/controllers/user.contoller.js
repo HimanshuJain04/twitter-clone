@@ -69,6 +69,8 @@ export const getUserDetailsByUsername = async (req, res) => {
             .findOne({ userName })
             .select("fullName email userName additionalDetails profileImg following followers posts createdAt")
             .populate("additionalDetails")
+            .populate("following", ["fullName", "userName", "profileImg"])
+            .populate("followers", ["fullName", "userName", "profileImg"])
             .exec();
 
         const len = existedUser.posts.length;
@@ -163,10 +165,10 @@ export const updateUserDetails = async (req, res) => {
         await existedUser.save();
         await existedAdditionlDetails.save();
 
-        const user = await User
-            .findById(userId)
-            .populate("additionalDetails")
-            .exec();
+        // const user = await User
+        //     .findById(userId)
+        //     .populate("additionalDetails")
+        //     .exec();
 
         return res.status(201).json(
             {
@@ -224,6 +226,8 @@ export const updateUserCoverImage = async (req, res) => {
             .findById(userId)
             .select("fullName email userName additionalDetails profileImg following followers posts createdAt")
             .populate("additionalDetails")
+            .populate("following", ["fullName", "userName", "profileImg"])
+            .populate("followers", ["fullName", "userName", "profileImg"])
             .exec();
 
         return res.status(201).json(
