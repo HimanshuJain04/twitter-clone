@@ -74,7 +74,7 @@ const Profile = () => {
         setPostData([]);
         setHasMore(true);
         fetchMoreData(0);
-    }, [option]);
+    }, [option, pathname]);
 
 
     const fetchMoreData = (currentIndex) => {
@@ -167,8 +167,8 @@ const Profile = () => {
         getUserDetailsByUsername(username)
             .then(({ data }) => {
                 setUser(data.data.existedUser);
-                setPostLen(data.data.postLength)
-                setCoverImg(data.data.existedUser?.additionalDetails?.coverImg)
+                setPostLen(data.data.postLength);
+                setCoverImg(data.data.existedUser?.additionalDetails?.coverImg);
             })
             .catch((err) => {
                 setUser(null);
@@ -211,7 +211,7 @@ const Profile = () => {
                             </div>
                         </div>
 
-                        {/* cover | profile image */}
+                        {/* cover | profile image | follow button */}
                         <div className='w-full flex flex-col gap-3 relative'>
 
                             {/* cover */}
