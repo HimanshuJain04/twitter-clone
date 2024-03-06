@@ -179,10 +179,8 @@ const EditProfile = () => {
 
 
         await updateUserDetails(formData)
-            .then(async (res) => {
-                console.log(res)
-                await dispatch(authGetUserData());
-
+            .then(() => {
+                dispatch(authGetUserData());
                 toast.success('Pofile updated!');
                 navigate(`/profile/${userCurrentState.userName}`)
             })

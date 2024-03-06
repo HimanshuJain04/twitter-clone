@@ -165,6 +165,10 @@ export const updateUserDetails = async (req, res) => {
             existedUser.profileImg = imageRes.secure_url;
         }
 
+        if (fullName) {
+            existedUser.fullName = fullName;
+        }
+
         await existedUser.save();
         await existedAdditionlDetails.save();
 
