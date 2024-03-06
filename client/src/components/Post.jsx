@@ -34,6 +34,8 @@ const Post = ({ post, isdetailedPage, isFeeds }) => {
     const [likedCount, setLikedCount] = useState(post?.likes?.length);
     const [bookmarkCount, setBookmarkCount] = useState(post?.bookmarks?.length);
 
+    const [showDotOption, setShowDotOption] = useState(false);
+
     const [commentBoxOpen, setCommentBoxOpen] = useState(false);
 
 
@@ -133,7 +135,7 @@ const Post = ({ post, isdetailedPage, isFeeds }) => {
                 <div className='flex w-full flex-col gap-2 items-start justify-start'>
 
                     {/* name and username and three-dots */}
-                    <div className='flex flex-row w-full justify-between items-center'>
+                    <div className='flex relative flex-row w-full justify-between items-center'>
 
                         <div className='flex justify-center  items-center gap-2'>
 
@@ -148,9 +150,17 @@ const Post = ({ post, isdetailedPage, isFeeds }) => {
 
                         </div>
 
-                        <div className='text-xl cursor-pointer text-white'>
+                        <div onClick={() => setShowDotOption(!showDotOption)} className='text-xl cursor-pointer text-white'>
                             <HiDotsHorizontal />
                         </div>
+
+                        {
+                            showDotOption &&
+                            <div className='bg-[#353232] absolute right-5 top-2 text-white'>
+                                hhii
+                            </div>
+                        }
+
                     </div>
 
                     {
