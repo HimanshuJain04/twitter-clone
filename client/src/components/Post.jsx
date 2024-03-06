@@ -82,7 +82,7 @@ const Post = ({ post, isdetailedPage, isFeeds }) => {
     }
 
     useEffect(() => {
-        if (isFeeds) {
+        if (isFeeds && userState._id !== post.user._id) {
             increaseViewsOnPost(post?._id)
                 .catch((err) => {
                     console.log("ERROR: ", err);
