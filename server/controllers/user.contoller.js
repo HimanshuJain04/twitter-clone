@@ -39,7 +39,10 @@ export const userFollow = async (req, res) => {
         // Populate and return the updated user and another user
         const updatedUser = await User
             .findById(anotherUserId)
+            .select("fullName email userName additionalDetails profileImg following followers posts createdAt")
             .populate("additionalDetails")
+            .populate("following", ["fullName", "userName", "profileImg"])
+            .populate("followers", ["fullName", "userName", "profileImg"])
             .exec();
 
         return res.status(200).json({

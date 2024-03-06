@@ -67,6 +67,7 @@ const Profile = () => {
     const [index, setIndex] = useState(0);
     const [coverImg, setCoverImg] = useState();
     const [showFollowers, setShowFollowers] = useState(false);
+    const [followState, setFollowState] = useState("");
 
 
     useEffect(() => {
@@ -118,6 +119,22 @@ const Profile = () => {
             .finally(() => setLoading(false));
     }
 
+    function followStateHandler(data) {
+
+        // for the user follow state:
+        if (userState._id !== data?._id) {
+            if (data.followers?.find((follower) => follower._id === userState._id)) {
+                setFollowState("Following");
+            }
+            else if (data.following?.find((follower) => follower._id === userState._id)) {
+                setFollowState("Follow Back");
+            } else {
+                setFollowState("Follow")
+            }
+        }
+
+    }
+
 
     const followHandler = async () => {
 
@@ -128,7 +145,7 @@ const Profile = () => {
                 toast.success(
                     data.isFollow ? "Follow" : "Unfollow"
                 );
-
+                followStateHandler(data.data.updatedUser);
                 setUser(data.data.updatedUser);
 
             }).catch((err) => {
@@ -169,6 +186,7 @@ const Profile = () => {
                 setUser(data.data.existedUser);
                 setPostLen(data.data.postLength);
                 setCoverImg(data.data.existedUser?.additionalDetails?.coverImg);
+                followStateHandler(data.data.existedUser);
             })
             .catch((err) => {
                 setUser(null);
@@ -290,13 +308,11 @@ const Profile = () => {
                                                 <button
                                                     onClick={followHandler}
                                                     className={`text-white transition-all duration-200 ease-in-out border-[1px] font-bold  py-2 px-10 rounded-full  ` + (
-                                                        user?.followers?.includes(userState._id) ? "bg-black border-white/[0.7] hover:bg-[white]/[0.1]" : " bg-blue-400 border-blue-400 hover:bg-blue-300"
+                                                        followState === "Following" ? "bg-black border-white/[0.7] hover:bg-[white]/[0.1]" : " bg-blue-400 border-blue-400 hover:bg-blue-300"
                                                     )}
                                                 >
                                                     {
-                                                        user?.followers?.includes(userState._id) ? "Following" : (
-                                                            user?.following?.includes(userState._id) ? "Follow back" : "Follow"
-                                                        )
+                                                        followState
                                                     }
                                                 </button>
                                             </div>
