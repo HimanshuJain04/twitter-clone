@@ -16,6 +16,11 @@ export const verifyToken = async () => {
 }
 
 
+export const getUserData = async () => {
+    return await jsonRequest.get("/auth/getUserData");
+}
+
+
 export const logout = async (data) => {
     return await jsonRequest.post("/auth/logout", data);
 }

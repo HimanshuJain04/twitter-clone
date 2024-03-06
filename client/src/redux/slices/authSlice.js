@@ -6,7 +6,8 @@ import {
 import {
     login,
     logout,
-    verifyToken
+    verifyToken,
+    getUserData
 } from "../../services/authService.js";
 
 
@@ -17,6 +18,25 @@ export const authVerifyToken = createAsyncThunk(
     async (thunkAPI) => {
         try {
             const res = await verifyToken();
+            return res.data;
+
+        } catch (error) {
+            if (error.response) {
+                return thunkAPI.rejectWithValue(error.response.data);
+            } else {
+                // Handle other types of errors (e.g., network error)
+                return thunkAPI.rejectWithValue({ message: error.message });
+            }
+        }
+    }
+);
+
+//  Get user data
+export const authGetUserData = createAsyncThunk(
+    "auth/getUserData",
+    async (thunkAPI) => {
+        try {
+            const res = await getUserData();
             return res.data;
 
         } catch (error) {
@@ -108,6 +128,22 @@ const authSlice = createSlice({
         });
 
 
+        // get user data
+        builder.addCase(authGetUserData.pending, (state) => {
+            state.isLoading = true;
+        });
+
+        builder.addCase(authGetUserData.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.user = action.payload.data;
+        });
+
+        builder.addCase(authGetUserData.rejected, (state) => {
+            state.isError = true;
+        });
+
+
+
         // logout
         builder.addCase(authLogout.pending, (state) => {
             state.isLoading = true;
@@ -115,7 +151,7 @@ const authSlice = createSlice({
 
         builder.addCase(authLogout.fulfilled, (state) => {
             state.isLoading = false;
-            state.data = null;
+            state.user = null;
         });
 
         builder.addCase(authLogout.rejected, (state) => {

@@ -23,6 +23,8 @@ const CreatePost = ({ setIsLoading, type, postId, setCommentBoxOpen }) => {
     const [description, setDescription] = useState("");
     const [files, setFiles] = useState([]);
 
+    console.log("Auth: ", state)
+
 
     // for auto growing textarea
     useEffect(() => {

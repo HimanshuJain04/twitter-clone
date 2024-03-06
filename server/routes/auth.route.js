@@ -12,6 +12,7 @@ import {
     resetPassword,
     verifyOtp,
     resendOtp,
+    getUserData,
 } from "../controllers/auth.controller.js";
 import User from "../models/user.model.js";
 
@@ -23,6 +24,8 @@ router.route("/login").post(login);
 router.route("/signup").post(signup);
 
 router.route("/verify-otp").post(verifyOtp);
+
+router.route("/getUserData").get(verifyJwtToken, getUserData);
 
 router.route("/verify-token").get(
     verifyJwtToken,

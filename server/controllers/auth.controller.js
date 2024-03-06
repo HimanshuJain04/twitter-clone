@@ -420,6 +420,49 @@ export const login = async (req, res) => {
 }
 
 
+export const getUserData = async (req, res) => {
+    try {
+
+        const userId = req.user?._id;
+
+        const user = await User
+            .findById(userId)
+            .select("fullName userName email profileImg");
+
+        if (!user) {
+            return res.status(404).json(
+                {
+                    success: false,
+                    data: null,
+                    message: "User not found",
+                }
+            )
+        }
+
+
+        return res
+            .status(201)
+            .json(
+                {
+                    success: true,
+                    data: user,
+                    message: "Get user data successfully",
+                }
+            );
+
+    } catch (error) {
+        return res.status(501).json(
+            {
+                success: false,
+                data: null,
+                message: "Server failed to get user data ,try again later",
+                error: error.message
+            }
+        )
+    }
+}
+
+
 export const logout = async (req, res) => {
     try {
 
@@ -465,7 +508,7 @@ export const logout = async (req, res) => {
             {
                 success: false,
                 data: null,
-                message: "Server failed to ,try again later",
+                message: "Server failed to logout user ,try again later",
                 error: error.message
             }
         )

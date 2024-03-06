@@ -168,11 +168,6 @@ export const updateUserDetails = async (req, res) => {
         await existedUser.save();
         await existedAdditionlDetails.save();
 
-        // const user = await User
-        //     .findById(userId)
-        //     .populate("additionalDetails")
-        //     .exec();
-
         return res.status(201).json(
             {
                 success: true,

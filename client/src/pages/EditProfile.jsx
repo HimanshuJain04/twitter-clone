@@ -13,6 +13,8 @@ import { useLocation, useNavigate } from "react-router-dom"
 import toast from "react-hot-toast";
 import { updateUserDetails, getUserDetailsByUsername } from "../services/userService.js"
 import Spinner from "../components/common/Spinner.jsx";
+import { useDispatch } from "react-redux";
+import { authGetUserData } from "../redux/slices/authSlice.js"
 
 const fields = [
     {
@@ -87,6 +89,7 @@ const EditProfile = () => {
     const inputRef = useRef(null);
     const navigate = useNavigate();
     const { pathname } = useLocation();
+    const dispatch = useDispatch();
 
 
     const [userCurrentState, setUserCurrentState] = useState(
@@ -176,7 +179,10 @@ const EditProfile = () => {
 
 
         await updateUserDetails(formData)
-            .then(() => {
+            .then(async (res) => {
+                console.log(res)
+                await dispatch(authGetUserData());
+
                 toast.success('Pofile updated!');
                 navigate(`/profile/${userCurrentState.userName}`)
             })
