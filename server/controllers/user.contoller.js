@@ -76,6 +76,46 @@ export const userFollow = async (req, res) => {
 };
 
 
+export const fetchSearches = async (req, res) => {
+    try {
+
+        // $regex is used to perform a regular expression search.
+        // $options: 'i' ensures that the search is case-insensitive.
+        // $or operator is used to match documents where at least one of the conditions inside it is true.
+
+        const { value } = req.query;
+
+        const users = await User.find({
+            $or: [
+                { userName: { $regex: value, $options: 'i' } },
+                { fullName: { $regex: value, $options: 'i' } }
+            ]
+        }).select("fullName userName profileImg");
+
+
+        return res.status(201).json(
+            {
+                success: true,
+                data: users,
+                message: "Fetch user by search successfully"
+            }
+        );
+
+    } catch (error) {
+
+        return res.status(500).json(
+            {
+                message: "Server failed to fetch user by search,Please try again",
+                error: error.message,
+                success: false,
+                data: null
+            }
+        )
+    }
+}
+
+
+
 export const getUserDetailsByUsername = async (req, res) => {
     try {
 

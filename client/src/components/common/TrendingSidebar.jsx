@@ -1,12 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FiSearch } from "react-icons/fi";
 import { BsXCircleFill } from "react-icons/bs";
+import { getSearchedValue } from "../../services/userService.js"
+
 
 const TrendingSidebar = () => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [searchValue, setSearchValue] = useState("");
     const searchBarRef = useRef(null);
+    const [searchedData, setSearchedData] = useState([]);
+    const [searchLoading, setSearchLoading] = useState(false);
 
     // Handle click outside the search bar to close the results div
     const handleClickOutside = (event) => {
@@ -19,7 +23,27 @@ const TrendingSidebar = () => {
     useEffect(() => {
         const listener = document.addEventListener('click', handleClickOutside);
         return () => document.removeEventListener('click', listener);
-    }, []); // Empty dependency array ensures effect runs only once on mount
+    }, []);
+
+
+    useEffect(() => {
+
+        if (searchValue.trim()) {
+            setSearchLoading(true);
+
+            getSearchedValue(searchValue)
+                .then(({ data }) => {
+                    setSearchedData(data.data)
+                })
+                .catch((err) => {
+                    console.log("ERROR: ", err)
+                })
+                .finally(() => {
+                    setSearchLoading(false);
+                })
+        }
+
+    }, [searchValue]);
 
 
     return (
@@ -67,8 +91,25 @@ const TrendingSidebar = () => {
                             {
                                 searchValue.length > 0 ? (
                                     <div className='text-white relative w-full'>
-                                        <div>
-                                            {searchValue}
+                                        <div className=''>
+                                            {
+                                                searchedData?.map((userData) => (
+                                                    <div
+                                                        key={userData._id}
+                                                    >
+                                                        {/* user-image */}
+                                                        <div>
+                                                            <img src={userData?.profileImg} alt="" />
+                                                        </div>
+
+                                                        {/* user name */}
+                                                        <div>
+                                                            <p>{userData?.fullName}</p>
+                                                            <p>{userData?.userName}</p>
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            }
                                         </div>
                                     </div>
                                 ) : (

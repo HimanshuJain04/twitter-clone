@@ -8,12 +8,14 @@ import {
     updateUserDetails,
     userFollow,
     updateUserCoverImage,
+    fetchSearches,
 } from "../controllers/user.contoller.js";
 
 
 
 router.route("/getUserDetailsByUsername/:username").get(getUserDetailsByUsername);
 router.route("/updateUserDetails").patch(verifyJwtToken, updateUserDetails);
+router.route("/fetch-users").get(fetchSearches);
 router.route("/userFollowHandler/:anotherUserId").patch(verifyJwtToken, userFollow);
 router.route("/updateUserCoverImage").post(verifyJwtToken, updateUserCoverImage);
 
