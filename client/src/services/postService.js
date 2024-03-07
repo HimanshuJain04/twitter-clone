@@ -9,6 +9,10 @@ export const fetchFeeds = async () => {
     return await jsonRequest.get("/post/fetch-posts");
 }
 
+export const fetchNotification = async () => {
+    return await jsonRequest.get("/post/fetch-notification");
+}
+
 
 export const fetchFollowingPosts = async (index) => {
     return await jsonRequest.get(`/post/fetch-following-posts?index=${index}`);

@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import Notification from "../models/notification.model.js";
 import AdditionalDetails from "../models/additionalDetails.model.js";
 import { uploadFileToCloudinary } from "../utils/fileUploader.js"
 
@@ -30,6 +31,18 @@ export const userFollow = async (req, res) => {
             ]);
         } else {
             // Follow the user
+
+            // create notification
+            const newNotification = await Notification.create(
+                {
+                    messageTo: anotherUserId,
+                    messageFrom: userId,
+                    message: "Follow"
+                }
+            );
+
+
+            // push user into another user list
             await Promise.all([
                 User.findByIdAndUpdate(userId, { $addToSet: { following: anotherUserId } }),
                 User.findByIdAndUpdate(anotherUserId, { $addToSet: { followers: userId } })
@@ -192,6 +205,7 @@ export const updateUserDetails = async (req, res) => {
         )
     }
 }
+
 
 // TODO: update -> remove calls
 export const updateUserCoverImage = async (req, res) => {

@@ -16,6 +16,7 @@ import {
     getUserPosts,
     getPostById,
     fetchFollowingPosts,
+    fetchNotifications,
 } from "../controllers/post.controller.js"
 
 
@@ -33,6 +34,7 @@ router.route("/getPostDetails/:postId").get(getPostById);
 router.route("/increaseViewsOnPost/:postId").patch(increaseViewsOnPost);
 router.route("/fetch-posts").get(fetchAllPosts);
 router.route("/fetch-following-posts").get(fetchFollowingPosts);
+router.route("/fetch-notification").get(fetchNotifications);
 
 
 // like and bookmark functionality

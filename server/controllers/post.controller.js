@@ -1,5 +1,6 @@
 import User from "../models/user.model.js";
 import Post from "../models/post.model.js";
+import Notification from "../models/notification.model.js";
 import { uploadFileToCloudinary, uploadMultipleFilesToCloudinary } from "../utils/fileUploader.js"
 
 const PAGE_SIZE = 10;
@@ -166,6 +167,40 @@ export const fetchAllPosts = async (req, res) => {
         return res.status(500).json(
             {
                 message: "Server failed to fetch all posts,Please try again",
+                error: error.message,
+                success: false,
+                data: null
+            }
+        )
+    }
+}
+
+
+export const fetchNotifications = async (req, res) => {
+    try {
+
+        const userId = req.user._id;
+
+        const allNotifications = await Notification
+            .find({ messageTo: userId })
+            .sort({ createdAt: -1 })
+            .populate("messageFrom", ["profileImg", "userName", "fullName"])
+            .exec();
+
+
+        return res.status(200).json(
+            {
+                success: true,
+                data: allNotifications,
+                message: "All notification fetch successfully"
+            }
+        );
+
+    } catch (error) {
+
+        return res.status(500).json(
+            {
+                message: "Server failed to fetch all notification,Please try again",
                 error: error.message,
                 success: false,
                 data: null
@@ -391,6 +426,7 @@ export const getUserMediaPosts = async (req, res) => {
         )
     }
 }
+
 
 export const increaseViewsOnPost = async (req, res) => {
     try {
