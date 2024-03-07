@@ -103,6 +103,46 @@ export const createPost = async (req, res) => {
     }
 }
 
+// TODO: Verify this controller
+export const fetchFollowingPosts = async (req, res) => {
+    try {
+        const userId = req.user?._id;
+        const { index } = req.query;
+
+        const userFollowing = await User.findById(userId)
+            .select("following");
+
+        const followingIds = userFollowing.following?.map(user => user._id);
+
+        const allPosts = await Post
+            .find({ user: { $in: followingIds }, isComment: false })
+            .sort({ createdAt: -1 }) // Sort by createdAt in descending order
+            .skip(index * PAGE_SIZE) // Skip posts based on pagination
+            .limit(PAGE_SIZE) // Limit the number of posts per page
+            .populate("user", ["fullName", "userName", "profileImg"])
+            .exec();
+
+
+        return res.status(200).json(
+            {
+                success: true,
+                data: allPosts,
+                message: "All Posts fetch successfully"
+            }
+        );
+
+    } catch (error) {
+        return res.status(500).json(
+            {
+                message: "Server failed to fetch all posts,Please try again",
+                error: error.message,
+                success: false,
+                data: null
+            }
+        );
+    }
+}
+
 
 export const fetchAllPosts = async (req, res) => {
     try {

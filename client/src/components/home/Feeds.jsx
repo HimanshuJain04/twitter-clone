@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { IoSettingsOutline } from "react-icons/io5";
 import Post from '../../components/Post';
 import CreatePost from '../CreatePost';
-import { fetchPosts } from "../../services/postService.js";
+import { fetchFeeds, fetchFollowingPosts } from "../../services/postService.js";
 import TransparencySpinner from '../common/TransparencySpinner.jsx';
 import PostSkeleton from '../common/PostSkeleton.jsx';
 
@@ -13,29 +13,51 @@ const Feeds = ({ isLoading, setIsLoading }) => {
         "Following",
     ];
 
-    const [allPosts, setAllPosts] = useState(null);
+    const [allPosts, setAllPosts] = useState([]);
     const [isSkeleton, setIsSkeleton] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
+    const [index, setIndex] = useState(0);
 
     const [option, setOption] = useState(navLinks[0]);
 
-    async function getAllPosts() {
+    async function fetchMoreData(currIndex) {
+
         setIsSkeleton(true);
-        await fetchPosts()
-            .then((res) => {
-                setAllPosts(res?.data?.data);
+
+        let func;
+
+        switch (option) {
+
+            case "For you":
+                func = fetchFeeds;
+                break;
+
+            case "Following":
+                func = fetchFollowingPosts;
+                break;
+
+            default:
+                func = fetchFeeds;
+                break;
+        }
+
+        func(currIndex)
+            .then(({ data }) => {
+                setAllPosts((prevItems) => [...prevItems, ...data.data]);
+                setIndex(currIndex + 1);
+                data?.data?.length === 10 ? setHasMore(true) : setHasMore(false);
             })
-            .catch((error) => {
-                console.log("Error: ", error)
-            })
-            .finally(() => {
-                setIsSkeleton(false);
-            })
+            .catch((err) => console.log(err))
+            .finally(() => setIsSkeleton(false));
     }
 
 
     useEffect(() => {
-        getAllPosts();
-    }, []);
+        setIndex(0);
+        setAllPosts([]);
+        setHasMore(true);
+        fetchMoreData(0);
+    }, [option]);
 
 
     return (
@@ -109,7 +131,7 @@ const Feeds = ({ isLoading, setIsLoading }) => {
 
             </div>
         </div >
-    )
+    );
 }
 
 export default Feeds

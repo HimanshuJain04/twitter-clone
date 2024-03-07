@@ -5,8 +5,13 @@ export const createPost = async (data) => {
     return await fileUploadRequest.post("/post/create-post", data);
 }
 
-export const fetchPosts = async () => {
+export const fetchFeeds = async () => {
     return await jsonRequest.get("/post/fetch-posts");
+}
+
+
+export const fetchFollowingPosts = async (index) => {
+    return await jsonRequest.get(`/post/fetch-following-posts?index=${index}`);
 }
 
 

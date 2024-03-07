@@ -15,6 +15,7 @@ import {
     getUserMediaPosts,
     getUserPosts,
     getPostById,
+    fetchFollowingPosts,
 } from "../controllers/post.controller.js"
 
 
@@ -31,6 +32,7 @@ router.route("/delete-post/:postId").delete(deletePost);
 router.route("/getPostDetails/:postId").get(getPostById);
 router.route("/increaseViewsOnPost/:postId").patch(increaseViewsOnPost);
 router.route("/fetch-posts").get(fetchAllPosts);
+router.route("/fetch-following-posts").get(fetchFollowingPosts);
 
 
 // like and bookmark functionality

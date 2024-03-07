@@ -156,7 +156,7 @@ const Post = ({ post, isdetailedPage, isFeeds }) => {
 
                         {
                             showDotOption &&
-                            <div className='bg-[#353232] absolute right-5 top-2 text-white'>
+                            <div className='bg-[#353232] h-[100px] absolute right-5 top-2 text-white'>
                                 hhii
                             </div>
                         }
