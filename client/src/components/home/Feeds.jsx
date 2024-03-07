@@ -110,16 +110,26 @@ const Feeds = ({ isLoading, setIsLoading }) => {
                         ) : (
                             <>
 
-                                <div>
-                                    <CreatePost type={"Post"} setIsLoading={setIsLoading} />
-                                </div>
+                                {
+                                    option === "For you" &&
+                                    <div>
+                                        <CreatePost type={"Post"} setIsLoading={setIsLoading} />
+                                    </div>
+                                }
+
 
                                 <div className='w-full  flex mt-5 flex-col gap-5 justify-start items-start'>
 
                                     {
-                                        allPosts?.map((post) => (
-                                            <Post key={post?._id} isFeeds={true} post={post} />
-                                        ))
+                                        allPosts.length > 0 ? (
+                                            allPosts.map((post) => (
+                                                <Post key={post?._id} isFeeds={true} post={post} />
+                                            ))
+                                        ) : (
+                                            <div className='w-full mt-10'>
+                                                <p className='text-white text-center text-4xl font-bold'>No post found</p>
+                                            </div>
+                                        )
                                     }
                                 </div>
                             </>
