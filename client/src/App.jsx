@@ -16,6 +16,13 @@ import ForgotChangePassword from "./pages/auth/ForgotChangePassword";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile.jsx";
 import EditProfile from "./pages/EditProfile.jsx";
+import Communities from "./pages/Communities.jsx";
+import Premium from "./pages/Premium.jsx";
+import Notification from "./pages/Notification.jsx";
+import Explore from "./pages/Explore.jsx";
+import List from "./pages/List.jsx";
+import Messages from "./pages/Messages.jsx"
+import Grok from "./pages/Grok.jsx"
 
 
 // *************COMPONENTS**************
@@ -55,6 +62,13 @@ function App() {
               <Route path="profile/:username" element={<Profile />} />
               <Route path="edit-profile/:username" element={<EditProfile />} />
               <Route path="post/:postId" element={<PostPage />} />
+              <Route path="explore" element={<Explore />} />
+              <Route path="lists" element={<List />} />
+              <Route path="messages" element={<Messages />} />
+              <Route path="notification" element={<Notification />} />
+              <Route path="communities" element={<Communities />} />
+              <Route path="premium" element={<Premium />} />
+              <Route path="grok" element={<Grok />} />
             </Route>
 
           </Routes>
