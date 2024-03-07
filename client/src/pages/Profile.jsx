@@ -216,7 +216,7 @@ const Profile = () => {
 
                             {/* navigation */}
                             <span
-                                onClick={() => navigate("/")}
+                                onClick={() => navigate(-1)}
                                 className='text-white text-2xl cursor-pointer px-2 py-1 rounded-full hover:bg-[white]/[0.1]'
                             >
                                 <MdOutlineKeyboardBackspace />
