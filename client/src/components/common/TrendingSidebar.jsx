@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { FiSearch } from "react-icons/fi";
 import { BsXCircleFill } from "react-icons/bs";
 import { getSearchedValue } from "../../services/userService.js"
-
+import { Link } from "react-router-dom"
 
 const TrendingSidebar = () => {
 
@@ -86,31 +86,36 @@ const TrendingSidebar = () => {
                     {/* Other Div */}
                     {isOpen && (
                         <div
-                            className='bg-black mt-1 shadow-lg rounded-md border-[2px] border-white/[0.2] shadow-white/[0.4] w-full '
+                            className='absolute z-10 bg-black max-h-[500px] overflow-auto mt-1 shadow-lg rounded-md border-[2px] border-white/[0.2] shadow-white/[0.2] w-full '
                         >
                             {
                                 searchValue.length > 0 ? (
-                                    <div className='text-white relative w-full'>
-                                        <div className=''>
-                                            {
+                                    <div className='flex flex-col text-white min-h-[100px] gap-1 w-full justify-start items-start'>
+                                        {
+                                            searchedData.length > 0 ? (
                                                 searchedData?.map((userData) => (
-                                                    <div
+                                                    <Link to={`/profile/${userData.userName}`}
                                                         key={userData._id}
+                                                        className='flex cursor-pointer w-full hover:bg-white/[0.1] transition-all duration-300 ease-in-out justify-start gap-3 p-2 items-center'
                                                     >
                                                         {/* user-image */}
-                                                        <div>
-                                                            <img src={userData?.profileImg} alt="" />
+                                                        <div className='h-12 w-12 ml-2'>
+                                                            <img src={userData?.profileImg} className=' w-full h-full object-contain rounded-full' alt="user-profile" />
                                                         </div>
 
                                                         {/* user name */}
-                                                        <div>
-                                                            <p>{userData?.fullName}</p>
-                                                            <p>{userData?.userName}</p>
+                                                        <div className='flex flex-col justify-start items-start'>
+                                                            <p className='font-bold'>{userData?.fullName}</p>
+                                                            <p className='text-white/[0.5] font-light'>@{userData?.userName}</p>
                                                         </div>
-                                                    </div>
+                                                    </Link>
                                                 ))
-                                            }
-                                        </div>
+                                            ) : (
+                                                <div className='text-lg p-3 text-white/[0.5]'>
+                                                    <p>No user found</p>
+                                                </div>
+                                            )
+                                        }
                                     </div>
                                 ) : (
                                     <div className='text-base pb-10 w-full  px-7 pt-5 font-light text-white/[0.5]'>
