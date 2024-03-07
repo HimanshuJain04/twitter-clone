@@ -593,7 +593,7 @@ export const postLikeHandler = async (req, res) => {
                     messageFrom: userId,
                     messageTo: existedPost.user,
                 }
-            )
+            );
         }
 
 
@@ -761,6 +761,14 @@ export const createComment = async (req, res) => {
                 }
             )
         }
+
+        await Notification.create(
+            {
+                message: "comment on your post",
+                messageFrom: userId,
+                messageTo: existedPost.user,
+            }
+        );
 
         existedPost.comments.push(newPost._id);
         await existedPost.save();

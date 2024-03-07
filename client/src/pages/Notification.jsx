@@ -32,46 +32,43 @@ const Notification = () => {
         loading ? (
           <Spinner />
         ) : (
-          <div className='w-full h-full'>
+          <div className='w-full h-full overflow-scroll pb-5'>
             {
               data.length > 0 ? (
-                <>
-                  {
-                    data?.map((notification) => (
-                      <div
-                        key={notification._id}
-                        className='flex p-5 justify-start border-b-2 border-[white]/[0.2] w-full gap-3 items-start'
-                      >
-                        {/* for icon */}
-                        <div>
-                          <span className='text-blue-500 text-2xl'>
-                            <FaUserAlt />
-                          </span>
-                        </div>
+                data?.map((notification) => (
+                  <div
+                    key={notification._id}
+                    className='flex p-5 justify-start border-b-2 border-[white]/[0.2] w-full gap-3 items-start'
+                  >
+                    {/* for icon */}
+                    <div>
+                      <span className='text-blue-500 text-2xl'>
+                        <FaUserAlt />
+                      </span>
+                    </div>
 
-                        {/* user details */}
-                        <div className='w-full gap-2 flex flex-col justify-normal items-start'>
-                          {/* user profile image */}
-                          <div className='overflow-hidden h-10 w-10'>
-                            <img
-                              src={notification.messageFrom?.profileImg}
-                              alt="profilePic"
-                              className='w-full h-full object-cover overflow-hidden rounded-full'
-                            />
-                          </div>
-
-                          {/*  message */}
-                          <div className='flex  text-white justify-center items-center gap-2'>
-                            <Link to={`/profile/${notification.messageFrom.userName}`} className='font-bold hover:underline transition-all duration-300 ease-in-out'>{notification.messageFrom?.userName}</Link>
-                            <p className=''>{notification.message}</p>
-                          </div>
-
-                        </div>
-
+                    {/* user details */}
+                    <div className='w-full gap-2 flex flex-col justify-normal items-start'>
+                      {/* user profile image */}
+                      <div className='overflow-hidden h-10 w-10'>
+                        <img
+                          src={notification.messageFrom?.profileImg}
+                          alt="profilePic"
+                          className='w-full h-full object-cover overflow-hidden rounded-full'
+                        />
                       </div>
-                    ))
-                  }
-                </>
+
+                      {/*  message */}
+                      <div className='flex  text-white justify-center items-center gap-2'>
+                        <Link to={`/profile/${notification.messageFrom.userName}`} className='font-bold hover:underline transition-all duration-300 ease-in-out'>{notification.messageFrom?.userName}</Link>
+                        <p className=''>{notification.message}</p>
+                      </div>
+
+                    </div>
+
+                  </div>
+                ))
+
               ) : (
                 <div className='w-full py-20'>
                   <p className='text-4xl text-center text-white font-bold'>No notification found</p>
