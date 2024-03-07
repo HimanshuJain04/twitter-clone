@@ -5,6 +5,11 @@ import User from "../models/user.model.js";
 export const verifyJwtToken = async (req, res, next) => {
     try {
 
+        if (req.path === '/fetch-posts') {
+            // Skip token verification for /fetch-posts endpoint
+            return next();
+        }
+
         const token = req.cookies?.TwitterAccessToken ||
             req.body.token ||
             req.header("Authorization")?.replace("bearer ", "");
