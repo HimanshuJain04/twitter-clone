@@ -1,27 +1,84 @@
-import React from 'react'
+import React, { useState, useRef, useEffect } from 'react';
 import { FiSearch } from "react-icons/fi";
-
+import { BsXCircleFill } from "react-icons/bs";
 
 const TrendingSidebar = () => {
-   
+
+    const [isOpen, setIsOpen] = useState(false);
+    const [searchValue, setSearchValue] = useState("");
+    const searchBarRef = useRef(null);
+
+    // Handle click outside the search bar to close the results div
+    const handleClickOutside = (event) => {
+        if (searchBarRef.current && !searchBarRef.current.contains(event.target)) {
+            setIsOpen(false);
+        }
+    };
+
+    // Add event listener for clicks outside on component mount, remove on unmount
+    useEffect(() => {
+        const listener = document.addEventListener('click', handleClickOutside);
+        return () => document.removeEventListener('click', listener);
+    }, []); // Empty dependency array ensures effect runs only once on mount
+
 
     return (
         <div>
-            <div className='flex flex-col w-[380px] pl-10 pt-2 min-h-screen border-l-2 border-[white]/[0.15] justify-start items-start gap-5'>
+            <div className='flex relative flex-col w-[400px] pl-10 pt-2 min-h-screen border-l-2 border-[white]/[0.15] justify-start items-start gap-5'>
 
-                {/* searchbar */}
-                <div className='flex w-full justify-center group focus-within:border-blue-500 transition-all duration-200 ease-in-out border-2 border-transparent  items-center gap-2 bg-[#202327] rounded-full px-3'>
 
-                    <span className='text-[white]/[0.2] group-focus-within:text-blue-500 text-lg'>
-                        <FiSearch />
-                    </span>
+                <div ref={searchBarRef}
+                    className='relative w-full'>
+                    {/* Search Bar */}
+                    <div
+                        onClick={() => {
+                            if (!isOpen) {
+                                setIsOpen(true);
+                            }
+                        }}
+                        className='flex relative w-full justify-center group focus-within:border-blue-500 transition-all duration-200 ease-in-out border-2 border-transparent  items-center gap-2 bg-[#202327] rounded-full px-3'
+                    >
+                        <span className='text-[white]/[0.2] group-focus-within:text-blue-500 text-lg'>
+                            <FiSearch />
+                        </span>
+                        <input
+                            type="text"
+                            placeholder='Search'
+                            onChange={(e) => setSearchValue(e.target.value)}
+                            value={searchValue}
+                            className='bg-transparent outline-none w-full  px-1 py-2  text-white placeholder:text-[white]/[0.3]'
+                        />
 
-                    <input
-                        type="text"
-                        placeholder='Search'
-                        className='bg-transparent outline-none w-full  px-1 py-2  text-white placeholder:text-[white]/[0.3]'
-                    />
 
+                        {
+                            searchValue &&
+                            <span onClick={() => setSearchValue("")} className="text-blue-400 hover:text-blue-500 transition-all duration-200 ease-in-out cursor-pointer text-xl">
+                                <BsXCircleFill />
+                            </span>
+                        }
+
+                    </div>
+
+                    {/* Other Div */}
+                    {isOpen && (
+                        <div
+                            className='bg-black mt-1 shadow-lg rounded-md border-[2px] border-white/[0.2] shadow-white/[0.4] w-full '
+                        >
+                            {
+                                searchValue.length > 0 ? (
+                                    <div className='text-white relative w-full'>
+                                        <div>
+                                            {searchValue}
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className='text-base pb-10 w-full  px-7 pt-5 font-light text-white/[0.5]'>
+                                        <p>Try searching for people, lists, or keywords</p>
+                                    </div>
+                                )
+                            }
+                        </div>
+                    )}
                 </div>
 
                 {/* subscribe premium */}
@@ -45,14 +102,13 @@ const TrendingSidebar = () => {
                     {
                         // TODO: 
                         // map
-                        // get dat from backend'
+                        // get data from backend'
                     }
                 </div>
-
 
             </div>
         </div>
     )
 }
 
-export default TrendingSidebar
+export default TrendingSidebar;
