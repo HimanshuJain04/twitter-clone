@@ -586,6 +586,17 @@ export const postLikeHandler = async (req, res) => {
             };
 
 
+        if (!isLiked && !(existedUser._id.equals(existedPost.user))) {
+            await Notification.create(
+                {
+                    message: "liked your post",
+                    messageFrom: userId,
+                    messageTo: existedPost.user,
+                }
+            )
+        }
+
+
         // Update both the post and user in a single database call
         const [updatedPost, updatedUser] = await Promise.all([
             Post.findOneAndUpdate({ _id: postId }, update, { new: true }),

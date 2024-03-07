@@ -33,11 +33,11 @@ export const userFollow = async (req, res) => {
             // Follow the user
 
             // create notification
-            const newNotification = await Notification.create(
+            await Notification.create(
                 {
                     messageTo: anotherUserId,
                     messageFrom: userId,
-                    message: "Follow"
+                    message: "followed you"
                 }
             );
 

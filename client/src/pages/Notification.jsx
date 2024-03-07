@@ -40,29 +40,32 @@ const Notification = () => {
                     data?.map((notification) => (
                       <div
                         key={notification._id}
-                        className='flex justify-start w-full items-start'
+                        className='flex p-5 justify-start border-b-2 border-[white]/[0.2] w-full gap-3 items-start'
                       >
                         {/* for icon */}
                         <div>
-                          <span className='text-blue-500 text-xl'>
+                          <span className='text-blue-500 text-2xl'>
                             <FaUserAlt />
                           </span>
                         </div>
 
                         {/* user details */}
-                        <div className='w-full'>
+                        <div className='w-full gap-2 flex flex-col justify-normal items-start'>
                           {/* user profile image */}
-                          <div>
-                            <img src={notification.messageFrom?.profileImg} alt="" />
+                          <div className='overflow-hidden h-10 w-10'>
+                            <img
+                              src={notification.messageFrom?.profileImg}
+                              alt="profilePic"
+                              className='w-full h-full object-cover overflow-hidden rounded-full'
+                            />
                           </div>
 
                           {/*  message */}
-                          <div>
-                            <span>
-                              <Link>{notification.messageFrom?.userName}</Link>
-                              <p>{notification.message}</p>
-                            </span>
+                          <div className='flex  text-white justify-center items-center gap-2'>
+                            <Link to={`/profile/${notification.messageFrom.userName}`} className='font-bold hover:underline transition-all duration-300 ease-in-out'>{notification.messageFrom?.userName}</Link>
+                            <p className=''>{notification.message}</p>
                           </div>
+
                         </div>
 
                       </div>
