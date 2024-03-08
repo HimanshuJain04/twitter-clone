@@ -1,32 +1,32 @@
 import { Routes, Route } from "react-router-dom";
 import { useDispatch, } from "react-redux";
 import { authVerifyToken } from "./redux/slices/authSlice.js";
-import { useEffect } from "react"
+import { lazy, useEffect, Suspense } from "react"
 import ProtectedRoutes from "./components/ProtectedRoutes.jsx";
 
 // *********** Import pages ***************
 // auth-page
-import Login from "./pages/auth/Login";
-import Signup from "./pages/auth/Signup";
-import VerifyOtp from "./pages/auth/VerifyOtp";
-import ForgotPassword from "./pages/auth/ForgotPassword";
-import ForgotChangePassword from "./pages/auth/ForgotChangePassword";
+const Login = lazy(() => import("./pages/auth/Login"));
+const Signup = lazy(() => import("./pages/auth/Signup"));
+const VerifyOtp = lazy(() => import("./pages/auth/VerifyOtp"));
+const ForgotPassword = lazy(() => import("./pages/auth/ForgotPassword"));
+const ForgotChangePassword = lazy(() => import("./pages/auth/ForgotChangePassword"));
 
 // pages
-import Home from "./pages/Home";
-import Profile from "./pages/Profile.jsx";
-import EditProfile from "./pages/EditProfile.jsx";
-import Communities from "./pages/Communities.jsx";
-import Premium from "./pages/Premium.jsx";
-import Notification from "./pages/Notification.jsx";
-import Explore from "./pages/Explore.jsx";
-import List from "./pages/List.jsx";
-import Messages from "./pages/Messages.jsx"
-import Grok from "./pages/Grok.jsx"
+const Home = lazy(() => import("./pages/Home"));
+const Profile = lazy(() => import("./pages/Profile.jsx"));
+const EditProfile = lazy(() => import("./pages/EditProfile.jsx"));
+const Communities = lazy(() => import("./pages/Communities.jsx"));
+const Premium = lazy(() => import("./pages/Premium.jsx"));
+const Notification = lazy(() => import("./pages/Notification.jsx"));
+const Explore = lazy(() => import("./pages/Explore.jsx"));
+const List = lazy(() => import("./pages/List.jsx"));
+const Messages = lazy(() => import("./pages/Messages.jsx"))
+const Grok = lazy(() => import("./pages/Grok.jsx"))
 
 
 // *************COMPONENTS**************
-import PostPage from "./pages/PostPage.jsx";
+const PostPage = lazy(() => import("./pages/PostPage.jsx"));
 
 
 
@@ -49,26 +49,26 @@ function App() {
 
             {/* ***************AUTH*************** */}
             <Route path="/auth" >
-              <Route path="login" element={<Login />} />
-              <Route path="signup" element={<Signup />} />
-              <Route path="forgot-password-email" element={<ForgotPassword />} />
-              <Route path="verify-otp" element={<VerifyOtp />} />
-              <Route path="forgot-password-change-password" element={<ForgotChangePassword />} />
+              <Route path="login" element={<Suspense><Login /></Suspense>} />
+              <Route path="signup" element={<Suspense><Signup /></Suspense>} />
+              <Route path="forgot-password-email" element={<Suspense><ForgotPassword /></Suspense>} />
+              <Route path="verify-otp" element={<Suspense><VerifyOtp /></Suspense>} />
+              <Route path="forgot-password-change-password" element={<Suspense><ForgotChangePassword /></Suspense>} />
             </Route>
 
             {/* ****************** OTHER PROTECTED PAGES ************* */}
-            <Route path="/" element={<ProtectedRoutes />}>
-              <Route path="" exact element={<Home />} />
-              <Route path="profile/:username" element={<Profile />} />
-              <Route path="edit-profile/:username" element={<EditProfile />} />
-              <Route path="post/:postId" element={<PostPage />} />
-              <Route path="explore" element={<Explore />} />
-              <Route path="lists" element={<List />} />
-              <Route path="messages" element={<Messages />} />
-              <Route path="notification" element={<Notification />} />
-              <Route path="communities" element={<Communities />} />
-              <Route path="premium" element={<Premium />} />
-              <Route path="grok" element={<Grok />} />
+            <Route path="/" element={<Suspense><ProtectedRoutes /></Suspense>}>
+              <Route path="" exact element={<Suspense><Home /></Suspense>} />
+              <Route path="profile/:username" element={<Suspense><Profile /></Suspense>} />
+              <Route path="edit-profile/:username" element={<Suspense><EditProfile /></Suspense>} />
+              <Route path="post/:postId" element={<Suspense><PostPage /></Suspense>} />
+              <Route path="explore" element={<Suspense><Explore /></Suspense>} />
+              <Route path="lists" element={<Suspense><List /></Suspense>} />
+              <Route path="messages" element={<Suspense><Messages /></Suspense>} />
+              <Route path="notification" element={<Suspense><Notification /></Suspense>} />
+              <Route path="communities" element={<Suspense><Communities /></Suspense>} />
+              <Route path="premium" element={<Suspense><Premium /></Suspense>} />
+              <Route path="grok" element={<Suspense><Grok /></Suspense>} />
             </Route>
 
           </Routes>
