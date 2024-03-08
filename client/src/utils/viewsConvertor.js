@@ -1,5 +1,3 @@
-
-
 export const viewsConvertor = (views) => {
     if (views >= 1000000) {
         return Math.floor(views / 1000000) + 'M';

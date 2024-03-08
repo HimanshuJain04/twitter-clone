@@ -6,12 +6,13 @@ import { fetchFeeds, fetchFollowingPosts } from "../../services/postService.js";
 import TransparencySpinner from '../common/TransparencySpinner.jsx';
 import PostSkeleton from '../common/PostSkeleton.jsx';
 
+const navLinks = [
+    "For you",
+    "Following",
+];
+
 const Feeds = ({ isLoading, setIsLoading }) => {
 
-    const navLinks = [
-        "For you",
-        "Following",
-    ];
 
     const [allPosts, setAllPosts] = useState([]);
     const [isSkeleton, setIsSkeleton] = useState(false);
