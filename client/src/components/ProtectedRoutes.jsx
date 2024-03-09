@@ -11,12 +11,14 @@ const ProtectedRoutes = () => {
 
     return (
         userAuth ?
-            <div className='justify-between w-full items-start flex flex-row'>
-                <div>
+            <div className='justify-between h-screen overflow-hidden w-full items-start flex flex-row'>
+                <div className='lg:block hidden'>
                     <FeatureSidebar />
                 </div>
-                <Outlet />
-                <div>
+                <div className='border-r-2 w-full border-white/[0.15] xl:border-none'>
+                    <Outlet />
+                </div>
+                <div className='xl:block hidden'>
                     <TrendingSidebar />
                 </div>
             </div>

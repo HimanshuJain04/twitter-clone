@@ -48,7 +48,7 @@ const TrendingSidebar = () => {
 
     return (
         <div>
-            <div className='flex relative flex-col w-[400px] pl-10 pt-2 min-h-screen border-l-2 border-[white]/[0.15] justify-start items-start gap-5'>
+            <div className='flex relative flex-col w-[400px] pl-10 pt-2 overflow-auto pb-5 h-screen border-l-2 border-[white]/[0.15] justify-start items-start gap-5'>
 
 
                 <div ref={searchBarRef}

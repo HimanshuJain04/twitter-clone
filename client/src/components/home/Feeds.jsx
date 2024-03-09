@@ -11,8 +11,9 @@ const navLinks = [
     "Following",
 ];
 
-const Feeds = ({ isLoading, setIsLoading }) => {
+const Feeds = () => {
 
+    const [isLoading, setIsLoading] = useState(false);
 
     const [allPosts, setAllPosts] = useState([]);
     const [isSkeleton, setIsSkeleton] = useState(false);
@@ -63,7 +64,7 @@ const Feeds = ({ isLoading, setIsLoading }) => {
 
     return (
         <div className='w-full'>
-            <div className='flex relative flex-col  justify-start items-center bg-black'>
+            <div className='flex w-full relative flex-col justify-start items-center bg-'>
 
                 {/* Spinner */}
                 {
@@ -72,7 +73,7 @@ const Feeds = ({ isLoading, setIsLoading }) => {
                 }
 
                 {/* navbar */}
-                <div className='flex sticky top-0 flex-row justify-between backdrop-blur-2xl w-full border-b-2 border-[white]/[0.19]'>
+                <div className='flex sticky  top-0 flex-row justify-between backdrop-blur-2xl w-full border-b-2 border-[white]/[0.19]'>
                     {
                         navLinks?.map((navlink, index) => (
                             <div
@@ -98,7 +99,7 @@ const Feeds = ({ isLoading, setIsLoading }) => {
                 </div>
 
                 {/* Feeds */}
-                <div className='h-[calc(100vh-100px)] w-full overflow-y-auto'>
+                <div className='h-[calc(100vh-100px)] w-full bg- overflow-y-auto'>
                     {
                         isSkeleton ? (
                             <div className='flex flex-col justify-start gap-5 items-center'>
