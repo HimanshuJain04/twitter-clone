@@ -218,10 +218,10 @@ const CreatePost = ({ setIsLoading, type, postId, setCommentBoxOpen }) => {
                     </div>
 
                     {/* other options for image/etc and post */}
-                    <div className='flex mt-3 w-full justify-between items-center'>
+                    <div className='flex gap-2 mt-3 w-full justify-between items-center'>
 
                         {/* other option */}
-                        <div className='flex justify-center items-center gap-5'>
+                        <div className='flex justify-center items-center gap-1 sm:gap-5'>
 
                             {/* image button */}
                             <abbr

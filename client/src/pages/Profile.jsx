@@ -278,7 +278,7 @@ const Profile = () => {
                             </div>
 
                             {/* profile */}
-                            <div className='w-[170px] left-8 -bottom-[40px] absolute h-[170px]'>
+                            <div className='sm:w-[170px] w-[150px] h-[150px] left-3 sm:left-8 -bottom-[40px] absolute sm:h-[170px]'>
                                 <img
                                     src={user?.profileImg}
                                     alt="profileImg"
@@ -286,6 +286,7 @@ const Profile = () => {
                                 />
                             </div>
 
+                            {/* button */}
                             {
                                 userState?._id === user?._id ?
                                     (
@@ -304,10 +305,10 @@ const Profile = () => {
                                     : (
                                         // follow button
                                         <>
-                                            <div className='w-full flex justify-end px-5'>
+                                            <div className='w-full flex justify-end px-2'>
                                                 <button
                                                     onClick={followHandler}
-                                                    className={`text-white transition-all duration-200 ease-in-out border-[1px] font-bold  py-2 px-10 rounded-full  ` + (
+                                                    className={`text-white transition-all duration-200 ease-in-out border-[1px] font-bold  py-2 px-7 sm:px-10 rounded-full  ` + (
                                                         followState === "Following" ? "bg-black border-white/[0.7] hover:bg-[white]/[0.1]" : " bg-blue-400 border-blue-400 hover:bg-blue-300"
                                                     )}
                                                 >
