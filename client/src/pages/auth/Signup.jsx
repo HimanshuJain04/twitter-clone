@@ -58,7 +58,7 @@ const Signup = () => {
                     <FormProvider
                         {...register}
                     >
-                        <div className='min-h-screen justify-center px-10  py-20  flex items-center bg-black w-screen'
+                        <div className='h-screen  justify-center py-20 overflow-auto flex items-center bg-black w-full'
                         >
                             <div
                                 className='flex justify-start w-[400px] text-[white]/[0.4] items-center flex-col gap-7'

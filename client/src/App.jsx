@@ -43,7 +43,7 @@ function App() {
   return (
     <>
       <div className="flex justify-center items-center bg-black w-screen">
-        <div className='h-screen w-10/12  '>
+        <div className='h-screen w-10/12   '>
 
           <Routes>
 
