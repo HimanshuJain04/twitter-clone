@@ -90,7 +90,9 @@ export const fetchSearches = async (req, res) => {
                 { userName: { $regex: value, $options: 'i' } },
                 { fullName: { $regex: value, $options: 'i' } }
             ]
-        }).select("fullName userName profileImg");
+        })
+            .select("fullName userName profileImg")
+            .limit(10);
 
 
         return res.status(201).json(
