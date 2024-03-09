@@ -212,7 +212,7 @@ const EditProfile = () => {
                 loading ? (
                     <Spinner />
                 ) : (
-                    <div className='w-full overflow-auto pb-20 p-10 gap-16 h-screen flex flex-col items-center '>
+                    <div className='w-full overflow-y-auto pb-20 p-10 gap-16 h-screen flex flex-col items-center '>
 
                         {/* profile image */}
                         <div onClick={() => inputRef.current.click()} className='w-[200px] relative flex cursor-pointer group justify-center items-center overflow-hidden shrink-0 h-[200px] rounded-full bg-gray-600'>
@@ -239,7 +239,7 @@ const EditProfile = () => {
 
                         </div>
 
-                        <div className='flex justify-start items-start flex-col gap-7'>
+                        <div className='flex justify-start items-center flex-col gap-7'>
 
                             {fields.map((field, index) => (
                                 <div
@@ -263,7 +263,7 @@ const EditProfile = () => {
                                                 id={field.name}
                                                 onChange={changeHandler}
                                                 placeholder={field.placeholder}
-                                                className={`outline-none placeholder:text-gray-400 resize-none min-h-[150px] w-[350px] p-3 text-white  bg-transparent text-lg font-semibold`}
+                                                className={`outline-none placeholder:text-gray-400 resize-none min-h-[150px] w-[250px] sm:w-[350px] p-3 text-white  bg-transparent text-lg font-semibold`}
                                             />
                                         ) : (
                                             <input
@@ -274,7 +274,7 @@ const EditProfile = () => {
                                                 onChange={changeHandler}
                                                 readOnly={field.isReadOnly}
                                                 placeholder={field.placeholder}
-                                                className={`outline-none placeholder:text-gray-400 w-[350px] p-3 ${field.isReadOnly ? "text-white opacity-70" : "text-white"}  bg-transparent text-lg font-semibold`}
+                                                className={`outline-none placeholder:text-gray-400 w-[250px] sm:w-[350px] p-3 ${field.isReadOnly ? "text-white opacity-70" : "text-white"}  bg-transparent text-lg font-semibold`}
                                             />
                                         )
                                     }
