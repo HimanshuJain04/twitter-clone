@@ -11,32 +11,30 @@ const Landing = () => {
 
     return (
         <div>
-            <div className='w-screen flex flex-col justify-center items-center min-h-screen'>
+            <div className='w-full flex flex-col justify-center items-center overflow-hidden'>
                 {/* section for landing page */}
-                <div className='w-full flex flex-row justify-around items-center h-full'>
+                <div className='w-full flex py-10 flex-col gap-10 md:flex-row justify-around items-center h-screen '>
 
                     {/* part for logo */}
-                    <div>
-                        <div className='w-[300px]'>
-                            <img className='w-full h-auto object-contain' src={xLogo} alt="X-logo" />
-                        </div>
+                    <div className='lg:w-[300px] w-[100px] md:w-[200px]'>
+                        <img className='w-full h-auto object-contain' src={xLogo} alt="X-logo" />
                     </div>
 
                     {/* part for signup | intro-heading */}
-                    <div className='text-white flex flex-col gap-10'>
+                    <div className='text-white w-full md:items-start items-center md:w-auto flex flex-col gap-10'>
 
-                        <div className='flex flex-col gap-14'>
+                        <div className='flex flex-col w-full md:items-start items-center gap-5 md:gap-14'>
                             <div>
-                                <p className='text-7xl font-bold'>Happening now</p>
+                                <p className=' text-3xl sm:text-5xl xl:text-7xl text-center font-bold'>Happening now</p>
                             </div>
                             <div>
-                                <p className='text-4xl font-bold'>Join today.</p>
+                                <p className='text-xl sm:text-3xl xl:text-4xl font-bold'>Join today.</p>
                             </div>
 
                         </div>
 
 
-                        <div className='flex flex-col w-[300px] gap-14 justify-start items-start'>
+                        <div className='flex flex-col w-[250px] sm:w-[300px] gap-14 justify-start items-start'>
 
                             {/* signup options*/}
                             <div className='flex w-full flex-col gap-2 justify-start items-start'>
@@ -75,8 +73,8 @@ const Landing = () => {
                             </div>
 
                             {/* login */}
-                            <div className='w-full flex flex-col gap-4 justify-start items-start'>
-                                <p className='font-semibold text-lg'>Already have an account?</p>
+                            <div className='w-full flex flex-col gap-4 justify-start items-center md:items-start'>
+                                <p className='font-semibold text-base sm:text-lg'>Already have an account?</p>
                                 {/* login account */}
                                 <button onClick={() => {
                                     navigate("/auth/login");
