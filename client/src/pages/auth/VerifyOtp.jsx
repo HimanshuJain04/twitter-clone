@@ -99,14 +99,14 @@ const VerifyOtp = () => {
                 isLoading ? (
                     <Spinner />
                 ) : (
-                    <div className='min-h-screen w-full bg-black flex justify-center items-center'>
+                    <div className='h-screen overflow-auto w-full bg-black flex justify-center items-center'>
 
-                        <div className='flex flex-col bg-[white]/[0.09] shadow-lg shadow-[white]/[0.2] px-10 py-20 rounded-lg justify-center items-center gap-14'>
+                        <div className='flex flex-col bg-[white]/[0.09] shadow-lg shadow-[white]/[0.2] p-4 sm:px-10 py-10 sm:py-20 rounded-lg justify-center items-center gap-14'>
 
                             {/* details/description */}
                             <div className='flex flex-col justify-center items-center gap-5'>
                                 <p className='text-white text-4xl font-bold'>Verify OTP</p>
-                                <p className='text-[white]/[0.5] max-w-[500px] text-center font-semibold text-base'>To verify your OTP (One-Time-Password), Please enter 5 digits otp code that has been sent to your email address.</p>
+                                <p className='text-[white]/[0.5] min-w-[200px] max-w-[350px] sm:max-w-[500px] text-center font-semibold text-base'>To verify your OTP (One-Time-Password), Please enter 5 digits otp code that has been sent to your email address.</p>
                             </div>
 
                             {/* form */}
@@ -116,7 +116,7 @@ const VerifyOtp = () => {
                                 >
 
                                     <form
-                                        className='flex flex-row gap-10 justify-center items-center'
+                                        className='flex flex-row gap-5 md:gap-10 justify-center items-center'
                                     >
                                         {/* input fields */}
                                         {
@@ -140,14 +140,14 @@ const VerifyOtp = () => {
                                                     )
                                                     }
 
-                                                    className=' w-14 p-5 h-14 transition-all duration-300 ease-in-out focus-within:border-blue-500 border-2 border-black text-white bg-[black] text-xl font-bold rounded-lg outline-none '
+                                                    className=' h-10 w-10 sm:w-14 p-2 sm:p-5 sm:h-14 transition-all duration-300 ease-in-out focus-within:border-blue-500 border-2 border-black text-white bg-[black] text-xl font-bold rounded-lg outline-none '
                                                 />
                                             ))
                                         }
                                     </form >
 
                                     {/* buttons */}
-                                    < div className='w-full flex justify-between items-center' >
+                                    < div className='w-full flex flex-col-reverse gap-5 sm:flex-row justify-between items-center' >
                                         {/* resend otp */}
                                         <div>
 

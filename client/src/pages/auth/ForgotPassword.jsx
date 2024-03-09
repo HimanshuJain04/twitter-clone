@@ -46,15 +46,15 @@ const ForgotPassword = () => {
                 isLoading ? (
                     <Spinner />
                 ) : (
-                    <div className='min-h-screen w-full bg-black flex justify-center items-center'>
-                        <div className='bg-[white]/[0.09] flex flex-col justify-center items-center gap-4 rounded-xl px-10 py-14 shadow-xl shadow-[white]/[0.15]'>
+                    <div className='h-screen overflow-auto w-full bg-black flex justify-center items-center'>
+                        <div className='bg-[white]/[0.09] m-5 flex flex-col justify-center items-center gap-4 rounded-xl px-5 py-10 sm:px-10 sm:py-14 shadow-xl shadow-[white]/[0.15]'>
 
 
                             <p className='text-white text-4xl font-bold'>Forgot Password</p >
                             <p className='text-[white]/[0.5] font-semibold text-lg'>Enter email for verification code</p>
 
                             <div className='w-full my-5'>
-                                <div className=' placeholder:text-[white]/[0.45] focus-within:border-blue-500 border-2 border-[white]/[0.18] rounded-md flex gap-2 justify-center pl-3 items-center text-white font-semibold bg-black w-[400px]'
+                                <div className=' placeholder:text-[white]/[0.45] focus-within:border-blue-500 border-2 border-[white]/[0.18] rounded-md flex gap-2 justify-center pl-3 items-center text-white font-semibold bg-black w-[300px] sm:w-[400px]'
                                 >
 
                                     <IoMail className='text-[white]/[0.5] text-2xl ' />
