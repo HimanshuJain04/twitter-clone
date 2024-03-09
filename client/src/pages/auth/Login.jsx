@@ -42,10 +42,10 @@ const Login = () => {
                     <FormProvider
                         {...register}
                     >
-                        <div className='min-h-screen justify-center px-10  py-20 flex items-center bg-black w-full '
+                        <div className='h-screen overflow-auto justify-center px-5  py-20 flex items-center bg-black w-full '
                         >
                             <div
-                                className='flex justify-start w-[400px]  text-[white]/[0.4] items-center flex-col gap-7'
+                                className='flex justify-start w-[400px] mt-10  text-[white]/[0.4] items-center flex-col gap-7'
                             >
 
                                 <div className='w-[30px]'>

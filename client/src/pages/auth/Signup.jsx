@@ -58,10 +58,10 @@ const Signup = () => {
                     <FormProvider
                         {...register}
                     >
-                        <div className='h-screen  justify-center py-20 overflow-auto flex items-center bg-black w-full'
+                        <div className='h-screen justify-center py-20 overflow-auto flex items-center bg-black w-full'
                         >
                             <div
-                                className='flex justify-start w-[400px] text-[white]/[0.4] items-center flex-col gap-7'
+                                className='flex justify-start mt-10 w-[400px] text-[white]/[0.4] items-center flex-col gap-7'
                             >
 
                                 <div className='w-[30px]'>
@@ -69,7 +69,7 @@ const Signup = () => {
                                 </div>
 
                                 <div className='w-full'>
-                                    <p className='text-3xl text-white font-bold'>Create your account</p>
+                                    <p className='text-3xl text-center text-white font-bold'>Create your account</p>
                                 </div>
 
                                 {/* full name */}
