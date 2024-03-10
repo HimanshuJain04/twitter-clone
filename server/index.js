@@ -6,7 +6,8 @@ import { cloudinaryConnection } from "./config/cloudinary.config.js"
 import { createServer } from "http";
 import { Server } from "socket.io";
 import {
-    handleUserConnected
+    handleUserConnected,
+    handleSendMessage,
 } from "./controllers/webrtc.controller.js"
 
 
@@ -44,6 +45,10 @@ io.on('connection', (socket) => {
         await handleUserConnected(userId, socket.id);
     });
 
+    socket.on('send-message', async (messageData) => {
+        await handleSendMessage(socket, messageData);
+    });
+
     // Handle offer message
     socket.on('offer', (offer, recipientSocketId) => {
         io.to(recipientSocketId).emit('offer', offer, socket.id);
@@ -59,6 +64,10 @@ io.on('connection', (socket) => {
         io.to(recipientSocketId).emit('icecandidate', candidate);
     });
 
+    socket.on('error', (error) => {
+        console.error('Socket error:', error);
+        // Handle specific errors (e.g., disconnection) or emit an error event to the client
+    });
 
 });
 
