@@ -14,6 +14,7 @@ const VerifyOtp = lazy(() => import("./pages/auth/VerifyOtp"));
 const ForgotPassword = lazy(() => import("./pages/auth/ForgotPassword"));
 const ForgotChangePassword = lazy(() => import("./pages/auth/ForgotChangePassword"));
 
+
 // pages
 const Profile = lazy(() => import("./pages/Profile.jsx"));
 const EditProfile = lazy(() => import("./pages/EditProfile.jsx"));
@@ -24,6 +25,7 @@ const Explore = lazy(() => import("./pages/Explore.jsx"));
 const List = lazy(() => import("./pages/List.jsx"));
 const Messages = lazy(() => import("./pages/Messages.jsx"))
 const Grok = lazy(() => import("./pages/Grok.jsx"))
+const Chat = lazy(() => import("./pages/Chat.jsx"))
 
 
 // *************COMPONENTS**************
@@ -70,6 +72,7 @@ function App() {
               <Route path="communities" element={<Suspense><Communities /></Suspense>} />
               <Route path="premium" element={<Suspense><Premium /></Suspense>} />
               <Route path="grok" element={<Suspense><Grok /></Suspense>} />
+              <Route path="chat/:userName" element={<Suspense><Chat /></Suspense>} />
             </Route>
 
           </Routes>

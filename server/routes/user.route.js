@@ -9,6 +9,7 @@ import {
     userFollow,
     updateUserCoverImage,
     fetchSearches,
+    getAllConnectedUsers,
 } from "../controllers/user.contoller.js";
 
 
@@ -18,6 +19,8 @@ router.route("/updateUserDetails").patch(verifyJwtToken, updateUserDetails);
 router.route("/fetch-users").get(fetchSearches);
 router.route("/userFollowHandler/:anotherUserId").patch(verifyJwtToken, userFollow);
 router.route("/updateUserCoverImage").post(verifyJwtToken, updateUserCoverImage);
+
+router.route("/get-all-connected-user").get(verifyJwtToken, getAllConnectedUsers);
 
 
 export default router;

@@ -73,7 +73,45 @@ export const userFollow = async (req, res) => {
             data: null
         });
     }
-};
+}
+
+export const getAllConnectedUsers = async (req, res) => {
+    try {
+
+        const userId = req?.user?._id;
+
+
+        const currentUser = await User.findById(userId);
+
+        const following = currentUser.following;
+
+        const connectedUsers = await User.find({
+            _id: { $in: following }, // Users whom the current user follows
+            followers: userId // Users who are following the current user
+        })
+            .select("fullName userName profileImg");
+
+
+        return res.status(201).json(
+            {
+                success: true,
+                data: connectedUsers,
+                message: "Fetch user by search successfully"
+            }
+        );
+
+    } catch (error) {
+
+        return res.status(500).json(
+            {
+                message: "Server failed to fetch user by search,Please try again",
+                error: error.message,
+                success: false,
+                data: null
+            }
+        )
+    }
+}
 
 
 export const fetchSearches = async (req, res) => {
@@ -115,7 +153,6 @@ export const fetchSearches = async (req, res) => {
         )
     }
 }
-
 
 
 export const getUserDetailsByUsername = async (req, res) => {

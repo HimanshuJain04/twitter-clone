@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { FiSearch } from "react-icons/fi";
 import { BsXCircleFill } from "react-icons/bs";
 import { getSearchedValue } from "../../services/userService.js"
-import { Link } from "react-router-dom"
+import UserAccount from "../UserAccount.jsx";
+
 
 const TrendingSidebar = () => {
 
@@ -94,21 +95,7 @@ const TrendingSidebar = () => {
                                         {
                                             searchedData.length > 0 ? (
                                                 searchedData?.map((userData) => (
-                                                    <Link to={`/profile/${userData.userName}`}
-                                                        key={userData._id}
-                                                        className='flex cursor-pointer w-full hover:bg-white/[0.1] transition-all duration-300 ease-in-out justify-start gap-3 p-2 items-center'
-                                                    >
-                                                        {/* user-image */}
-                                                        <div className='h-12 w-12 ml-2'>
-                                                            <img src={userData?.profileImg} className=' w-full h-full object-contain rounded-full' alt="user-profile" />
-                                                        </div>
-
-                                                        {/* user name */}
-                                                        <div className='flex flex-col justify-start items-start'>
-                                                            <p className='font-bold'>{userData?.fullName}</p>
-                                                            <p className='text-white/[0.5] font-light'>@{userData?.userName}</p>
-                                                        </div>
-                                                    </Link>
+                                                    <UserAccount key={userData._id} user={userData} path={`/profile/${userData.userName}`} />
                                                 ))
                                             ) : (
                                                 <div className='text-lg p-3 text-white/[0.5]'>

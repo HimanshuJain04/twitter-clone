@@ -31,14 +31,44 @@ app.use("/api/v1/user", userRoute);
 
 
 const server = createServer(app);
-const io = new Server(server);
+const io = new Server(server, { cors: true });
 
+// Initialize users object to store user information
+const users = {};
 
 // Handle WebSocket connections
 io.on('connection', socket => {
-    console.log('New client connected:', socket);
+    console.log('New client connected:', socket.id);
 
-    // Handle signaling messages
+    // Store user information when they connect
+    socket.on('userConnected', userId => {
+        console.log(`User connected: ${userId}`);
+        users[userId] = socket.id;
+    });
+
+    // Handle call request
+    socket.on('call', (recipientUserId) => {
+        const recipientSocketId = users[recipientUserId];
+        if (recipientSocketId) {
+            io.to(recipientSocketId).emit('callRequest', socket.id);
+        } else {
+            console.log(`Recipient user ${recipientUserId} not found.`);
+        }
+    });
+
+    // Handle disconnection
+    socket.on('disconnect', () => {
+        console.log('Client disconnected:', socket.id);
+        // Remove user information when they disconnect
+        Object.keys(users).forEach(userId => {
+            if (users[userId] === socket.id) {
+                delete users[userId];
+            }
+        });
+    });
+
+    // Handle signaling messages (if needed)
+    // Implement signaling message handling as before
     socket.on('offer', (offer, to) => {
         io.to(to).emit('offer', offer, socket.id);
     });
@@ -50,12 +80,10 @@ io.on('connection', socket => {
     socket.on('icecandidate', (candidate, to) => {
         io.to(to).emit('icecandidate', candidate);
     });
-
-    // Handle disconnection
-    socket.on('disconnect', () => {
-        console.log('Client disconnected:', socket.id);
-    });
 });
+
+
+
 
 server.listen(PORT, () => {
     console.log("Server listening on port : ", PORT)

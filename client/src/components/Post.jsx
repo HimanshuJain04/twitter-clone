@@ -120,7 +120,7 @@ const Post = ({ post, isdetailedPage, isFeeds }) => {
 
                 </div>
             }
-            
+
             <div className='flex cursor-pointer  pb-5 flex-row py-3 px-5 gap-5 border-b-2 border-[white]/[0.2] justify-between items-start w-full'>
                 {/* for user image */}
                 <div onClick={() => navigate(`/post/${post._id}`)} className='w-[60px]'>

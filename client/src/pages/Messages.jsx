@@ -1,10 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdGroupAdd } from "react-icons/md";
-
+import { getAllConnectedUsers } from "../services/userService.js"
+import UserAccount from "../components/UserAccount.jsx";
 
 const Messages = () => {
 
     const [searchValue, setSearchValue] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [allUsers, setAllUsers] = useState([]);
+
+
+    useEffect(() => {
+        setLoading(true);
+        getAllConnectedUsers()
+            .then(({ data }) => {
+                setAllUsers(data.data);
+            })
+            .catch((err) => { console.log("ERROR: ", err) })
+            .finally(() => { setLoading(false) })
+    }, []);
+
+
+    // useEffect(() => {
+
+    // }, [searchValue]);
 
 
     return (
@@ -36,8 +55,24 @@ const Messages = () => {
 
                 </div>
 
-            </div>
-        </div>
+                {/* users */}
+                <div>
+                    {
+                        allUsers.length > 0 ? (
+                            allUsers.map((user) => (
+                                <UserAccount key={user._id} user={user} path={`/chat/${user.userName}`} />
+                            ))
+                        ) : (
+                            <div className='w-full mt-10'>
+                                <p className='text-white text-center font-bold text-4xl {
+                                }'>No message found</p>
+                            </div>
+                        )
+                    }
+                </div>
+
+            </div >
+        </div >
     )
 }
 
