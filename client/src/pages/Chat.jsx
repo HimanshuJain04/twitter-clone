@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getUserDetailsByUsername } from "../services/userService.js"
 import { PiVideoCameraFill } from "react-icons/pi";
 import { MdAddCall } from "react-icons/md";
@@ -10,6 +10,7 @@ import { MdSend } from "react-icons/md";
 const Chat = () => {
 
     const { pathname } = useLocation();
+    const navigate = useNavigate();
     const [userData, setUserData] = useState([]);
     const textAreaRef = useRef();
     const [message, setMessage] = useState("")
@@ -71,7 +72,7 @@ const Chat = () => {
                         {/* name */}
                         <div className='flex flex-col justify-center font-semibold items-start'>
                             <p className='text-white'>{userData?.fullName}</p>
-                            <p className='text-white/[0.5]'>{userData?.userName}</p>
+                            <p onClick={() => navigate(`/profile/${userData?.userName}`)} className='text-white/[0.5] cursor-pointer hover:underline'>{userData?.userName}</p>
                         </div>
                     </div>
 
