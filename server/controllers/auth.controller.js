@@ -159,7 +159,8 @@ export const signup = async (req, res) => {
                 fullName,
                 profileImg: imageUrl,
                 password: hashedPass,
-                additionalDetails
+                additionalDetails,
+                socketId: null,
             }
         );
 

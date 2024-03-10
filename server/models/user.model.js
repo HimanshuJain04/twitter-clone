@@ -32,6 +32,9 @@ const userSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "AdditionalDetails"
         },
+        socketId: {
+            type: String
+        },
         following: [
             {
                 type: mongoose.Schema.Types.ObjectId,
