@@ -1,0 +1,1 @@
+import{j as r}from"./index-D89wP-Bh.js";import{C as e}from"./CircularProgress-9x59cZ3H.js";function i(){return r.jsx("div",{className:"w-full h-screen flex justify-center items-center",children:r.jsx(e,{})})}export{i as S};
