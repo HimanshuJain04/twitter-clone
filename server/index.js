@@ -6,8 +6,7 @@ import { cloudinaryConnection } from "./config/cloudinary.config.js"
 import { createServer } from "http";
 import { Server } from "socket.io";
 import {
-    handleUserConnected,
-    handleSendMessage,
+    onConnected
 } from "./controllers/webrtc.controller.js"
 
 
@@ -38,39 +37,7 @@ const server = createServer(app);
 const io = new Server(server, { cors: true });
 
 
-io.on('connection', (socket) => {
-
-    // Handle user connection
-    socket.on('userConnected', async (userId) => {
-        await handleUserConnected(userId, socket.id);
-    });
-
-    socket.on('send-message', async (messageData) => {
-        await handleSendMessage(socket, messageData);
-    });
-
-    // Handle offer message
-    socket.on('offer', (offer, recipientSocketId) => {
-        io.to(recipientSocketId).emit('offer', offer, socket.id);
-    });
-
-    // Handle answer message
-    socket.on('answer', (answer, recipientSocketId) => {
-        io.to(recipientSocketId).emit('answer', answer);
-    });
-
-    // Handle ICE candidate message
-    socket.on('icecandidate', (candidate, recipientSocketId) => {
-        io.to(recipientSocketId).emit('icecandidate', candidate);
-    });
-
-    socket.on('error', (error) => {
-        console.error('Socket error:', error);
-        // Handle specific errors (e.g., disconnection) or emit an error event to the client
-    });
-
-});
-
+io.on('connection', onConnected);
 
 
 server.listen(PORT, () => {

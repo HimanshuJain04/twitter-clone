@@ -30,8 +30,6 @@ const Chat = lazy(() => import("./pages/Chat.jsx"))
 
 // *************COMPONENTS**************
 const PostPage = lazy(() => import("./pages/PostPage.jsx"));
-import Test from "./webrtc/Test.jsx";
-
 
 function App() {
 
@@ -72,7 +70,6 @@ function App() {
               <Route path="communities" element={<Suspense><Communities /></Suspense>} />
               <Route path="premium" element={<Suspense><Premium /></Suspense>} />
               <Route path="grok" element={<Suspense><Grok /></Suspense>} />
-              <Route path="test" element={<Test />} />
               <Route path="chat/:userName" element={<Suspense><Chat /></Suspense>} />
             </Route>
 

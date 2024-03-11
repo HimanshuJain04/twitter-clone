@@ -5,15 +5,26 @@ import { PiVideoCameraFill } from "react-icons/pi";
 import { MdAddCall } from "react-icons/md";
 import { HiDotsVertical } from "react-icons/hi";
 import { MdSend } from "react-icons/md";
+import { useSelector } from "react-redux"
+import io from 'socket.io-client';
+
+
+
+
+const IO_URL = import.meta.env.VITE_SERVER_IO_URL;
 
 
 const Chat = () => {
+
+    const socket = io(IO_URL);
 
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const [userData, setUserData] = useState([]);
     const textAreaRef = useRef();
     const [message, setMessage] = useState("")
+    const userState = useSelector(state => state.auth.user);
+
 
     // for auto growing textarea
     useEffect(() => {
@@ -36,19 +47,35 @@ const Chat = () => {
         }
     }, [textAreaRef.current, message]);
 
+
+    useEffect(() => {
+        socket.emit('userConnected', userState._id);
+    }, []);
+
+
     useEffect(() => {
         const name = pathname.split("/").at(-1);
 
         getUserDetailsByUsername(name)
             .then(({ data }) => {
-                console.log(data.data)
                 setUserData(data.data.existedUser);
-
             }).catch((err) => {
                 console.log("ERROR: ", err);
             })
 
     }, [pathname]);
+
+
+    const sendMessage = () => {
+        if (message.trim() !== '') {
+            socket.emit('send-message-one-to-one', message, userState._id, userData._id);
+            setMessage("");
+        }
+    };
+
+    socket.on('recieve-mesaage', (data) => {
+        console.log("demd: ", data)
+    });
 
 
     return (
@@ -121,6 +148,7 @@ const Chat = () => {
                         <textarea
                             type="text"
                             rows={1}
+                            value={message}
                             onChange={(e) => setMessage(e.target.value)}
                             ref={textAreaRef}
                             className='w-full  rounded-md bg-white/[0.2] text-white placeholder:text-white/[0.25] resize-none px-3 py-1 text-lg font-semibold outline-none'
@@ -129,7 +157,7 @@ const Chat = () => {
                     </div>
 
                     <div>
-                        <button className='flex bg-blue-500 text-white font-semibold rounded-full px-5 py-1 transition-all duration-200 ease-in-out gap-2 justify-center hover:shadow-sm hover:shadow-white items-center text-lg'>
+                        <button onClick={sendMessage} className='flex bg-blue-500 text-white font-semibold rounded-full px-5 py-1 transition-all duration-200 ease-in-out gap-2 justify-center hover:shadow-sm hover:shadow-white items-center text-lg'>
                             <span>Send</span>
                             <span>
                                 <MdSend />
@@ -141,7 +169,7 @@ const Chat = () => {
 
             </div>
         </div >
-    )
+    );
 }
 
 export default Chat
