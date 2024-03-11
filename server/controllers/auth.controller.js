@@ -11,6 +11,7 @@ import { mailSender } from "../utils/mailSender.js";
 const options = {
     httpOnly: true,
     secure: true,
+    SameSite: 'None',
     expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours from now
 };
 
@@ -324,6 +325,8 @@ export const resendOtp = async (req, res) => {
 
 
 export const login = async (req, res) => {
+
+    console.log("logginnnn");
     try {
 
         const {
