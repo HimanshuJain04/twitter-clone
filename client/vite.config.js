@@ -10,7 +10,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       "/api/v1/": {
-        target: "https://localhost:4000",
+        target: "https://twitter-clone-backend2024.vercel.app",
         changeOrigin: true,
         secure: false,
       },
