@@ -78,7 +78,6 @@ const CreateComment = ({ post, setCommentBoxOpen }) => {
 
                     </div>
             }
-
         </div >
     )
 }
