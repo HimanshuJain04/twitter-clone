@@ -156,7 +156,7 @@ const Chat = () => {
                 </div>
 
                 {/* footer */}
-                <div className=' px-5 w-full border-t-2 border-white/[0.2] sticky bottom-0 pt-3 pb-5 gap-5 flex justify-between items-start'>
+                <div className=' px-5 z-[100] bg-black w-full border-t-2 border-white/[0.2] sticky bottom-0 pt-3 pb-5 gap-5 flex justify-between items-start'>
 
                     <div className='w-full'>
                         <textarea

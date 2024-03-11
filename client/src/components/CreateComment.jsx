@@ -13,7 +13,7 @@ const CreateComment = ({ post, setCommentBoxOpen }) => {
 
 
     return (
-        <div className='fixed top-0 bg-black/[0.35] flex justify-center items-center left-0 z-30 text-white w-screen h-screen'>
+        <div className='fixed top-0 px-5 bg-black/[0.35] flex justify-center items-center left-0 z-30 text-white w-screen h-screen'>
             {
 
                 loading ?
