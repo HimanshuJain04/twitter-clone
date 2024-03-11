@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import Message from "../models/message.model.js";
 
+
 export const onConnected = (socket) => {
 
     // Handle user connection
@@ -12,9 +13,8 @@ export const onConnected = (socket) => {
     // Handle one-to-to chat message
     socket.on('send-message-one-to-one', async (messageData, senderId, receiverId) => {
         await handleSendMessage(messageData, senderId, receiverId);
-        socket.emit("recieve-message", messageData);
+        socket.broadcast.emit("receive-message", messageData);
     });
-
 }
 
 

@@ -24,6 +24,7 @@ const Chat = () => {
     const textAreaRef = useRef();
     const [message, setMessage] = useState("")
     const userState = useSelector(state => state.auth.user);
+    const [receivedMessages, setReceivedMessages] = useState([]);
 
 
     // for auto growing textarea
@@ -73,9 +74,22 @@ const Chat = () => {
         }
     };
 
-    socket.on('recieve-mesaage', (data) => {
-        console.log("demd: ", data)
-    });
+
+    useEffect(() => {
+        // Define the event listener function
+        const handleMessageReceived = (data) => {
+            setReceivedMessages(prevMessages => [...prevMessages, data]);
+        };
+
+        // Add the event listener
+        socket.on('receive-message', handleMessageReceived);
+
+        return () => {
+            socket.off('receive-message');
+        };
+
+    }, [socket]);
+
 
 
     return (
@@ -138,7 +152,7 @@ const Chat = () => {
                 </div>
 
                 <div className='w-full h-screen p-5 overflow-auto text-white'>
-                    hihi
+                    {receivedMessages}
                 </div>
 
                 {/* footer */}
