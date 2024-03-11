@@ -11,9 +11,10 @@ import { mailSender } from "../utils/mailSender.js";
 const options = {
     httpOnly: true,
     secure: true,
-    SameSite: 'None',
+    sameSite: 'none',
     expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours from now
 };
+
 
 const generateRandomOtp = () => {
     // Generate a random number between 10000 and 99999
