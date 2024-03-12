@@ -36,7 +36,10 @@ app.use("/api/v1/chat", chatRoute);
 
 
 const server = createServer(app);
-const io = new Server(server, { cors: true });
+const io = new Server(server, {
+    cors: true,
+    pingTimeout: 60000
+});
 
 
 io.on('connection', onConnected);

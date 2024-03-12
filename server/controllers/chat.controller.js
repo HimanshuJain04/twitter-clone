@@ -84,3 +84,38 @@ export const accessChats = async (req, res) => {
         )
     }
 }
+
+
+export const fetchChats = async (req, res) => {
+    try {
+
+        const userId = req.user._id;
+
+        const allChats = await Chat.find(
+            {
+                users: {
+                    $eq: { userId }
+                }
+            }
+        )
+
+        return res.status(201).json(
+            {
+                success: true,
+                data: allChats,
+                message: "Fetch chats successfully"
+            }
+        );
+
+    } catch (error) {
+
+        return res.status(500).json(
+            {
+                message: "Server failed to fetch chats,Please try again",
+                error: error.message,
+                success: false,
+                data: null
+            }
+        )
+    }
+}
