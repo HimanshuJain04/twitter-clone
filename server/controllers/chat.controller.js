@@ -124,21 +124,20 @@ import Chat from "../models/chat.model.js";
 export const createChat = async (req, res) => {
     try {
 
-        // const { senderId, receiverId } = req.body;
+        const { senderId, receiverId } = req.body;
 
-        // console.log(senderId, receiverId);
+        console.log(senderId, receiverId);
 
-        // const newChat = await Chat.create(
-        //     {
-        //         users: [senderId, receiverId]
-        //     }
-        // );
+        const newChat = await Chat.create(
+            {
+                users: [senderId, receiverId]
+            }
+        );
 
         return res.status(201).json(
             {
                 success: true,
-                // data: { senderId, receiverId },
-                data: "hihi",
+                data: { senderId, receiverId },
                 message: "Chat created successfully"
             }
         );
