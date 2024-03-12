@@ -1,9 +1,16 @@
-import React from 'react';
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
-const UserAccount = ({ user, path }) => {
+
+const UserAccount = ({ user, path, nextSend }) => {
+
+
+    const navigate = useNavigate();
+
     return (
-        <Link to={path}
+        <button
+            onClick={() => {
+                navigate(path, { state: nextSend ? user : null })
+            }}
             className='flex cursor-pointer w-full hover:bg-white/[0.1] transition-all duration-300 ease-in-out justify-start gap-3 p-2 items-center'
         >
             {/* user-image */}
@@ -16,7 +23,8 @@ const UserAccount = ({ user, path }) => {
                 <p className='font-bold'>{user?.fullName}</p>
                 <p className='text-white/[0.5] font-light'>@{user?.userName}</p>
             </div>
-        </Link>
+
+        </button>
     )
 }
 

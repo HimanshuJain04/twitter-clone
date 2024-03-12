@@ -1,8 +1,4 @@
-import User from "../models/user.model.js";
-import Chat from "../models/chat.model.js";
 import Message from "../models/message.model.js";
-
-
 
 
 export const addMessage = async (req, res) => {
@@ -48,7 +44,6 @@ export const getMessages = async (req, res) => {
 
         const existedMessage = await Message.findOne({ chatId });
 
-
         return res.status(201).json(
             {
                 success: true,
@@ -56,6 +51,7 @@ export const getMessages = async (req, res) => {
                 message: "get message successfully"
             }
         );
+
 
     } catch (error) {
 
@@ -66,6 +62,6 @@ export const getMessages = async (req, res) => {
                 success: false,
                 data: null
             }
-        )
+        );
     }
 }

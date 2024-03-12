@@ -1,26 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from "react-router-dom";
-import { getUserDetailsByUsername } from "../services/userService.js"
 import { PiVideoCameraFill } from "react-icons/pi";
 import { MdAddCall } from "react-icons/md";
 import { HiDotsVertical } from "react-icons/hi";
 import { MdSend } from "react-icons/md";
 import { useSelector } from "react-redux"
-import io from 'socket.io-client';
-
-
-const IO_URL = import.meta.env.VITE_SERVER_IO_URL;
 
 
 const Chat = () => {
 
-    const socket = io(IO_URL);
-
-    const { pathname } = useLocation();
+    const location = useLocation();
     const navigate = useNavigate();
-    const [userData, setUserData] = useState([]);
+    const userData = location.state;
+
     const textAreaRef = useRef();
     const [message, setMessage] = useState("")
+
     const userState = useSelector(state => state.auth.user);
     const [receivedMessages, setReceivedMessages] = useState([]);
 
@@ -52,24 +47,12 @@ const Chat = () => {
     // }, []);
 
 
-    useEffect(() => {
-        const name = pathname.split("/").at(-1);
-
-        getUserDetailsByUsername(name)
-            .then(({ data }) => {
-                setUserData(data.data.existedUser);
-            }).catch((err) => {
-                console.log("ERROR: ", err);
-            })
-
-    }, [pathname]);
-
 
     const sendMessage = () => {
-        if (message.trim() !== '') {
-            socket.emit('send-message-one-to-one', message, userState._id, userData._id);
-            setMessage("");
-        }
+        // if (message.trim() !== '') {
+        //     socket.emit('send-message-one-to-one', message, userState._id, userData._id);
+        //     setMessage("");
+        // }
     };
 
 

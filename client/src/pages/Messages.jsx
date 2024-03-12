@@ -3,28 +3,49 @@ import { MdGroupAdd } from "react-icons/md";
 import { getAllConnectedUsers } from "../services/userService.js"
 import UserAccount from "../components/UserAccount.jsx";
 import Spinner from "../components/common/Spinner.jsx";
+import { useSelector } from "react-redux"
+import { getAllChats, createChat } from "../services/chatService.js"
+
 
 const Messages = () => {
 
     const [searchValue, setSearchValue] = useState("");
     const [loading, setLoading] = useState(false);
     const [allUsers, setAllUsers] = useState([]);
+    const userState = useSelector(state => state.auth.user);
+    console.log("user: ", userState)
 
 
     useEffect(() => {
         setLoading(true);
-        getAllConnectedUsers()
+        getAllChats(userState._id)
             .then(({ data }) => {
+                console.log(data)
                 setAllUsers(data.data);
             })
             .catch((err) => { console.log("ERROR: ", err) })
             .finally(() => { setLoading(false) })
     }, []);
 
+    // user1=>65ee9cbfcccc87b95e30c585
+    // user2=>"65ee9dcacccc87b95e30c595"
 
-    // useEffect(() => {
 
-    // }, [searchValue]);
+
+    useEffect(() => {
+        setLoading(true);
+        createChat({ senderId: "65ee9cbfcccc87b95e30c585", receiverId: "65ee9dcacccc87b95e30c595" })
+            .then(({ data }) => {
+                console.log(data)
+            })
+            .catch((err) => { console.log("ERROR: ", err) })
+            .finally(() => { setLoading(false) })
+    }, []);
+
+
+    useEffect(() => {
+
+    }, [searchValue]);
 
 
     return (
@@ -65,7 +86,7 @@ const Messages = () => {
                             {
                                 allUsers.length > 0 ? (
                                     allUsers.map((user) => (
-                                        <UserAccount key={user._id} user={user} path={`/chat/${user.userName}`} />
+                                        <UserAccount key={user._id} nextSend={true} user={user} path={`/chat/${user.userName}`} />
                                     ))
                                 ) : (
                                     <div className='w-full mt-10'>

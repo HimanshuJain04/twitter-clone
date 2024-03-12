@@ -46,13 +46,11 @@ const MobileNavbar = () => {
         <div className='w-full'>
             <div className='bg-black justify-between items-center flex w-full px-8 py-4'>
                 {
-                    navIcons?.map((set) => (
-                        <Link key={set.icon} to={set.path}>
-                            <abrr title={set.title} >
-                                <span className='text-white text-2xl'>
-                                    {set.icon}
-                                </span>
-                            </abrr>
+                    navIcons?.map((set, index) => (
+                        <Link key={set.title + index} to={set.path}>
+                            <span className='text-white text-2xl'>
+                                {set.icon}
+                            </span>
                         </Link>
                     ))
                 }

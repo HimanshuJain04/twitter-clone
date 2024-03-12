@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const additionalDetailsSchema = new mongoose.Schema(
     {
         user: {
-            type: mongoose.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         },
         coverImg: {
@@ -30,6 +30,7 @@ const additionalDetailsSchema = new mongoose.Schema(
         }
     }
 );
+
 
 const AdditionalDetails = mongoose.model("AdditionalDetails", additionalDetailsSchema);
 export default AdditionalDetails;

@@ -3,11 +3,11 @@ import mongoose from "mongoose";
 const notificationSchema = new mongoose.Schema(
     {
         messageTo: {
-            type: mongoose.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "User",
         },
         messageFrom: {
-            type: mongoose.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "User",
         },
         message: {
