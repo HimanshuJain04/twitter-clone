@@ -137,7 +137,7 @@ export const createChat = async (req, res) => {
         return res.status(201).json(
             {
                 success: true,
-                data: { senderId, receiverId },
+                data: { senderId, receiverId, newChat },
                 message: "Chat created successfully"
             }
         );
