@@ -134,7 +134,7 @@ const CreatePost = ({ setIsLoading, type, postId, setCommentBoxOpen }) => {
 
     return (
         <div className='w-full'>
-            <div className='w-ful py-3  gap-2 flex justify-between items-start px-5 border-b-2 border-[white]/[0.2]'>
+            <div className='w-ful py-3 bg-black  gap-2 flex justify-between items-start px-5 border-b-2 border-[white]/[0.2]'>
 
                 {/* user-image */}
                 <div className='overflow-hidden rounded-full h-12 w-12'>

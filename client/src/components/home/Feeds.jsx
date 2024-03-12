@@ -5,6 +5,10 @@ import CreatePost from '../CreatePost';
 import { fetchFeeds, fetchFollowingPosts } from "../../services/postService.js";
 import TransparencySpinner from '../common/TransparencySpinner.jsx';
 import PostSkeleton from '../common/PostSkeleton.jsx';
+import { MdOutlineAdd } from "react-icons/md";
+import { MdOutlineClose } from "react-icons/md";
+
+
 
 const navLinks = [
     "For you",
@@ -19,6 +23,7 @@ const Feeds = () => {
     const [isSkeleton, setIsSkeleton] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const [index, setIndex] = useState(0);
+    const [openCreatePost, setOpenCreatePost] = useState(false);
 
     const [option, setOption] = useState(navLinks[0]);
 
@@ -64,12 +69,25 @@ const Feeds = () => {
 
     return (
         <div className='w-full'>
-            <div className='flex w-full relative flex-col justify-start items-center bg-'>
+            <div className='flex w-full relative flex-col justify-start items-center bg-black'>
 
                 {/* Spinner */}
                 {
                     isLoading &&
                     <TransparencySpinner />
+                }
+
+                {
+                    openCreatePost && (
+                        <div className='absolute z-10 bg-black/[0.6] w-screen h-screen flex justify-center items-center'>
+                            <div className='relative max-w-[350px] sm:max-w-[500px]'>
+                                <span onClick={() => setOpenCreatePost(false)} className='text-white absolute right-2 top-1 text-2xl'>
+                                    <MdOutlineClose />
+                                </span>
+                                <CreatePost type={"Post"} setIsLoading={setIsLoading} />
+                            </div>
+                        </div>
+                    )
                 }
 
                 {/* navbar */}
@@ -140,6 +158,13 @@ const Feeds = () => {
 
 
                 </div>
+
+                {/* Create post button */}
+                <button onClick={() => { setOpenCreatePost(true) }} className='fixed right-5 bottom-16 rounded-full bg-blue-500 p-2 sm:p-4 shadow-md shadow-black '>
+                    <span className=' text-white text-4xl '>
+                        <MdOutlineAdd />
+                    </span>
+                </button>
 
             </div>
         </div >
