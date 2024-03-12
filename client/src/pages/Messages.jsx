@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MdGroupAdd } from "react-icons/md";
-import { getAllConnectedUsers } from "../services/userService.js"
 import UserAccount from "../components/UserAccount.jsx";
 import Spinner from "../components/common/Spinner.jsx";
 import { useSelector } from "react-redux"
-import { getAllChats, createChat } from "../services/chatService.js"
+import { getAllChats } from "../services/chatService.js"
 
 
 const Messages = () => {
@@ -13,8 +12,6 @@ const Messages = () => {
     const [loading, setLoading] = useState(false);
     const [allUsers, setAllUsers] = useState([]);
     const userState = useSelector(state => state.auth.user);
-    console.log("user: ", userState)
-
 
     useEffect(() => {
         setLoading(true);
@@ -29,19 +26,6 @@ const Messages = () => {
 
     // user1=>65ee9cbfcccc87b95e30c585
     // user2=>"65ee9dcacccc87b95e30c595"
-
-
-
-    useEffect(() => {
-        setLoading(true);
-        createChat({ senderId: "65ee9cbfcccc87b95e30c585", receiverId: "65ee9dcacccc87b95e30c595" })
-            .then(({ data }) => {
-                console.log(data)
-            })
-            .catch((err) => { console.log("ERROR: ", err) })
-            .finally(() => { setLoading(false) })
-    }, []);
-
 
     useEffect(() => {
 
@@ -86,7 +70,7 @@ const Messages = () => {
                             {
                                 allUsers.length > 0 ? (
                                     allUsers.map((user) => (
-                                        <UserAccount key={user._id} nextSend={true} user={user} path={`/chat/${user.userName}`} />
+                                        <UserAccount key={user._id} nextSend={true} user={user} />
                                     ))
                                 ) : (
                                     <div className='w-full mt-10'>

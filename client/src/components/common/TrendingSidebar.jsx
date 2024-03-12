@@ -96,7 +96,7 @@ const TrendingSidebar = () => {
                                         {
                                             searchedData.length > 0 ? (
                                                 searchedData?.map((userData) => (
-                                                    <UserAccount key={userData._id} user={userData} path={`/profile/${userData.userName}`} />
+                                                    <UserAccount key={userData._id} user={userData} nextSend={false} />
                                                 ))
                                             ) : (
                                                 <div className='text-lg p-3 text-white/[0.5]'>

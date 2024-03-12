@@ -6,7 +6,7 @@ export const getAllChats = async (userId) => {
 }
 
 export const createChat = async (data) => {
-    return await jsonRequest.post("/chat/", data);
+    return await jsonRequest.post("/chat/create-chat", data);
 }
 
 

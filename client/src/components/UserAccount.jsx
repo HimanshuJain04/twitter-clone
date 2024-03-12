@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 
-const UserAccount = ({ user, path, nextSend }) => {
+const UserAccount = ({ user, nextSend }) => {
 
 
     const navigate = useNavigate();
@@ -9,7 +9,7 @@ const UserAccount = ({ user, path, nextSend }) => {
     return (
         <button
             onClick={() => {
-                navigate(path, { state: nextSend ? user : null })
+                navigate(nextSend ? (`/chat/${user.userName}`) : (`/profile/${user.userName}`), { state: nextSend ? user : null })
             }}
             className='flex cursor-pointer w-full hover:bg-white/[0.1] transition-all duration-300 ease-in-out justify-start gap-3 p-2 items-center'
         >

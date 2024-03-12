@@ -137,7 +137,7 @@ export const createChat = async (req, res) => {
         return res.status(201).json(
             {
                 success: true,
-                data: { senderId, receiverId, newChat },
+                data: newChat,
                 message: "Chat created successfully"
             }
         );
@@ -167,7 +167,9 @@ export const userChats = async (req, res) => {
                     $in: [userId]
                 }
             }
-        );
+        )
+            .populate("users", "userName fullName profileImg")
+            .exec();
 
 
         return res.status(201).json(
