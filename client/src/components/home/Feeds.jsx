@@ -160,7 +160,7 @@ const Feeds = () => {
                 </div>
 
                 {/* Create post button */}
-                <button onClick={() => { setOpenCreatePost(true) }} className='fixed right-5 bottom-16 rounded-full bg-blue-500 p-2 sm:p-4 shadow-md shadow-black '>
+                <button onClick={() => { setOpenCreatePost(true) }} className='fixed lg:hidden right-5 bottom-16 rounded-full bg-blue-500 p-2 sm:p-4 shadow-md shadow-black '>
                     <span className=' text-white text-4xl '>
                         <MdOutlineAdd />
                     </span>
