@@ -4,7 +4,7 @@ import { PiVideoCameraFill } from "react-icons/pi";
 import { MdAddCall } from "react-icons/md";
 import { HiDotsVertical } from "react-icons/hi";
 import { MdSend } from "react-icons/md";
-import { useSelector } from "react-redux"
+import { useSelector } from "react-redux";
 
 
 const Chat = () => {
@@ -15,9 +15,10 @@ const Chat = () => {
 
     const textAreaRef = useRef();
     const [message, setMessage] = useState("")
+    const [loading, setLoading] = useState(false)
 
-    const userState = useSelector(state => state.auth.user);
-    const [receivedMessages, setReceivedMessages] = useState([]);
+    const currentUser = useSelector(state => state.auth.user);
+    const [messages, setMessages] = useState([]);
 
 
     // for auto growing textarea
@@ -42,35 +43,21 @@ const Chat = () => {
     }, [textAreaRef.current, message]);
 
 
-    // useEffect(() => {
-    //     socket.emit('userConnected', userState._id);
-    // }, []);
-
-
-
     const sendMessage = () => {
-        // if (message.trim() !== '') {
-        //     socket.emit('send-message-one-to-one', message, userState._id, userData._id);
-        //     setMessage("");
-        // }
+
     };
 
-
-    // useEffect(() => {
-    //     // Define the event listener function
-    //     const handleMessageReceived = (data) => {
-    //         setReceivedMessages(prevMessages => [...prevMessages, data]);
-    //     };
-
-    //     // Add the event listener
-    //     socket.on('receive-message', handleMessageReceived);
-
-    //     return () => {
-    //         socket.off('receive-message');
-    //     };
-
-    // }, [socket]);
-
+    useEffect(() => {
+        setLoading(true);
+        getMessages(user)
+            .then(({ data }) => {
+                setMessages(data.data);
+            })
+            .catch((err) => {
+                console.log("ERROR: ", err)
+            })
+            .finally(() => { setLoading(false) })
+    }, [])
 
 
     return (
@@ -133,7 +120,7 @@ const Chat = () => {
                 </div>
 
                 <div className='w-full h-screen p-5 overflow-auto text-white'>
-                    {receivedMessages}
+                    {messages}
                 </div>
 
                 {/* footer */}

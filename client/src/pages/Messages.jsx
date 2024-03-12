@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { MdGroupAdd } from "react-icons/md";
-import UserAccount from "../components/UserAccount.jsx";
+import Conversation from "../components/Conversation.jsx";
 import Spinner from "../components/common/Spinner.jsx";
 import { useSelector } from "react-redux"
 import { getAllChats } from "../services/chatService.js"
@@ -10,15 +10,14 @@ const Messages = () => {
 
     const [searchValue, setSearchValue] = useState("");
     const [loading, setLoading] = useState(false);
-    const [allUsers, setAllUsers] = useState([]);
+    const [allChats, setAllChats] = useState([]);
     const userState = useSelector(state => state.auth.user);
 
     useEffect(() => {
         setLoading(true);
         getAllChats(userState._id)
             .then(({ data }) => {
-                console.log(data)
-                setAllUsers(data.data);
+                setAllChats(data.data);
             })
             .catch((err) => { console.log("ERROR: ", err) })
             .finally(() => { setLoading(false) })
@@ -68,9 +67,9 @@ const Messages = () => {
                         {/* users */}
                         <div>
                             {
-                                allUsers.length > 0 ? (
-                                    allUsers.map((user) => (
-                                        <UserAccount key={user._id} nextSend={true} user={user} />
+                                allChats.length > 0 ? (
+                                    allChats.map((chats) => (
+                                        <Conversation key={chats._id} data={chats} currentUserId={userState._id} />
                                     ))
                                 ) : (
                                     <div className='w-full mt-10'>
@@ -80,7 +79,6 @@ const Messages = () => {
                                 )
                             }
                         </div>
-
                     </div >
                 )
             }

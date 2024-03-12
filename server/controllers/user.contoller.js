@@ -155,6 +155,47 @@ export const fetchSearches = async (req, res) => {
 }
 
 
+export const getUserDataById = async (req, res) => {
+    try {
+
+        const { userId } = req.params;
+
+        const existedUser = await User
+            .findById(userId)
+            .select("fullName email userName profileImg ")
+            .exec();
+
+        if (!existedUser) {
+            return res.status(404).json(
+                {
+                    message: "User not found",
+                    success: false,
+                    data: null
+                }
+            )
+        }
+
+        return res.status(201).json(
+            {
+                success: true,
+                data: { existedUser },
+                message: "Fetch user details by id successfully"
+            }
+        );
+
+    } catch (error) {
+
+        return res.status(500).json(
+            {
+                message: "Server failed to fetch user details by id,Please try again",
+                error: error.message,
+                success: false,
+                data: null
+            }
+        )
+    }
+}
+
 export const getUserDetailsByUsername = async (req, res) => {
     try {
 

@@ -10,11 +10,13 @@ import {
     updateUserCoverImage,
     fetchSearches,
     getAllConnectedUsers,
+    getUserDataById,
 } from "../controllers/user.contoller.js";
 
 
 
 router.route("/getUserDetailsByUsername/:username").get(getUserDetailsByUsername);
+router.route("/getUserDataById/:userId").get(getUserDataById);
 router.route("/updateUserDetails").patch(verifyJwtToken, updateUserDetails);
 router.route("/fetch-users").get(fetchSearches);
 router.route("/userFollowHandler/:anotherUserId").patch(verifyJwtToken, userFollow);
