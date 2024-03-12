@@ -171,4 +171,4 @@ const Feeds = () => {
     );
 }
 
-export default Feeds
+export default Feeds;
