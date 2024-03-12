@@ -14,6 +14,7 @@ import {
 import authRoute from "./routes/auth.route.js";
 import postRoute from "./routes/post.route.js";
 import userRoute from "./routes/user.route.js";
+import chatRoute from "./routes/chat.route.js";
 
 // environment
 dotenv.config();
@@ -31,6 +32,7 @@ const PORT = process.env.PORT || 5000;
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/post", postRoute);
 app.use("/api/v1/user", userRoute);
+app.use("/api/v1/chat", chatRoute);
 
 
 const server = createServer(app);
