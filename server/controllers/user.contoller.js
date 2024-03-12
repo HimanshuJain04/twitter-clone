@@ -178,7 +178,7 @@ export const getUserDataById = async (req, res) => {
         return res.status(201).json(
             {
                 success: true,
-                data: { existedUser },
+                data: existedUser,
                 message: "Fetch user details by id successfully"
             }
         );
