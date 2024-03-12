@@ -167,9 +167,7 @@ export const userChats = async (req, res) => {
                     $in: [userId]
                 }
             }
-        )
-            .populate("users", "userName fullName profileImg")
-            .exec();
+        );
 
 
         return res.status(201).json(

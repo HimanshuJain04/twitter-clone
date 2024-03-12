@@ -10,9 +10,12 @@ const Conversation = ({ data, currentUserId }) => {
 
     useEffect(() => {
 
-        const userId = data.users?.find((id) => id != currentUserId);
+        console.log("data: ", data)
 
-        getUserDataById(userId)
+        const userId = data.users?.find((id) => id !== currentUserId);
+        console.log(userId)
+
+        getUserDataById(userId._id)
             .then((res) => {
                 console.log(res.data.data)
                 setUser(res.data.data);
