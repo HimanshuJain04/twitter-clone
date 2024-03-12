@@ -4,8 +4,6 @@ import { getUserDataById } from "../services/userService.js";
 
 const Conversation = ({ data, currentUserId }) => {
 
-    console.log(data)
-
     const [user, setUser] = useState(null);
 
     useEffect(() => {
@@ -44,7 +42,6 @@ const Conversation = ({ data, currentUserId }) => {
                 <p className='font-bold'>{user?.fullName}</p>
                 <p className='text-white/[0.5] font-light'>@{user?.userName}</p>
             </div>
-
         </button>
     )
 }

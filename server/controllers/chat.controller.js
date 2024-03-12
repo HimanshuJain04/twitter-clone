@@ -159,7 +159,7 @@ export const createChat = async (req, res) => {
 export const userChats = async (req, res) => {
     try {
 
-        const userId = req.params.userId || req.user._id;
+        const { userId } = req.params;
 
         const userChats = await Chat.find(
             {
