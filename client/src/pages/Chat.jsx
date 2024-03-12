@@ -49,9 +49,9 @@ const Chat = () => {
     }, [textAreaRef.current, message]);
 
 
-    useEffect(() => {
-        socket.emit('userConnected', userState._id);
-    }, []);
+    // useEffect(() => {
+    //     socket.emit('userConnected', userState._id);
+    // }, []);
 
 
     useEffect(() => {
@@ -75,20 +75,20 @@ const Chat = () => {
     };
 
 
-    useEffect(() => {
-        // Define the event listener function
-        const handleMessageReceived = (data) => {
-            setReceivedMessages(prevMessages => [...prevMessages, data]);
-        };
+    // useEffect(() => {
+    //     // Define the event listener function
+    //     const handleMessageReceived = (data) => {
+    //         setReceivedMessages(prevMessages => [...prevMessages, data]);
+    //     };
 
-        // Add the event listener
-        socket.on('receive-message', handleMessageReceived);
+    //     // Add the event listener
+    //     socket.on('receive-message', handleMessageReceived);
 
-        return () => {
-            socket.off('receive-message');
-        };
+    //     return () => {
+    //         socket.off('receive-message');
+    //     };
 
-    }, [socket]);
+    // }, [socket]);
 
 
 
@@ -156,7 +156,7 @@ const Chat = () => {
                 </div>
 
                 {/* footer */}
-                <div className=' px-5 z-[100] bg-black w-full border-t-2 border-white/[0.2] sticky bottom-0 pt-3 pb-5 gap-5 flex justify-between items-start'>
+                <div className=' px-5  bg-black w-full border-t-2 border-white/[0.2] sticky bottom-0 pt-3 pb-5 gap-5 flex justify-between items-start'>
 
                     <div className='w-full'>
                         <textarea
