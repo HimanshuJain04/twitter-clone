@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom"
+import OTPInput, { ResendOTP } from "otp-input-react";
 import {
     verifyOtp,
     sendOtpToEmail
@@ -22,9 +23,10 @@ const VerifyOtp = () => {
     const { email, from } = location.state;
     console.log(location.state);
 
-    const otp = ["", "", "", "", ""];
+    // const otp = ["", "", "", "", ""];
 
     const [isLoading, setIsLoading] = useState(false);
+    const [otp, setOtp] = useState("");
 
     useEffect(() => {
         setTimeout(() => {
@@ -114,37 +116,15 @@ const VerifyOtp = () => {
                                 <div
                                     className='flex  flex-col justify-center items-center gap-16'
                                 >
-
-                                    <form
-                                        className='flex flex-row gap-5 md:gap-10 justify-center items-center'
-                                    >
-                                        {/* input fields */}
-                                        {
-                                            otp.map((value, index) => (
-                                                <input
-                                                    type='text'
-                                                    key={index}
-                                                    maxLength={1}
-                                                    minLength={1}
-                                                    name={`otp${index}`}
-                                                    {
-                                                    ...register(
-                                                        `otp${index}`,
-                                                        {
-                                                            required: "Enter Valid OTP",
-                                                            pattern: {
-                                                                value: /^[0-9]+$/,
-                                                                mesage: "Enter Valid OTP"
-                                                            }
-                                                        }
-                                                    )
-                                                    }
-
-                                                    className=' h-10 w-10 sm:w-14 p-2 sm:p-5 sm:h-14 transition-all duration-300 ease-in-out focus-within:border-blue-500 border-2 border-black text-white bg-[black] text-xl font-bold rounded-lg outline-none '
-                                                />
-                                            ))
-                                        }
-                                    </form >
+                                    <OTPInput
+                                        OTPLength={5}
+                                        disabled={false}
+                                        autoFocus={true}
+                                        otpType="number"
+                                        value={otp}
+                                        onChange={setOtp}
+                                        inputClassName={"outline-none shadow-sm shadow-white/[0.3] focus-within:border-blue-400 border-2 border-black rounded-md bg-black text-white text-xl p-2"}
+                                    />
 
                                     {/* buttons */}
                                     < div className='w-full flex flex-col-reverse gap-5 sm:flex-row justify-between items-center' >
