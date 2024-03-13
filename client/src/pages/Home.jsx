@@ -169,7 +169,7 @@ const Home = () => {
 
 
                 {/* Feeds */}
-                <div ref={scrollDiv} className='h-[calc(100vh-100px)] pb-10 w-full bg-black overflow-y-auto' >
+                <div ref={scrollDiv} className='h-[calc(100vh-100px)] pb-14 w-full bg-black overflow-y-auto' >
                     {
                         isSkeleton ? (
                             <div className='flex flex-col justify-start gap-5 items-center' >
