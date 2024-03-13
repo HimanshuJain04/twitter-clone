@@ -18,6 +18,7 @@ const Chat = () => {
     const textAreaRef = useRef();
     const chatId = location.pathname.split("/").at(-2);
     const socket = useRef();
+    const scroll = useRef();
 
     const [inputText, setInputText] = useState("")
     const [loading, setLoading] = useState(false);
@@ -28,6 +29,7 @@ const Chat = () => {
     const currentUser = useSelector(state => state.auth.user);
     const [messages, setMessages] = useState([]);
     const [onlineUsers, setOnlineUsers] = useState([]);
+
 
     // SocketIo implementation
     useEffect(() => {
@@ -42,7 +44,7 @@ const Chat = () => {
 
 
 
-    }, [currentUser]);
+    }, []);
 
 
     // Get Chat Messages
@@ -125,6 +127,10 @@ const Chat = () => {
         }
     }, [recieveMessages]);
 
+    // scroll to the last message
+    useEffect(() => {
+        scroll.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);
 
 
     return (
@@ -186,11 +192,12 @@ const Chat = () => {
 
                 </div>
 
-                <div className='w-full flex overflow-y-auto pb-40 h-screen flex-col gap-5 p-5 text-white'>
+                <div className='w-full h-[calc(100vh-150px)] flex overflow-y-auto flex-col gap-5 p-5 text-white'>
                     {
                         messages?.map((message) => (
                             <div
                                 key={message._id}
+                                ref={scroll}
                                 className={`flex w-full ${message.sender === currentUser._id ? "justify-end pl-5" : "justify-start pr-5"} items-center`}
                             >
                                 {/* message/content */}
