@@ -102,7 +102,7 @@ const Home = () => {
                                 <Sidebar />
                                 <span
                                     onClick={() => setShowSidebar(false)}
-                                    className='text-white text-2xl right-5 absolute top-5'
+                                    className='text-white transition-all duration-200 ease-in-out cursor-pointer hover:bg-white/[0.3] p-2 rounded-full text-2xl right-5 absolute top-5'
                                 >
                                     <RxCross1 />
                                 </span>
