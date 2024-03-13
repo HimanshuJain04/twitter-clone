@@ -6,6 +6,7 @@ import { HiDotsVertical } from "react-icons/hi";
 import { MdSend } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { getMessages, addMessage } from "../services/chatService.js";
+import { format } from "timeago.js"
 
 const Chat = () => {
 
@@ -54,7 +55,7 @@ const Chat = () => {
         addMessage(payload)
             .then(({ data }) => {
                 console.log(data)
-
+                setInputText("");
             }).catch((err) => {
                 console.log("ERROR : ", err)
             });
@@ -136,7 +137,22 @@ const Chat = () => {
                 </div>
 
                 <div className='w-full h-screen p-5 overflow-auto text-white'>
-                    {messages}
+                    <div>
+                        {
+                            messages?.map((message) => (
+                                <div
+                                    key={message._id}
+                                    className='flex justify-center items-center'
+                                >
+                                    {/* message/content */}
+                                    <div className='p-3 rounded-md bg-white/[0.2]'>
+                                        <p className='text-white/[0.8]'>{message.content}</p>
+                                        <p className='text-white/[0.5]'>{format(message.createdAt)}</p>
+                                    </div>
+                                </div>
+                            ))
+                        }
+                    </div>
                 </div>
 
                 {/* footer */}

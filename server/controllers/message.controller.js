@@ -42,7 +42,7 @@ export const getMessages = async (req, res) => {
 
         const { chatId } = req.params;
 
-        const existedMessage = await Message.findOne({ chatId });
+        const existedMessage = await Message.find({ chatId });
 
         return res.status(201).json(
             {
