@@ -38,7 +38,8 @@ const server = createServer(app);
 const io = new Server(server, {
     cors: {
         origin: "*"
-    }
+    },
+    addTrailingSlash: false
 });
 
 // origin: [
