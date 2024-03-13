@@ -15,6 +15,7 @@ import {
     getUserMediaPosts,
     getUserPosts,
     getPostById,
+    editPost,
     fetchFollowingPosts,
     fetchNotifications,
 } from "../controllers/post.controller.js"
@@ -30,6 +31,7 @@ router.route("/getUserLikedPosts").get(getUserLikedPosts);
 router.route("/getUserComments").get(getUserComments);
 router.route("/getUserMediaPosts").get(getUserMediaPosts);
 router.route("/delete-post/:postId").delete(deletePost);
+router.route("/edit-post/:postId").put(editPost);
 router.route("/getPostDetails/:postId").get(getPostById);
 router.route("/increaseViewsOnPost/:postId").patch(increaseViewsOnPost);
 router.route("/fetch-posts").get(fetchAllPosts);

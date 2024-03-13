@@ -460,50 +460,50 @@ export const increaseViewsOnPost = async (req, res) => {
 }
 
 
-// TODO:Update
+export const editPost = async (req, res) => {
+    try {
+
+        const { postId } = req.params;
+
+
+        const existedPost = await Post.findById(postId);
+
+        if (!existedPost) {
+            return res.status(404).json(
+                {
+                    message: "Post not found",
+                    success: false,
+                    data: null
+                }
+            )
+        }
+
+        return res.status(200).json(
+            {
+                success: true,
+                data: existedPost,
+                message: "Post edit successfully"
+            }
+        );
+
+    } catch (error) {
+
+        return res.status(500).json(
+            {
+                message: "Server failed to edit the post,Please try again",
+                error: error.message,
+                success: false,
+                data: null
+            }
+        )
+    }
+}
+
+
 export const deletePost = async (req, res) => {
     try {
 
         const { postId } = req.params;
-        const userId = req.user?._id;
-
-
-        if (!userId || !postId) {
-            return res.status(401).json(
-                {
-                    message: "All fields are required",
-                    success: false,
-                    data: null
-                }
-            )
-        }
-
-        const existedUser = await User.findById(userId);
-
-        if (!existedUser) {
-            return res.status(404).json(
-                {
-                    message: "User not found",
-                    success: false,
-                    data: null
-                }
-            )
-        }
-
-        // delete comment on that post
-        await Comment.deleteMany({ _id: postId });
-
-        // delete the post from users list
-        const updatedUser = User.findByIdAndUpdate(
-            { _id: postId },
-            {
-                $pull: {
-                    posts: postId
-                }
-            }
-        );
-
-        // delete the post from users liked and bookmarked
 
         // delete that post
         const deletedPost = await Post.findByIdAndDelete(postId);
@@ -518,11 +518,10 @@ export const deletePost = async (req, res) => {
             )
         }
 
-
         return res.status(200).json(
             {
                 success: true,
-                data: { user: updatedUser, deletePost },
+                data: deletePost,
                 message: "Post deleted successfully"
             }
         );

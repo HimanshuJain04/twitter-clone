@@ -27,6 +27,16 @@ export const likePost = async (postId) => {
     return await jsonRequest.patch(`/post/like-unlike-post/${postId}`);
 }
 
+export const deletePost = async (postId) => {
+    return await jsonRequest.delete(`/post/delete-post/${postId}`);
+}
+
+
+export const editPost = async (postId) => {
+    return await jsonRequest.put(`/post/edit-post/${postId}`);
+}
+
+
 
 export const getPostDetails = async (postId) => {
     return await jsonRequest.get(`/post/getPostDetails/${postId}`);

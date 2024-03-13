@@ -12,12 +12,16 @@ import { FaBookmark } from "react-icons/fa6";
 import { IoStatsChartSharp } from "react-icons/io5";
 import toast from "react-hot-toast"
 import { RxCross1 } from "react-icons/rx";
+import { FiEdit } from "react-icons/fi";
+import { MdDelete } from "react-icons/md";
 import CreateComment from './CreateComment.jsx';
 import { useNavigate } from "react-router-dom";
 import { viewsConvertor } from "../utils/viewsConvertor.js"
 import {
     bookmarkPost,
     likePost,
+    deletePost,
+    editPost,
     increaseViewsOnPost
 } from "../services/postService.js";
 
@@ -37,7 +41,6 @@ const Post = ({ post, isdetailedPage, isFeeds }) => {
     const [showDotOption, setShowDotOption] = useState(false);
 
     const [commentBoxOpen, setCommentBoxOpen] = useState(false);
-
 
     function commentHandler() {
         setCommentBoxOpen(true);
@@ -82,6 +85,31 @@ const Post = ({ post, isdetailedPage, isFeeds }) => {
                 console.log("Error when trying to bookmark: ", err)
             })
     }
+
+
+    async function deleteHandler() {
+
+        await deletePost(post._id)
+            .then(() => {
+                toast.success("Post Deleted")
+            })
+            .catch((err) => {
+                console.log("Error when trying to delete the post: ", err)
+            })
+    }
+
+
+    async function editHandler() {
+
+        await editPost(post._id)
+            .then(() => {
+                toast.success("Post Edited")
+            })
+            .catch((err) => {
+                console.log("Error when trying to edit: ", err)
+            })
+    }
+
 
     useEffect(() => {
         if (isFeeds && userState._id !== post.user._id) {
@@ -151,14 +179,28 @@ const Post = ({ post, isdetailedPage, isFeeds }) => {
 
                         </div>
 
-                        <div onClick={() => setShowDotOption(!showDotOption)} className='text-xl cursor-pointer text-white'>
-                            <HiDotsHorizontal />
-                        </div>
+                        {
+                            userState?._id === post?.user?._id &&
+                            <div onClick={() => setShowDotOption(!showDotOption)} className='text-xl cursor-pointer text-white'>
+                                <HiDotsHorizontal />
+                            </div>
+                        }
+
 
                         {
                             showDotOption &&
-                            <div className='bg-[#353232] h-[100px] absolute right-5 top-2 text-white'>
-                                hhii
+                            <div className='bg-[#353232] flex flex-col justify-start items-start  absolute right-5 top-2 p-2  rounded-md text-white'>
+                                {/* edit post */}
+                                <div onClick={editHandler} className='flex hover:bg-[#262424] p-2 rounded-md transition-all duration-300 ease-in-out justify-center items-center gap-2'>
+                                    <span className='text-xl text-white'><FiEdit /></span>
+                                    <span className='white/[0.8] font-semibold'>Edit</span>
+                                </div>
+
+                                {/* delete post */}
+                                <div onClick={deleteHandler} className='flex hover:bg-[#262424] p-2 rounded-md transition-all duration-300 ease-in-out justify-center items-center gap-2'>
+                                    <span className='text-xl text-white'><MdDelete /></span>
+                                    <span className='white/[0.8] font-semibold'>Delete</span>
+                                </div>
                             </div>
                         }
 
