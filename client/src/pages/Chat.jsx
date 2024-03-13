@@ -5,7 +5,7 @@ import { MdAddCall } from "react-icons/md";
 import { HiDotsVertical } from "react-icons/hi";
 import { MdSend } from "react-icons/md";
 import { useSelector } from "react-redux";
-import { getMessages } from "../services/chatService.js";
+import { getMessages, addMessage } from "../services/chatService.js";
 
 const Chat = () => {
 
@@ -44,7 +44,21 @@ const Chat = () => {
     }, [textAreaRef.current, inputText]);
 
 
-    const sendMessage = () => {
+    const sendMessage = async () => {
+        const payload = {
+            chatId,
+            sender: currentUser._id,
+            content: inputText
+        };
+
+        addMessage(payload)
+            .then(({ data }) => {
+                console.log(data)
+
+            }).catch((err) => {
+                console.log("ERROR : ", err)
+            });
+
 
     };
 

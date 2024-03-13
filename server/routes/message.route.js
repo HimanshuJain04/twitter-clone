@@ -11,7 +11,7 @@ import { addMessage, getMessages } from "../controllers/message.controller.js";
 // ****************** MESSAGE *****************
 
 
-router.route("/").post(addMessage);
+router.route("/add-message").post(addMessage);
 router.route("/:chatId").get(getMessages);
 
 
