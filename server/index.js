@@ -43,8 +43,29 @@ const io = new Server(server, {
     pingTimeout: 60000
 });
 
+let activeUsers = [];
 
-io.on('connection', onConnected);
+io.on('connection', (socket) => {
+
+    socket.on("add-user", (userId) => {
+        // if not added
+        if (!activeUsers.some((user) => user.userId === userId)) {
+            activeUsers.push(
+                {
+                    userId,
+                    socketId: socket.id
+                }
+            );
+        }
+        io.emit("get-active-users", activeUsers);
+    });
+
+
+    socket.on("disconnect", () => {
+        activeUsers = activeUsers.filter((user) => user.socketId !== socket.id);
+        io.emit("get-active-users", activeUsers);
+    });
+});
 
 
 server.listen(PORT, () => {

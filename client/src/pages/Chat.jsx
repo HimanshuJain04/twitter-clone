@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { getMessages, addMessage } from "../services/chatService.js";
 import { format } from "timeago.js"
 import InputEmoji from "react-input-emoji";
+import { io } from "socket.io-client"
 
 const Chat = () => {
 
@@ -16,12 +17,30 @@ const Chat = () => {
     const userData = location.state;
     const textAreaRef = useRef();
     const chatId = location.pathname.split("/").at(-2);
+    const socket = useRef();
 
     const [inputText, setInputText] = useState("")
     const [loading, setLoading] = useState(false);
 
     const currentUser = useSelector(state => state.auth.user);
     const [messages, setMessages] = useState([]);
+    const [onlineUsers, setOnlineUsers] = useState([]);
+
+
+    useEffect(() => {
+
+        socket.current = io("https://twitter-clone-backend2024.vercel.app");
+        socket.current.emit("add-user", currentUser._id);
+
+        socket.current.on("get-active-users", (activeUsers) => {
+            setOnlineUsers(activeUsers);
+            console.log("activeUsers: ", activeUsers);
+        })
+
+
+
+    }, [currentUser]);
+
 
 
     // for auto growing textarea
@@ -43,7 +62,7 @@ const Chat = () => {
             }
 
         }
-    }, [textAreaRef.current, inputText]);
+    }, [inputText]);
 
 
     const sendMessage = async () => {
@@ -55,7 +74,7 @@ const Chat = () => {
 
         addMessage(payload)
             .then(({ data }) => {
-                console.log(data)
+                setMessages([...messages, data.data]);
                 setInputText("");
             }).catch((err) => {
                 console.log("ERROR : ", err)
@@ -75,7 +94,9 @@ const Chat = () => {
                 console.log("ERROR: ", err)
             })
             .finally(() => { setLoading(false) })
-    }, [])
+    }, [chatId]);
+
+
 
 
     return (
