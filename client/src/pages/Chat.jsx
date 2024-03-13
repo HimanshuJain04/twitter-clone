@@ -5,7 +5,7 @@ import { MdAddCall } from "react-icons/md";
 import { HiDotsVertical } from "react-icons/hi";
 import { MdSend } from "react-icons/md";
 import { useSelector } from "react-redux";
-import { getChatById } from "../services/chatService.js";
+import { getMessages } from "../services/chatService.js";
 
 const Chat = () => {
 
@@ -50,7 +50,7 @@ const Chat = () => {
 
     useEffect(() => {
         setLoading(true);
-        getChatById(chatId)
+        getMessages(chatId)
             .then(({ data }) => {
                 console.log(data)
                 setMessages(data.data);

@@ -5,7 +5,7 @@ export const getAllChats = async (userId) => {
     return await jsonRequest.get(`/chat/${userId}`);
 }
 
-export const getMessagesById = async (chatId) => {
+export const getMessages = async (chatId) => {
     return await jsonRequest.get(`/message/${chatId}`);
 }
 
