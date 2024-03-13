@@ -23,8 +23,6 @@ const Messages = () => {
             .finally(() => { setLoading(false) })
     }, []);
 
-    // user1=>65ee9cbfcccc87b95e30c585
-    // user2=>"65ee9dcacccc87b95e30c595"
 
     useEffect(() => {
 
@@ -51,17 +49,6 @@ const Messages = () => {
                                     onChange={(e) => setSearchValue(e.target.value)}
                                 />
                             </div>
-
-                            {/* group button */}
-                            <div>
-                                <button className='flex bg-green-600 hover:bg-green-500 transition-all duration-300 ease-out rounded-full py-2 px-8 justify-center items-center gap-2 font-bold'>
-                                    <span className='text-xl'>
-                                        <MdGroupAdd />
-                                    </span>
-                                    <span className='text-lg'>Group</span>
-                                </button>
-                            </div>
-
                         </div>
 
                         {/* users */}
@@ -69,7 +56,7 @@ const Messages = () => {
                             {
                                 allChats.length > 0 ? (
                                     allChats.map((chats) => (
-                                        <Conversation key={chats._id} data={chats} currentUserId={userState._id} />
+                                        <Conversation  key={chats._id} data={chats} currentUserId={userState._id} />
                                     ))
                                 ) : (
                                     <div className='w-full mt-10'>

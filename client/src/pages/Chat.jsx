@@ -9,6 +9,8 @@ import { getMessages, addMessage } from "../services/chatService.js";
 import { format } from "timeago.js"
 import InputEmoji from "react-input-emoji";
 import { io } from "socket.io-client"
+import ChatSkeleton from '../components/common/ChatSkeleton.jsx';
+
 
 const Chat = () => {
 
@@ -29,6 +31,8 @@ const Chat = () => {
     const currentUser = useSelector(state => state.auth.user);
     const [messages, setMessages] = useState([]);
     const [onlineUsers, setOnlineUsers] = useState([]);
+    const [disabled, setDisabled] = useState(false);
+
 
 
     // SocketIo implementation
@@ -41,8 +45,6 @@ const Chat = () => {
             setOnlineUsers(activeUsers);
             console.log("activeUsers: ", activeUsers);
         })
-
-
 
     }, []);
 
@@ -58,7 +60,7 @@ const Chat = () => {
             .catch((err) => {
                 console.log("ERROR: ", err)
             })
-            .finally(() => { setLoading(false) })
+            .finally(() => setLoading(false))
     }, [chatId]);
 
 
@@ -102,6 +104,13 @@ const Chat = () => {
 
     // Function for sending message
     const sendMessageHandler = async () => {
+
+        if (inputText.trim().length <= 0) {
+            return;
+        }
+
+        setDisabled(true);
+
         const payload = {
             chatId,
             sender: currentUser._id,
@@ -114,7 +123,8 @@ const Chat = () => {
                 setInputText("");
             }).catch((err) => {
                 console.log("ERROR : ", err)
-            });
+            })
+            .finally(() => setDisabled(false));
 
         // Send message to socket server
         setSendMessages({ ...messages, userId: userData._id });
@@ -126,6 +136,7 @@ const Chat = () => {
             setMessages([...messages, recieveMessages]);
         }
     }, [recieveMessages]);
+
 
     // scroll to the last message
     useEffect(() => {
@@ -192,24 +203,34 @@ const Chat = () => {
 
                 </div>
 
-                <div className='w-full h-[calc(100vh-150px)] flex overflow-y-auto flex-col gap-5 p-5 text-white'>
+                <div className='w-full h-[calc(100vh-150px)]' >
                     {
-                        messages?.map((message) => (
-                            <div
-                                key={message._id}
-                                ref={scroll}
-                                className={`flex w-full ${message.sender === currentUser._id ? "justify-end pl-5" : "justify-start pr-5"} items-center`}
-                            >
-                                {/* message/content */}
-                                <div className='px-3 relative py-2 rounded-md bg-white/[0.2]'>
-                                    {/* <span className='bg-white/[0.2] absolute -right-2 h-5 w-5 rotate-45 top-1'></span> */}
-                                    <p className='text-white/[0.8] text-base'>{message.content}</p>
-                                    <p className='text-white/[0.5] text-xs'>{format(message.createdAt)}</p>
-                                </div>
+                        loading ? (
+                            <ChatSkeleton />
+                        ) : (
+                            <div className='w-full h-[calc(100vh-150px)] flex overflow-y-auto flex-col gap-5 p-5 text-white'>
+                                {
+                                    messages?.map((message) => (
+                                        <div
+                                            key={message._id}
+                                            ref={scroll}
+                                            className={`flex w-full ${message.sender === currentUser._id ? "justify-end pl-5" : "justify-start pr-5"} items-center`}
+                                        >
+                                            {/* message/content */}
+                                            <div className='px-3 relative py-2 rounded-md bg-white/[0.2]'>
+                                                {/* <span className='bg-white/[0.2] absolute -right-2 h-5 w-5 rotate-45 top-1'></span> */}
+                                                <p className='text-white/[0.8] text-base'>{message.content}</p>
+                                                <p className='text-white/[0.5] text-xs'>{format(message.createdAt)}</p>
+                                            </div>
+                                        </div>
+                                    ))
+                                }
                             </div>
-                        ))
+                        )
                     }
+
                 </div>
+
 
                 {/* footer */}
                 <div className=' px-5  bg-black w-full border-t-2 border-white/[0.2] sticky bottom-0 pt-3 pb-5 gap-5 flex justify-between items-start'>
@@ -227,7 +248,7 @@ const Chat = () => {
                     </div>
 
                     <div>
-                        <button onClick={sendMessageHandler} className='flex bg-blue-500 text-white font-semibold rounded-full px-5 py-1 transition-all duration-200 ease-in-out gap-2 justify-center hover:shadow-sm hover:shadow-white items-center text-lg'>
+                        <button disabled={disabled} onClick={sendMessageHandler} className='flex bg-blue-500 text-white font-semibold rounded-full px-5 py-1 transition-all duration-200 ease-in-out gap-2 justify-center hover:shadow-sm hover:shadow-white items-center text-lg'>
                             <span>Send</span>
                             <span>
                                 <MdSend />

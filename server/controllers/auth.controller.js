@@ -22,6 +22,7 @@ const generateRandomOtp = () => {
     return otp.toString();
 }
 
+
 const sendMail = async (email) => {
     try {
 
@@ -52,6 +53,7 @@ const sendMail = async (email) => {
 
     }
 }
+
 
 const generateRefreshAndAccessToken = async (userId) => {
 
@@ -327,7 +329,6 @@ export const resendOtp = async (req, res) => {
 
 export const login = async (req, res) => {
 
-    console.log("logginnnn");
     try {
 
         const {
@@ -686,6 +687,57 @@ export const resetPassword = async (req, res) => {
                 success: false,
                 data: null,
                 message: "Server failed to reset password,try again later",
+                error: error.message
+            }
+        )
+    }
+}
+
+
+export const refreshAccessToken = async (req, res) => {
+    try {
+        const { refreshToken } = req.body;
+
+        const decoded = await jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN);
+
+        if (!decoded) {
+            return res.status(401).json(
+                {
+                    success: false,
+                    message: "Refresh token is not valid",
+                    data: null
+                }
+            )
+        }
+
+        // Fetch user details based on the refresh token
+        const existedUser = await User.findById(decoded._id);
+
+        if (!existedUser) {
+            return res.status(404).json(
+                {
+                    success: false,
+                    message: "User not found",
+                    data: null
+                }
+            )
+        }
+
+        // return response
+        return res.status(201).json(
+            {
+                success: true,
+                data: existedUser,
+                message: "Refresh access token successfully",
+            }
+        )
+
+    } catch (error) {
+        return res.status(501).json(
+            {
+                success: false,
+                data: null,
+                message: "Server failed to refresh access token,try again later",
                 error: error.message
             }
         )

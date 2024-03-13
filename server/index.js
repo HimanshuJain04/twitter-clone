@@ -5,12 +5,9 @@ import { app } from "./app.js";
 import { cloudinaryConnection } from "./config/cloudinary.config.js"
 import { createServer } from "http";
 import { Server } from "socket.io";
-import {
-    onConnected
-} from "./controllers/webrtc.controller.js"
 
 
-// import routes 
+// import routes
 import authRoute from "./routes/auth.route.js";
 import postRoute from "./routes/post.route.js";
 import userRoute from "./routes/user.route.js";

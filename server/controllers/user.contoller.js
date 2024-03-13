@@ -137,6 +137,33 @@ export const getAllConnectedUsers = async (req, res) => {
 }
 
 
+export const getAllUsers = async (req, res) => {
+    try {
+
+        const users = await User.find({});
+
+        return res.status(201).json(
+            {
+                success: true,
+                data: users,
+                message: "Fetch all user successfully"
+            }
+        );
+
+    } catch (error) {
+
+        return res.status(500).json(
+            {
+                message: "Server failed to fetch all user,Please try again",
+                error: error.message,
+                success: false,
+                data: null
+            }
+        )
+    }
+}
+
+
 export const fetchSearches = async (req, res) => {
     try {
 
