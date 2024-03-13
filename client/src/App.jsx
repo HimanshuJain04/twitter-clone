@@ -1,9 +1,9 @@
 import { Routes, Route } from "react-router-dom";
-import { useDispatch, } from "react-redux";
+import { useDispatch } from "react-redux";
 import { authVerifyToken } from "./redux/slices/authSlice.js";
 import { lazy, useEffect, Suspense } from "react"
-import ProtectedRoutes from "./components/ProtectedRoutes.jsx";
 
+const ProtectedRoutes = lazy(() => import("./components/ProtectedRoutes.jsx"));
 
 // *********** Import pages ***************
 // auth-page
@@ -26,10 +26,8 @@ const List = lazy(() => import("./pages/List.jsx"));
 const Messages = lazy(() => import("./pages/Messages.jsx"))
 const Grok = lazy(() => import("./pages/Grok.jsx"))
 const Chat = lazy(() => import("./pages/Chat.jsx"))
-
-
-// *************COMPONENTS**************
 const PostPage = lazy(() => import("./pages/PostPage.jsx"));
+
 
 function App() {
 
@@ -44,10 +42,9 @@ function App() {
   return (
     <>
       <div className="flex justify-center items-center bg-black w-screen">
-        <div className='h-screen w-full lg:w-10/12   '>
+        <div className='h-screen w-full lg:w-10/12'>
 
           <Routes>
-
             {/* ***************AUTH*************** */}
             <Route path="/auth" >
               <Route path="login" element={<Suspense><Login /></Suspense>} />

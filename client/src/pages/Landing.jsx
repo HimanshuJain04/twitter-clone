@@ -1,16 +1,23 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import xLogo from "/logo.png";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux"
+const Spinner = lazy(() => import("../components/common/Spinner.jsx"));
 
 
 const Landing = () => {
 
     const navigate = useNavigate();
+    const currentState = useSelector(state => state.auth);
 
     return (
         <div>
+            {
+                currentState.isLoading && <Spinner />
+            }
+
             <div className='w-full flex flex-col justify-center items-center overflow-hidden'>
                 {/* section for landing page */}
                 <div className='w-full flex py-10 flex-col gap-10 md:flex-row justify-around items-center h-screen '>

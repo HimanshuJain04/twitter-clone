@@ -115,7 +115,7 @@ const Home = () => {
                 <div className={`sticky top-0 w-full backdrop-blur-2xl border-b-2 border-[white]/[0.19]  `}>
 
                     {/* mobile navbar */}
-                    <div className='w-full px-2 py-1 flex flex-row justify-between items-center'>
+                    <div className='w-full lg:hidden px-4 pt-2 flex flex-row justify-between items-center'>
 
                         <div onClick={() => setShowSidebar(true)} className='w-10 h-10 overflow-hidden'>
                             <img
@@ -166,7 +166,6 @@ const Home = () => {
 
                     </div >
                 </div >
-
 
 
                 {/* Feeds */}
