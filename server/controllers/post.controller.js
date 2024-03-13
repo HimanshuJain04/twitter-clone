@@ -465,7 +465,6 @@ export const editPost = async (req, res) => {
 
         const { postId } = req.params;
 
-
         const existedPost = await Post.findById(postId);
 
         if (!existedPost) {
@@ -477,6 +476,7 @@ export const editPost = async (req, res) => {
                 }
             )
         }
+
 
         return res.status(200).json(
             {
@@ -506,22 +506,12 @@ export const deletePost = async (req, res) => {
         const { postId } = req.params;
 
         // delete that post
-        const deletedPost = await Post.findByIdAndDelete(postId);
-
-        if (!deletedPost) {
-            return res.status(404).json(
-                {
-                    message: "Post not found",
-                    success: false,
-                    data: null
-                }
-            )
-        }
+        await Post.findByIdAndDelete(postId);
 
         return res.status(200).json(
             {
                 success: true,
-                data: deletePost,
+                data: null,
                 message: "Post deleted successfully"
             }
         );

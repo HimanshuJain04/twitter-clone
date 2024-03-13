@@ -42,9 +42,11 @@ const Post = ({ post, isdetailedPage, isFeeds }) => {
 
     const [commentBoxOpen, setCommentBoxOpen] = useState(false);
 
+
     function commentHandler() {
         setCommentBoxOpen(true);
     }
+    
 
     function retweetHandler() {
 
