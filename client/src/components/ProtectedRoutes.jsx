@@ -15,6 +15,7 @@ const ProtectedRoutes = () => {
     return (
         userAuth ?
             <div className='justify-between relative h-screen overflow-hidden w-full items-start flex flex-row'>
+
                 <div className='lg:block hidden'>
                     <FeatureSidebar />
                 </div>
@@ -26,7 +27,7 @@ const ProtectedRoutes = () => {
                 </div>
 
                 {
-                    (!isChatPage) && (
+                    !isChatPage && (
                         <div className='fixed lg:hidden block left-0 bottom-0 w-full'>
                             <MobileNavbar />
                         </div>

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { IoSettingsOutline } from "react-icons/io5";
-import Post from '../../components/Post';
-import CreatePost from '../CreatePost';
-import { fetchFeeds, fetchFollowingPosts } from "../../services/postService.js";
-import TransparencySpinner from '../common/TransparencySpinner.jsx';
-import PostSkeleton from '../common/PostSkeleton.jsx';
+import Post from '../components/Post.jsx';
+import CreatePost from '../components/CreatePost.jsx';
+import { fetchFeeds, fetchFollowingPosts } from "../services/postService.js";
+import TransparencySpinner from '../components/common/TransparencySpinner.jsx';
+import PostSkeleton from '../components/common/PostSkeleton.jsx';
 import { MdOutlineAdd } from "react-icons/md";
 import { MdOutlineClose } from "react-icons/md";
 
@@ -15,7 +15,7 @@ const navLinks = [
     "Following",
 ];
 
-const Feeds = () => {
+const Home = () => {
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -171,4 +171,4 @@ const Feeds = () => {
     );
 }
 
-export default Feeds;
+export default Home;

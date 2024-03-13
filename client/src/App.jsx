@@ -4,7 +4,6 @@ import { authVerifyToken } from "./redux/slices/authSlice.js";
 import { lazy, useEffect, Suspense } from "react"
 import ProtectedRoutes from "./components/ProtectedRoutes.jsx";
 
-const Feeds = lazy(() => import("./components/home/Feeds.jsx"));
 
 // *********** Import pages ***************
 // auth-page
@@ -17,6 +16,7 @@ const ForgotChangePassword = lazy(() => import("./pages/auth/ForgotChangePasswor
 
 // pages
 const Profile = lazy(() => import("./pages/Profile.jsx"));
+const Home = lazy(() => import("./pages/Home.jsx"));
 const EditProfile = lazy(() => import("./pages/EditProfile.jsx"));
 const Communities = lazy(() => import("./pages/Communities.jsx"));
 const Premium = lazy(() => import("./pages/Premium.jsx"));
@@ -59,7 +59,7 @@ function App() {
 
             {/* ****************** OTHER PROTECTED PAGES ************* */}
             <Route path="/" element={<Suspense><ProtectedRoutes /></Suspense>}>
-              <Route path="" exact element={<Suspense><Feeds /></Suspense>} />
+              <Route path="" exact element={<Suspense><Home /></Suspense>} />
               <Route path="profile/:username" element={<Suspense><Profile /></Suspense>} />
               <Route path="edit-profile/:username" element={<Suspense><EditProfile /></Suspense>} />
               <Route path="post/:postId" element={<Suspense><PostPage /></Suspense>} />
