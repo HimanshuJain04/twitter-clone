@@ -4,13 +4,13 @@ import Message from "../models/message.model.js";
 export const addMessage = async (req, res) => {
     try {
 
-        const { chatId, senderId, text } = req.body;
+        const { chatId, senderId, content } = req.body;
 
         const newMessage = await Message.create(
             {
                 chatId,
                 senderId,
-                content: text
+                content
             }
         );
 
