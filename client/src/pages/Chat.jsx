@@ -10,6 +10,7 @@ import { format } from "timeago.js"
 import InputEmoji from "react-input-emoji";
 import { io } from "socket.io-client"
 import ChatSkeleton from '../components/common/ChatSkeleton.jsx';
+const BASE_URL = import.meta.env.VITE_SERVER_IO_URL;
 
 
 const Chat = () => {
@@ -38,7 +39,9 @@ const Chat = () => {
     // SocketIo implementation
     useEffect(() => {
 
-        socket.current = io("https://twitter-clone-backend2024.vercel.app");
+        console.log("hihi")
+
+        socket.current = io(BASE_URL);
         socket.current.emit("add-user", currentUser._id);
 
         socket.current.on("get-active-users", (activeUsers) => {
@@ -46,7 +49,7 @@ const Chat = () => {
             console.log("activeUsers: ", activeUsers);
         })
 
-    }, []);
+    }, [currentUser]);
 
 
     // Get Chat Messages
@@ -54,7 +57,6 @@ const Chat = () => {
         setLoading(true);
         getMessages(chatId)
             .then(({ data }) => {
-                console.log(data)
                 setMessages(data.data);
             })
             .catch((err) => {
