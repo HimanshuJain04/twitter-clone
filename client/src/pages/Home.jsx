@@ -117,7 +117,7 @@ const Home = () => {
                     {/* mobile navbar */}
                     <div className='w-full lg:hidden px-4 pt-2 flex flex-row justify-between items-center'>
 
-                        <div onClick={() => setShowSidebar(true)} className='w-10 h-10 overflow-hidden'>
+                        <div onClick={() => setShowSidebar(true)} className='w-10 cursor-pointer h-10 overflow-hidden'>
                             <img
                                 src={userState.profileImg}
                                 alt="profile"
@@ -125,7 +125,7 @@ const Home = () => {
                             />
                         </div>
 
-                        <div className='h-6 overflow-hidden'>
+                        <div className='h-6  overflow-hidden'>
                             <img
                                 src={logo}
                                 alt="logo"
@@ -133,7 +133,7 @@ const Home = () => {
                             />
                         </div>
 
-                        <div>
+                        <div className='cursor-pointer p-2 hover:bg-white/[0.2] rounded-full transition-all duration-200 ease-in-out'>
                             <span className='text-white text-2xl'>
                                 <IoSettingsOutline />
                             </span>
@@ -210,6 +210,7 @@ const Home = () => {
 
 
                 </div >
+
 
                 {/* Create post button */}
                 <button onClick={() => { setOpenCreatePost(true) }} className='fixed lg:hidden right-5 bottom-16 rounded-full bg-blue-500 p-2 sm:p-4 shadow-md shadow-black ' >

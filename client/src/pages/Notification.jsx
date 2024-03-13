@@ -16,8 +16,6 @@ const Notification = () => {
     fetchNotification()
       .then(({ data }) => {
         setData(data.data);
-        console.log(data);
-
       }).catch((err) => {
         console.log("ERROR: ", err);
       })
