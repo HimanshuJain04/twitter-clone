@@ -51,6 +51,7 @@ let activeUsers = [];
 
 io.on('connection', (socket) => {
 
+    // Add user
     socket.on("add-user", (userId) => {
         // if not added
         if (!activeUsers.some((user) => user.userId === userId)) {
@@ -64,7 +65,17 @@ io.on('connection', (socket) => {
         io.emit("get-active-users", activeUsers);
     });
 
+    // Send Message
+    socket.on("send-message", (data) => {
+        const { userId } = data;
+        const user = activeUsers.find((user) => user.userId === userId);
 
+        if (user) {
+            io.to(user.socketId).emit("recieve-message", data)
+        }
+    });
+
+    // Disconnect User
     socket.on("disconnect", () => {
         activeUsers = activeUsers.filter((user) => user.socketId !== socket.id);
         io.emit("get-active-users", activeUsers);

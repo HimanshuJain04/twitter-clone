@@ -21,12 +21,15 @@ const Chat = () => {
 
     const [inputText, setInputText] = useState("")
     const [loading, setLoading] = useState(false);
+    const [sendMessages, setSendMessages] = useState(null);
+    const [recieveMessages, setRecieveMessages] = useState(null);
+
 
     const currentUser = useSelector(state => state.auth.user);
     const [messages, setMessages] = useState([]);
     const [onlineUsers, setOnlineUsers] = useState([]);
 
-
+    // SocketIo implementation
     useEffect(() => {
 
         socket.current = io("https://twitter-clone-backend2024.vercel.app");
@@ -41,6 +44,36 @@ const Chat = () => {
 
     }, [currentUser]);
 
+
+    // Get Chat Messages
+    useEffect(() => {
+        setLoading(true);
+        getMessages(chatId)
+            .then(({ data }) => {
+                console.log(data)
+                setMessages(data.data);
+            })
+            .catch((err) => {
+                console.log("ERROR: ", err)
+            })
+            .finally(() => { setLoading(false) })
+    }, [chatId]);
+
+
+    // Send messages to socket server
+    useEffect(() => {
+        if (sendMessages !== null) {
+            socket.current.emit("send-message", sendMessages);
+        }
+    }, [sendMessages]);
+
+
+    // recieve messages from socket server
+    useEffect(() => {
+        socket.current.on("recieve-message", (data) => {
+            setRecieveMessages(data);
+        });
+    }, []);
 
 
     // for auto growing textarea
@@ -65,7 +98,8 @@ const Chat = () => {
     }, [inputText]);
 
 
-    const sendMessage = async () => {
+    // Function for sending message
+    const sendMessageHandler = async () => {
         const payload = {
             chatId,
             sender: currentUser._id,
@@ -79,21 +113,17 @@ const Chat = () => {
             }).catch((err) => {
                 console.log("ERROR : ", err)
             });
+
+        // Send message to socket server
+        setSendMessages({ ...messages, userId: userData._id });
     };
 
+    // recieve message
     useEffect(() => {
-        setLoading(true);
-        getMessages(chatId)
-            .then(({ data }) => {
-                console.log(data)
-                setMessages(data.data);
-            })
-            .catch((err) => {
-                console.log("ERROR: ", err)
-            })
-            .finally(() => { setLoading(false) })
-    }, [chatId]);
-
+        if (recieveMessages !== null && recieveMessages.chatId === chatId) {
+            setMessages([...messages, recieveMessages]);
+        }
+    }, [recieveMessages]);
 
 
 
@@ -190,7 +220,7 @@ const Chat = () => {
                     </div>
 
                     <div>
-                        <button onClick={sendMessage} className='flex bg-blue-500 text-white font-semibold rounded-full px-5 py-1 transition-all duration-200 ease-in-out gap-2 justify-center hover:shadow-sm hover:shadow-white items-center text-lg'>
+                        <button onClick={sendMessageHandler} className='flex bg-blue-500 text-white font-semibold rounded-full px-5 py-1 transition-all duration-200 ease-in-out gap-2 justify-center hover:shadow-sm hover:shadow-white items-center text-lg'>
                             <span>Send</span>
                             <span>
                                 <MdSend />
