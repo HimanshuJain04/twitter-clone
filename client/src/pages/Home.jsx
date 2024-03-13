@@ -190,7 +190,7 @@ const Home = () => {
                                 }
 
 
-                                <div className='w-full  flex mt-5 flex-col gap-5 justify-start items-start'>
+                                <div className='w-full pb-10 flex mt-5 flex-col gap-5 justify-start items-start'>
 
                                     {
                                         allPosts.length > 0 ? (
