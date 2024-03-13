@@ -7,6 +7,7 @@ import { MdSend } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { getMessages, addMessage } from "../services/chatService.js";
 import { format } from "timeago.js"
+import InputEmoji from "react-input-emoji";
 
 const Chat = () => {
 
@@ -136,23 +137,22 @@ const Chat = () => {
 
                 </div>
 
-                <div className='w-full h-screen p-5 overflow-auto text-white'>
-                    <div>
-                        {
-                            messages?.map((message) => (
-                                <div
-                                    key={message._id}
-                                    className='flex justify-center items-center'
-                                >
-                                    {/* message/content */}
-                                    <div className='p-3 rounded-md bg-white/[0.2]'>
-                                        <p className='text-white/[0.8]'>{message.content}</p>
-                                        <p className='text-white/[0.5]'>{format(message.createdAt)}</p>
-                                    </div>
+                <div className='w-full flex overflow-y-auto pb-40 h-screen flex-col gap-5 p-5 text-white'>
+                    {
+                        messages?.map((message) => (
+                            <div
+                                key={message._id}
+                                className={`flex w-full ${message.sender === currentUser._id ? "justify-end pl-5" : "justify-start pr-5"} items-center`}
+                            >
+                                {/* message/content */}
+                                <div className='px-3 relative py-2 rounded-md bg-white/[0.2]'>
+                                    {/* <span className='bg-white/[0.2] absolute -right-2 h-5 w-5 rotate-45 top-1'></span> */}
+                                    <p className='text-white/[0.8] text-base'>{message.content}</p>
+                                    <p className='text-white/[0.5] text-xs'>{format(message.createdAt)}</p>
                                 </div>
-                            ))
-                        }
-                    </div>
+                            </div>
+                        ))
+                    }
                 </div>
 
                 {/* footer */}
