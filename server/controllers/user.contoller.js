@@ -35,7 +35,7 @@ export const userFollow = async (req, res) => {
             ]);
 
             // delete the chat if it exists
-            existedChat = await Chat.findOneAndDelete(
+            await Chat.findOneAndDelete(
                 {
                     users: {
                         $all: [userId, anotherUserId]
