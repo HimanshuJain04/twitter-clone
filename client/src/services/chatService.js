@@ -13,9 +13,5 @@ export const addMessage = async (payload) => {
     return await jsonRequest.post(`/message/add-message`, payload);
 }
 
-export const createChat = async (data) => {
-    return await jsonRequest.post("/chat/create-chat", data);
-}
-
 
 

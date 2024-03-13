@@ -121,12 +121,8 @@ import Chat from "../models/chat.model.js";
 // }
 
 
-export const createChat = async (req, res) => {
+export const createChat = async (senderId, receiverId) => {
     try {
-
-        const { senderId, receiverId } = req.body;
-
-        console.log(senderId, receiverId);
 
         const newChat = await Chat.create(
             {
@@ -134,24 +130,10 @@ export const createChat = async (req, res) => {
             }
         );
 
-        return res.status(201).json(
-            {
-                success: true,
-                data: newChat,
-                message: "Chat created successfully"
-            }
-        );
+        return newChat;
 
     } catch (error) {
-
-        return res.status(500).json(
-            {
-                message: "Server failed to create chat,Please try again",
-                error: error.message,
-                success: false,
-                data: null
-            }
-        )
+        throw new Error(error);
     }
 }
 

@@ -1,7 +1,9 @@
 import User from "../models/user.model.js";
+import Chat from "../models/chat.model.js";
 import Notification from "../models/notification.model.js";
 import AdditionalDetails from "../models/additionalDetails.model.js";
 import { uploadFileToCloudinary } from "../utils/fileUploader.js"
+import { createChat } from "./chat.controller.js";
 
 
 // ******************************** FOLLOW OPERATIONS ***********************************
@@ -13,7 +15,9 @@ export const userFollow = async (req, res) => {
 
         // Check if the current user is already following the other user
         const user = await User.findById(userId);
-        if (!user) {
+        const anotherUser = await User.findById(anotherUserId);
+
+        if (!user || !anotherUser) {
             return res.status(404).json({
                 message: "User not found",
                 success: false,
@@ -29,6 +33,16 @@ export const userFollow = async (req, res) => {
                 User.findByIdAndUpdate(userId, { $pull: { following: anotherUserId } }),
                 User.findByIdAndUpdate(anotherUserId, { $pull: { followers: userId } })
             ]);
+
+            // delete the chat if it exists
+            existedChat = await Chat.findOneAndDelete(
+                {
+                    users: {
+                        $all: [userId, anotherUserId]
+                    }
+                }
+            );
+
         } else {
             // Follow the user
 
@@ -47,6 +61,14 @@ export const userFollow = async (req, res) => {
                 User.findByIdAndUpdate(userId, { $addToSet: { following: anotherUserId } }),
                 User.findByIdAndUpdate(anotherUserId, { $addToSet: { followers: userId } })
             ]);
+
+            // if another user also follow me and now i am also follow him so create chat
+            const isAnotherUserFollowUser = anotherUser.following.includes(userId);
+
+            if (isAnotherUserFollowUser) {
+                await createChat(userId, anotherUserId);
+            }
+
         }
 
         // Populate and return the updated user and another user
@@ -74,6 +96,7 @@ export const userFollow = async (req, res) => {
         });
     }
 }
+
 
 export const getAllConnectedUsers = async (req, res) => {
     try {
