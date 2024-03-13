@@ -5,7 +5,7 @@ import { verifyJwtToken } from "../middlewares/auth.middleware.js";
 
 import { addMessage, getMessages } from "../controllers/message.controller.js";
 
-router.use(verifyJwtToken);
+// router.use(verifyJwtToken);
 
 
 // ****************** MESSAGE *****************

@@ -8,20 +8,14 @@ const Conversation = ({ data, currentUserId }) => {
 
     useEffect(() => {
 
-        console.log("data: ", data)
-
         const userId = data.users?.find((id) => id !== currentUserId);
-        console.log(userId)
 
-        getUserDataById(userId._id)
+        getUserDataById(userId)
             .then((res) => {
-                console.log(res.data.data)
                 setUser(res.data.data);
-
             }).catch((err) => {
                 console.log("ERROR: ", err)
             });
-
     }, []);
 
 
@@ -29,7 +23,7 @@ const Conversation = ({ data, currentUserId }) => {
 
     return (
         <button
-            onClick={() => navigate(`/profile/${user.userName}`)}
+            onClick={() => navigate(`/chat/${data._id}/${user.userName}`, { state: user })}
             className='flex cursor-pointer w-full hover:bg-white/[0.1] transition-all duration-300 ease-in-out justify-start gap-3 p-2 items-center'
         >
             {/* user-image */}

@@ -5,17 +5,18 @@ import { MdAddCall } from "react-icons/md";
 import { HiDotsVertical } from "react-icons/hi";
 import { MdSend } from "react-icons/md";
 import { useSelector } from "react-redux";
-
+import { getChatById } from "../services/chatService.js";
 
 const Chat = () => {
 
     const location = useLocation();
     const navigate = useNavigate();
     const userData = location.state;
-
     const textAreaRef = useRef();
-    const [message, setMessage] = useState("")
-    const [loading, setLoading] = useState(false)
+    const chatId = location.pathname.split("/").at(-2);
+
+    const [inputText, setInputText] = useState("")
+    const [loading, setLoading] = useState(false);
 
     const currentUser = useSelector(state => state.auth.user);
     const [messages, setMessages] = useState([]);
@@ -40,7 +41,7 @@ const Chat = () => {
             }
 
         }
-    }, [textAreaRef.current, message]);
+    }, [textAreaRef.current, inputText]);
 
 
     const sendMessage = () => {
@@ -49,8 +50,9 @@ const Chat = () => {
 
     useEffect(() => {
         setLoading(true);
-        getMessages(user)
+        getChatById(chatId)
             .then(({ data }) => {
+                console.log(data)
                 setMessages(data.data);
             })
             .catch((err) => {
@@ -130,8 +132,8 @@ const Chat = () => {
                         <textarea
                             type="text"
                             rows={1}
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
+                            value={inputText}
+                            onChange={(e) => setInputText(e.target.value)}
                             ref={textAreaRef}
                             className='w-full  rounded-md bg-white/[0.2] text-white placeholder:text-white/[0.25] resize-none px-3 py-1 text-lg font-semibold outline-none'
                             placeholder='Send messages'

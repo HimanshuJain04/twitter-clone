@@ -70,7 +70,7 @@ function App() {
               <Route path="communities" element={<Suspense><Communities /></Suspense>} />
               <Route path="premium" element={<Suspense><Premium /></Suspense>} />
               <Route path="grok" element={<Suspense><Grok /></Suspense>} />
-              <Route path="chat/:userName" element={<Suspense><Chat /></Suspense>} />
+              <Route path="chat/:chatId/:userName" element={<Suspense><Chat /></Suspense>} />
             </Route>
 
           </Routes>
