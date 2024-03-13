@@ -79,8 +79,6 @@ const Chat = () => {
             }).catch((err) => {
                 console.log("ERROR : ", err)
             });
-
-
     };
 
     useEffect(() => {

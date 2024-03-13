@@ -40,7 +40,11 @@ app.use("/api/v1/message", messageRoute);
 const server = createServer(app);
 const io = new Server(server, {
     cors: true,
-    pingTimeout: 60000
+    pingTimeout: 60000,
+    origin: [
+        "https://twitter-himanshu.vercel.app",
+        "http://localhost:3000"
+    ],
 });
 
 let activeUsers = [];
