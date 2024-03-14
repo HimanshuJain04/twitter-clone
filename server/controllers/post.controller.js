@@ -845,6 +845,38 @@ export const getPostById = async (req, res) => {
 }
 
 
+export const getBookmarkPosts = async (req, res) => {
+    try {
+
+        const userId = req.user._id;
+
+        const user = await User
+            .findById(userId)
+            .populate("bookmarked")
+            .exec();
+
+        return res.status(200).json(
+            {
+                success: true,
+                data: user.bookmarked,
+                message: "Fetched bookmark posts successfully"
+            }
+        );
+
+    } catch (error) {
+
+        return res.status(500).json(
+            {
+                message: "Server failed to fetch bookmark posts,Please try again",
+                error: error.message,
+                success: false,
+                data: null
+            }
+        )
+    }
+}
+
+
 export const createPgost = (req, res) => {
     try {
 

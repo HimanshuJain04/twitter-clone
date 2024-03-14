@@ -17,6 +17,7 @@ const navLinks = [
     "Following",
 ];
 
+
 const Home = () => {
 
     const [isLoading, setIsLoading] = useState(false);
@@ -195,7 +196,7 @@ const Home = () => {
                                     {
                                         allPosts.length > 0 ? (
                                             allPosts.map((post) => (
-                                                <Post key={post?._id} setIsLoading={setIsLoading} isFeeds={true} post={post} />
+                                                <Post key={post?._id} setIsLoading={setIsLoading} post={post} />
                                             ))
                                         ) : (
                                             <div className='w-full mt-10'>

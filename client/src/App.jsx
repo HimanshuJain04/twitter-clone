@@ -27,6 +27,7 @@ const Messages = lazy(() => import("./pages/Messages.jsx"))
 const Grok = lazy(() => import("./pages/Grok.jsx"))
 const Chat = lazy(() => import("./pages/Chat.jsx"))
 const PostPage = lazy(() => import("./pages/PostPage.jsx"));
+const Bookmarks = lazy(() => import("./pages/Bookmarks.jsx"));
 
 
 function App() {
@@ -65,6 +66,7 @@ function App() {
               <Route path="messages" element={<Suspense><Messages /></Suspense>} />
               <Route path="notification" element={<Suspense><Notification /></Suspense>} />
               <Route path="communities" element={<Suspense><Communities /></Suspense>} />
+              <Route path="bookmarks" element={<Suspense><Bookmarks /></Suspense>} />
               <Route path="premium" element={<Suspense><Premium /></Suspense>} />
               <Route path="grok" element={<Suspense><Grok /></Suspense>} />
               <Route path="chat/:chatId/:userName" element={<Suspense><Chat /></Suspense>} />

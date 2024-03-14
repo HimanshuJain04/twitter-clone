@@ -33,7 +33,7 @@ const BASE_URL = import.meta.env.VITE_CLIENT_BASE_URL;
 
 
 
-const Post = ({ post, isdetailedPage, isFeeds, setIsLoading }) => {
+const Post = ({ post, isdetailedPage, setIsLoading }) => {
 
     const userState = useSelector(state => state.auth.user);
     const navigate = useNavigate();
@@ -139,7 +139,7 @@ const Post = ({ post, isdetailedPage, isFeeds, setIsLoading }) => {
 
 
     useEffect(() => {
-        if (isFeeds && userState._id !== post.user._id) {
+        if (userState._id !== post.user._id) {
             increaseViewsOnPost(post?._id)
                 .catch((err) => {
                     console.log("ERROR: ", err);

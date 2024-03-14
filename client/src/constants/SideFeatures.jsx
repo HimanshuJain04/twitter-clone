@@ -8,6 +8,7 @@ import { TbSquareForbid } from "react-icons/tb";
 import logo from "/logo.png";
 import { CgMoreO } from "react-icons/cg";
 import { RiFileListLine } from "react-icons/ri";
+import { LuBookMarked } from "react-icons/lu";
 
 
 export const sideFeatures = [
@@ -30,6 +31,11 @@ export const sideFeatures = [
         title: "Messages",
         path: "/messages",
         icon: <IoMailOutline />
+    },
+    {
+        title: "Bookmarks",
+        path: "/bookmarks",
+        icon: <LuBookMarked />
     },
     {
         title: "Grok",

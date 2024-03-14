@@ -36,6 +36,10 @@ export const editPost = async (postId) => {
     return await jsonRequest.put(`/post/edit-post/${postId}`);
 }
 
+export const getBookmarkPosts = async () => {
+    return await jsonRequest.get("/post/get-bookmark-posts");
+}
+
 
 
 export const getPostDetails = async (postId) => {
