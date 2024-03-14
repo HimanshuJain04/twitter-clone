@@ -427,46 +427,36 @@ export const getUserMediaPosts = async (req, res) => {
     }
 }
 
-
 export const increaseViewsOnPost = async (req, res) => {
     try {
-
         const { postId } = req.params;
         const userId = req.user._id;
 
-        const existedPost = await Post.findById(postId);
+        const result = await Post.findOneAndUpdate(
+            { _id: postId, usersWhoView: { $ne: userId } }, // Only update if the user has not viewed the post already
+            { $push: { usersWhoView: userId }, $inc: { views: 1 } },
+            { new: true }
+        ).lean(); // Use lean() for faster performance if you don't need mongoose models
 
-        const isAlreadyViewed = existedPost.usersWhoView.includes(userId);
-
-        // if already viewed
-        if (isAlreadyViewed) {
-            return res.status(201);
+        if (!result) {
+            return res.status(201).json({
+                success: false,
+                message: "Post is already viewed by the user"
+            });
         }
 
-        existedPost.usersWhoView.push(userId);
-        existedPost.views = existedPost.views + 1;
-
-        existedPost.save();
-
-        return res.status(200).json(
-            {
-                success: true,
-                data: null,
-                message: "Post views increased successfully"
-            }
-        )
+        return res.status(200).json({
+            success: true,
+            message: "Post views increased successfully"
+        });
     } catch (error) {
-
-        return res.status(500).json(
-            {
-                message: "Server failed to increase views on post,Please try again",
-                error: error.message,
-                success: false,
-                data: null
-            }
-        )
+        return res.status(500).json({
+            success: false,
+            message: "Server failed to increase views on post, Please try again",
+            error: error.message
+        });
     }
-}
+};
 
 
 export const editPost = async (req, res) => {

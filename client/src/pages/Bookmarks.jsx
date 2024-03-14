@@ -10,13 +10,11 @@ const Bookmarks = () => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(false);
 
-
     useEffect(() => {
         setLoading(true);
 
         getBookmarkPosts()
             .then(({ data }) => {
-                console.log(data)
                 setPosts(data.data);
             })
             .catch((err) => {

@@ -19,7 +19,7 @@ const ProtectedRoutes = () => {
                 <div className='lg:block hidden'>
                     <FeatureSidebar />
                 </div>
-                <div className='border-r-2 w-full border-white/[0.15] xl:border-none'>
+                <div className='border-r-2 h-screen w-full border-white/[0.15] xl:border-none'>
                     <Outlet />
                 </div>
                 <div className='xl:block hidden'>
