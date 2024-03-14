@@ -16,6 +16,7 @@ const Bookmarks = () => {
 
         getBookmarkPosts()
             .then(({ data }) => {
+                console.log(data)
                 setPosts(data.data);
             })
             .catch((err) => {
