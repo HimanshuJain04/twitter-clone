@@ -195,7 +195,7 @@ const Home = () => {
                                     {
                                         allPosts.length > 0 ? (
                                             allPosts.map((post) => (
-                                                <Post key={post?._id} isFeeds={true} post={post} />
+                                                <Post key={post?._id} setIsLoading={setIsLoading} isFeeds={true} post={post} />
                                             ))
                                         ) : (
                                             <div className='w-full mt-10'>

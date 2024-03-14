@@ -17,7 +17,8 @@ import { MdDelete } from "react-icons/md";
 import CreateComment from './CreateComment.jsx';
 import { useNavigate } from "react-router-dom";
 import { viewsConvertor } from "../utils/viewsConvertor.js"
-import Alert from '@mui/material/Alert';
+const Spinner = lazy(() => import("../components/common/Spinner.jsx"));
+
 import {
     bookmarkPost,
     likePost,
@@ -32,7 +33,7 @@ const BASE_URL = import.meta.env.VITE_CLIENT_BASE_URL;
 
 
 
-const Post = ({ post, isdetailedPage, isFeeds }) => {
+const Post = ({ post, isdetailedPage, isFeeds, setIsLoading }) => {
 
     const userState = useSelector(state => state.auth.user);
     const navigate = useNavigate();
@@ -68,6 +69,8 @@ const Post = ({ post, isdetailedPage, isFeeds }) => {
 
     async function likeHandler() {
 
+        setIsLoading(true);
+
         await likePost(post._id)
             .then((res) => {
                 setisLiked(res.data.isLiked);
@@ -82,11 +85,14 @@ const Post = ({ post, isdetailedPage, isFeeds }) => {
             .catch((err) => {
                 console.log("Error when trying to like: ", err)
             })
+            .finally(() => setIsLoading(false))
 
     }
 
 
     async function bookmarkHandler() {
+        setIsLoading(true);
+
 
         await bookmarkPost(post._id)
             .then((res) => {
@@ -100,10 +106,14 @@ const Post = ({ post, isdetailedPage, isFeeds }) => {
             .catch((err) => {
                 console.log("Error when trying to bookmark: ", err)
             })
+            .finally(() => setIsLoading(false))
     }
 
 
     async function deleteHandler() {
+
+        setIsLoading(true);
+
 
         await deletePost(post._id)
             .then(() => {
@@ -112,6 +122,7 @@ const Post = ({ post, isdetailedPage, isFeeds }) => {
             .catch((err) => {
                 console.log("Error when trying to delete the post: ", err)
             })
+            .finally(() => setIsLoading(false));
     }
 
 
@@ -132,14 +143,15 @@ const Post = ({ post, isdetailedPage, isFeeds }) => {
             increaseViewsOnPost(post?._id)
                 .catch((err) => {
                     console.log("ERROR: ", err);
-                    toast.error("Something went wrong");
+                    toast.error("Something went wrong when increasing views");
                 });
         }
-    }, []);
+    }, [userState._id]);
 
 
     return (
         <div className='w-full relative'>
+
             {
                 commentBoxOpen &&
                 <CreateComment setCommentBoxOpen={setCommentBoxOpen} post={post} />
