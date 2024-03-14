@@ -10,6 +10,7 @@ import { format } from "timeago.js"
 import InputEmoji from "react-input-emoji";
 import { io } from "socket.io-client"
 import ChatSkeleton from '../components/common/ChatSkeleton.jsx';
+import { getUserDetailsByUsername } from '../services/userService.js';
 const BASE_URL = import.meta.env.VITE_SERVER_IO_URL;
 
 
@@ -17,7 +18,6 @@ const Chat = () => {
 
     const location = useLocation();
     const navigate = useNavigate();
-    const userData = location.state;
     const textAreaRef = useRef();
     const chatId = location.pathname.split("/").at(-2);
     const socket = useRef();
@@ -28,10 +28,10 @@ const Chat = () => {
     const [sendMessages, setSendMessages] = useState(null);
     const [recieveMessages, setRecieveMessages] = useState(null);
 
-
     const currentUser = useSelector(state => state.auth.user);
     const [messages, setMessages] = useState([]);
     const [onlineUsers, setOnlineUsers] = useState([]);
+    const [userData, setUserData] = useState(null);
     const [disabled, setDisabled] = useState(false);
 
 
@@ -39,20 +39,37 @@ const Chat = () => {
     // SocketIo implementation
     useEffect(() => {
 
-        console.log("hihi")
-
         socket.current = io(BASE_URL);
         socket.current.emit("add-user", currentUser._id);
 
         socket.current.on("get-active-users", (activeUsers) => {
             setOnlineUsers(activeUsers);
-            console.log("activeUsers: ", activeUsers);
         })
 
     }, [currentUser]);
 
 
-    // Get Chat Messages
+    // Get user profile from database
+    useEffect(() => {
+        setLoading(true);
+
+        const username = location.pathname.split("/").at(-1);
+
+        getUserDetailsByUsername(username)
+            .then(({ data }) => {
+                console.log("data: ", data)
+                setUserData(data.data?.existedUser);
+            })
+            .catch((err) => {
+                console.log("ERROR: ", err)
+            })
+            .finally(() => setLoading(false));
+
+    }, [chatId]);
+
+
+
+    // Get old Chat Message from database
     useEffect(() => {
         setLoading(true);
         getMessages(chatId)
@@ -129,15 +146,20 @@ const Chat = () => {
             .finally(() => setDisabled(false));
 
         // Send message to socket server
-        setSendMessages({ ...messages, userId: userData._id });
+        setSendMessages({ ...payload, userId: userData._id });
     };
+
+
 
     // recieve message
     useEffect(() => {
+
         if (recieveMessages !== null && recieveMessages.chatId === chatId) {
             setMessages([...messages, recieveMessages]);
         }
+
     }, [recieveMessages]);
+
 
 
     // scroll to the last message
