@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import Post from "../components/Post";
-import Spinner from "../components/common/Spinner";
+import Post from "../components/Post.jsx";
+import Spinner from "../components/common/Spinner.jsx";
+import TransparentSpinner from "../components/common/TransparencySpinner.jsx";
 import { getBookmarkPosts } from "../services/postService.js";
 
 
@@ -9,6 +10,7 @@ const Bookmarks = () => {
 
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         setLoading(true);
@@ -23,15 +25,21 @@ const Bookmarks = () => {
             .finally(() => setLoading(false));
     }, []);
 
+
     return (
         <div className='w-full'>
+
+            {
+                isLoading && <TransparentSpinner />
+            }
+
             {
                 loading ? (
                     <Spinner />
                 ) : (
                     posts.length > 0 ? (
                         posts.map((post) => (
-                            <Post key={post?._id} setIsLoading={setLoading} post={post} />
+                            <Post key={post?._id} setIsLoading={setIsLoading} post={post} />
                         ))
                     ) : (
                         <div className='w-full mt-10'>
@@ -40,7 +48,7 @@ const Bookmarks = () => {
                     )
                 )
             }
-        </div>
+        </div >
     )
 }
 
