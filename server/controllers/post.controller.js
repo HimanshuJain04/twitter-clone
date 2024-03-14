@@ -436,7 +436,7 @@ export const increaseViewsOnPost = async (req, res) => {
 
         const existedPost = await Post.findById(postId);
 
-        isAlreadyViewed = existedPost.usersWhoView.includes(userId);
+     const isAlreadyViewed = existedPost.usersWhoView.includes(userId);
 
         // if already viewed
         if (isAlreadyViewed) {
