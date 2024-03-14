@@ -30,7 +30,7 @@ const Notification = () => {
         loading ? (
           <Spinner />
         ) : (
-          <div className='w-full h-full overflow-scroll pb-5'>
+          <div className='w-full h-full overflow-scroll pb-14'>
             {
               data.length > 0 ? (
                 data?.map((notification) => (

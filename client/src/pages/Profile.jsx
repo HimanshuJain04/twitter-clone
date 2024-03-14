@@ -202,7 +202,7 @@ const Profile = () => {
         <div className='w-full'>
             {
                 pageloading ? <Spinner /> : (
-                    <div className='w-full relative justify-start items-start flex flex-col bg-black h-screen overflow-auto'>
+                    <div className='w-full pb-14 relative justify-start items-start flex flex-col bg-black h-screen overflow-auto'>
 
                         {
                             showFollowers &&

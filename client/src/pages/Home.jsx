@@ -169,7 +169,7 @@ const Home = () => {
 
 
                 {/* Feeds */}
-                <div ref={scrollDiv} className='h-[calc(100vh-100px)] pb-14 w-full bg-black overflow-y-auto' >
+                <div ref={scrollDiv} className='h-[calc(100vh-100px)] w-full bg-black overflow-y-auto' >
                     {
                         isSkeleton ? (
                             <div className='flex flex-col justify-start gap-5 items-center' >
@@ -190,7 +190,7 @@ const Home = () => {
                                 }
 
 
-                                <div className='w-full pb-10 flex mt-5 flex-col gap-5 justify-start items-start'>
+                                <div className='w-full flex pb-14 mt-5 flex-col gap-5 justify-start items-start'>
 
                                     {
                                         allPosts.length > 0 ? (
@@ -207,7 +207,6 @@ const Home = () => {
                             </>
                         )
                     }
-
 
                 </div >
 

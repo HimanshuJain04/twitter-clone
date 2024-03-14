@@ -52,7 +52,7 @@ const Messages = () => {
                         </div>
 
                         {/* users */}
-                        <div>
+                        <div className='flex flex-col pb-14'>
                             {
                                 allChats.length > 0 ? (
                                     allChats.map((chats) => (

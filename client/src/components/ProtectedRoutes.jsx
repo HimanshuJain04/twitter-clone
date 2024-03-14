@@ -1,10 +1,10 @@
-import React from 'react'
-import { Outlet, Navigate, useLocation } from 'react-router-dom'
+import React, { lazy } from 'react'
+import { Outlet, useLocation } from 'react-router-dom'
 import { useSelector } from "react-redux"
-import Landing from '../pages/Landing';
-import FeatureSidebar from './common/FeaturSidebar';
-import TrendingSidebar from './common/TrendingSidebar';
-import MobileNavbar from "./MobileNavbar";
+const Landing = lazy(() => import('../pages/Landing'));
+const FeatureSidebar = lazy(() => import('./common/FeaturSidebar'));
+const TrendingSidebar = lazy(() => import('./common/TrendingSidebar'));
+const MobileNavbar = lazy(() => import("./MobileNavbar"));
 
 const ProtectedRoutes = () => {
     const userAuth = useSelector(state => state.auth.user);

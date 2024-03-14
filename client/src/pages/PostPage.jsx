@@ -42,7 +42,7 @@ const PostPage = () => {
                             </div>
 
                             {/* Comments */}
-                            <div className='w-full '>
+                            <div className='w-full pb-14 '>
                                 {
                                     postData?.comments?.map((commentPost) => (
                                         <div key={commentPost._id}>
