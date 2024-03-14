@@ -29,6 +29,7 @@ import {
 } from "../services/userService.js";
 import { useSelector } from "react-redux";
 import ReplyPost from '../components/ReplyPost.jsx';
+import TransparencySpinner from '../components/common/TransparencySpinner.jsx';
 
 const profileSection = [
     {
@@ -63,6 +64,7 @@ const Profile = () => {
     const [postLen, setPostLen] = useState(0);
     const [loading, setLoading] = useState(false);
     const [pageloading, setPageLoading] = useState(false);
+    const [isloading, setIsLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const [index, setIndex] = useState(0);
     const [coverImg, setCoverImg] = useState();
@@ -200,6 +202,11 @@ const Profile = () => {
 
     return (
         <div className='w-full'>
+
+            {
+                isloading &&
+                <TransparencySpinner />
+            }
             {
                 pageloading ? <Spinner /> : (
                     <div className='w-full pb-14 relative justify-start items-start flex flex-col bg-black h-screen overflow-auto'>
@@ -432,10 +439,10 @@ const Profile = () => {
                                                                 {
                                                                     option.title === "Replies" ? (
                                                                         <>
-                                                                            <ReplyPost parentPost={post.parentPost} commentPost={post.comment} />
+                                                                            <ReplyPost setIsLoading={setIsLoading} parentPost={post.parentPost} commentPost={post.comment} />
                                                                         </>
                                                                     ) : (
-                                                                        <Post post={post} />
+                                                                        <Post setIsLoading={setIsLoading} post={post} />
                                                                     )
                                                                 }
                                                             </div>
