@@ -3,6 +3,7 @@ import { FiSearch } from "react-icons/fi";
 import { BsXCircleFill } from "react-icons/bs";
 import { getSearchedValue } from "../../services/userService.js"
 import UserAccount from "../UserAccount.jsx";
+import UserSkeleton from "./UserSkeleton.jsx";
 
 
 const TrendingSidebar = () => {
@@ -13,12 +14,14 @@ const TrendingSidebar = () => {
     const [searchedData, setSearchedData] = useState([]);
     const [searchLoading, setSearchLoading] = useState(false);
 
+
     // Handle click outside the search bar to close the results div
     const handleClickOutside = (event) => {
         if (searchBarRef.current && !searchBarRef.current.contains(event.target)) {
             setIsOpen(false);
         }
     };
+
 
     // Add event listener for clicks outside on component mount, remove on unmount
     useEffect(() => {
@@ -85,33 +88,44 @@ const TrendingSidebar = () => {
 
                     </div>
 
-                    {/* Other Div */}
+                    {/* Other container for searching */}
                     {isOpen && (
                         <div
                             className='absolute z-10 bg-black max-h-[500px] overflow-auto mt-1 shadow-lg rounded-md border-[2px] border-white/[0.2] shadow-white/[0.2] w-full '
                         >
                             {
-                                searchValue.length > 0 ? (
-                                    <div className='flex flex-col text-white min-h-[100px] gap-1 w-full justify-start items-start'>
+                                searchLoading ? (
+                                    <>
+                                        <UserSkeleton />
+                                        <UserSkeleton />
+                                    </>
+                                ) : (
+                                    <>
                                         {
-                                            searchedData.length > 0 ? (
-                                                searchedData?.map((userData) => (
-                                                    <UserAccount key={userData._id} user={userData} nextSend={false} />
-                                                ))
+                                            searchValue.length > 0 ? (
+                                                <div className='flex flex-col text-white min-h-[100px] gap-1 w-full justify-start items-start'>
+                                                    {
+                                                        searchedData.length > 0 ? (
+                                                            searchedData?.map((userData) => (
+                                                                <UserAccount key={userData._id} user={userData} nextSend={false} />
+                                                            ))
+                                                        ) : (
+                                                            <div className='text-lg p-3 text-white/[0.5]'>
+                                                                <p>No user found</p>
+                                                            </div>
+                                                        )
+                                                    }
+                                                </div>
                                             ) : (
-                                                <div className='text-lg p-3 text-white/[0.5]'>
-                                                    <p>No user found</p>
+                                                <div className='text-base pb-10 w-full  px-7 pt-5 font-light text-white/[0.5]'>
+                                                    <p>Try searching for people, lists, or keywords</p>
                                                 </div>
                                             )
                                         }
-                                    </div>
-                                ) : (
-                                    <div className='text-base pb-10 w-full  px-7 pt-5 font-light text-white/[0.5]'>
-                                        <p>Try searching for people, lists, or keywords</p>
-                                    </div>
-                                )
-                            }
+                                    </>
+                                )}
                         </div>
+
                     )}
                 </div>
 

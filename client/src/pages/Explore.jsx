@@ -3,6 +3,7 @@ import { getSearchedValue } from "../services/userService.js"
 import { FiSearch } from "react-icons/fi"
 import { BsXCircleFill } from "react-icons/bs"
 import UserAccount from "../components/UserAccount.jsx";
+import UserSkeleton from "../components/common/UserSkeleton.jsx";
 
 const Explore = () => {
 
@@ -88,27 +89,38 @@ const Explore = () => {
                         className='absolute z-10 bg-black max-h-[500px] overflow-auto mt-1 shadow-lg rounded-md border-[2px] border-white/[0.2] shadow-white/[0.2] w-full '
                     >
                         {
-                            searchValue.length > 0 ? (
-                                <div className='flex flex-col text-white min-h-[100px] gap-1 w-full justify-start items-start'>
+                            searchLoading ? (
+                                <>
+                                    <UserSkeleton />
+                                    <UserSkeleton />
+                                </>
+                            ) : (
+                                <>
                                     {
-                                        searchedData.length > 0 ? (
-                                            searchedData?.map((userData) => (
-                                                <UserAccount key={userData._id} user={userData} path={`/profile/${userData.userName}`} />
-                                            ))
+                                        searchValue.length > 0 ? (
+                                            <div className='flex flex-col text-white min-h-[100px] gap-1 w-full justify-start items-start'>
+                                                {
+                                                    searchedData.length > 0 ? (
+                                                        searchedData?.map((userData) => (
+                                                            <UserAccount key={userData._id} user={userData} nextSend={false} />
+                                                        ))
+                                                    ) : (
+                                                        <div className='text-lg p-3 text-white/[0.5]'>
+                                                            <p>No user found</p>
+                                                        </div>
+                                                    )
+                                                }
+                                            </div>
                                         ) : (
-                                            <div className='text-lg p-3 text-white/[0.5]'>
-                                                <p>No user found</p>
+                                            <div className='text-base pb-10 w-full  px-7 pt-5 font-light text-white/[0.5]'>
+                                                <p>Try searching for people, lists, or keywords</p>
                                             </div>
                                         )
                                     }
-                                </div>
-                            ) : (
-                                <div className='text-base pb-10 w-full  px-7 pt-5 font-light text-white/[0.5]'>
-                                    <p>Try searching for people, lists, or keywords</p>
-                                </div>
-                            )
-                        }
+                                </>
+                            )}
                     </div>
+
                 )}
             </div>
 
