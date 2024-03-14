@@ -104,7 +104,7 @@ export const createPost = async (req, res) => {
     }
 }
 
-// TODO: Verify this controller
+
 export const fetchFollowingPosts = async (req, res) => {
     try {
         const userId = req.user?._id;
@@ -432,9 +432,24 @@ export const increaseViewsOnPost = async (req, res) => {
     try {
 
         const { postId } = req.params;
+        const userId = req.user._id;
 
         const existedPost = await Post.findById(postId);
 
+        isAlreadyViewed = existedPost.usersWhoView.includes(userId);
+
+        // if already viewed
+        if (isAlreadyViewed) {
+            return res.status(400).json(
+                {
+                    success: false,
+                    data: null,
+                    message: "Post already viewed!"
+                }
+            )
+        }
+
+        existedPost.usersWhoView.push(userId);
         existedPost.views = existedPost.views + 1;
 
         existedPost.save();

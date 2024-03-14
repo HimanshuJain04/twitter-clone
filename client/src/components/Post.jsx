@@ -51,6 +51,7 @@ const Post = ({ post, isdetailedPage, isFeeds }) => {
         setCommentBoxOpen(true);
     }
 
+
     function shareHandler() {
         console.log(BASE_URL)
         navigator.clipboard.writeText(`${BASE_URL}/post/${post._id}`)

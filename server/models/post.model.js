@@ -15,6 +15,12 @@ const postSchema = new mongoose.Schema(
             type: Number,
             default: 0,
         },
+        usersWhoView: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User"
+            }
+        ],
         description: {
             type: String,
         },
