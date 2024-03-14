@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, lazy, useState } from 'react';
 import { HiDotsHorizontal } from "react-icons/hi";
 import { FiShare } from "react-icons/fi";
 import { getPostTime } from "../utils/getTime.js"
@@ -17,6 +17,7 @@ import { MdDelete } from "react-icons/md";
 import CreateComment from './CreateComment.jsx';
 import { useNavigate } from "react-router-dom";
 import { viewsConvertor } from "../utils/viewsConvertor.js"
+import Alert from '@mui/material/Alert';
 import {
     bookmarkPost,
     likePost,
@@ -24,6 +25,9 @@ import {
     editPost,
     increaseViewsOnPost
 } from "../services/postService.js";
+
+
+const BASE_URL = import.meta.env.VITE_CLIENT_BASE_URL;
 
 
 
@@ -46,7 +50,15 @@ const Post = ({ post, isdetailedPage, isFeeds }) => {
     function commentHandler() {
         setCommentBoxOpen(true);
     }
-    
+
+    function shareHandler() {
+        console.log(BASE_URL)
+        navigator.clipboard.writeText(`${BASE_URL}/post/${post._id}`)
+            .then(() => {
+                toast.success("Copied!")
+            })
+    }
+
 
     function retweetHandler() {
 
@@ -71,6 +83,7 @@ const Post = ({ post, isdetailedPage, isFeeds }) => {
             })
 
     }
+
 
     async function bookmarkHandler() {
 
@@ -358,6 +371,7 @@ const Post = ({ post, isdetailedPage, isFeeds }) => {
 
                         <abbr title="Share">
                             <div
+                                onClick={shareHandler}
                                 className=' text-[white]/[0.5] cursor-pointer hover:text-blue-400 transition-all duration-300 ease-in-out'
                             >
                                 <FiShare />
