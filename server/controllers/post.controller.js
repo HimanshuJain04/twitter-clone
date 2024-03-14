@@ -440,13 +440,7 @@ export const increaseViewsOnPost = async (req, res) => {
 
         // if already viewed
         if (isAlreadyViewed) {
-            return res.status(400).json(
-                {
-                    success: false,
-                    data: null,
-                    message: "Post already viewed!"
-                }
-            )
+            return res.status(201);
         }
 
         existedPost.usersWhoView.push(userId);
