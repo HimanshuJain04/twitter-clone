@@ -856,8 +856,7 @@ export const getBookmarkPosts = async (req, res) => {
                 {
                     path: "bookmarked",
                     populate: {
-                        populate: "user",
-                        select: "firstName userName profileImg"
+                        path: "user",
                     }
                 }
             )
