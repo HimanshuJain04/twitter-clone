@@ -13,7 +13,9 @@ This project is a Twitter clone built using the MERN stack (MongoDB, Express.js,
 
 ## Demo
 
-Check out the live demo [here](https://twitter-himanshu.vercel.app/).
+[**Check out the live demo**](https://twitter-himanshu.vercel.app/) :large_orange_diamond:
+
+
 ## Installation
 
 To run this project locally, follow these steps:
