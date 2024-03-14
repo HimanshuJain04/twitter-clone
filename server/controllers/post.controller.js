@@ -853,12 +853,9 @@ export const getBookmarkPosts = async (req, res) => {
         const user = await User
             .findById(userId)
             .populate(
+                "bookmarked",
                 {
-                    populate: "bookmarked",
-                    path: {
-                        populate: "user",
-                        select: "firstName userName profileImg"
-                    }
+                    populate: "user"
                 }
             )
             .exec();
