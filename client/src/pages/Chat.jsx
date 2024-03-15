@@ -57,7 +57,6 @@ const Chat = () => {
 
         getUserDetailsByUsername(username)
             .then(({ data }) => {
-                console.log("data: ", data)
                 setUserData(data.data?.existedUser);
             })
             .catch((err) => {
@@ -66,7 +65,6 @@ const Chat = () => {
             .finally(() => setLoading(false));
 
     }, [chatId]);
-
 
 
     // Get old Chat Message from database

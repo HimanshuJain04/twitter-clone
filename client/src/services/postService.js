@@ -62,6 +62,7 @@ export const getUserReplies = async (username, index) => {
     return await jsonRequest.get(`/post/getUserComments?index=${index}&username=${username}`);
 }
 
+
 export const increaseViewsOnPost = async (postId) => {
     return await jsonRequest.patch(`/post/increaseViewsOnPost/${postId}`);
 }

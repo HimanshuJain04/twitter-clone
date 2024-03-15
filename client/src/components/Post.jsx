@@ -54,7 +54,6 @@ const Post = ({ post, isdetailedPage, setIsLoading }) => {
 
 
     function shareHandler() {
-        console.log(BASE_URL)
         navigator.clipboard.writeText(`${BASE_URL}/post/${post._id}`)
             .then(() => {
                 toast.success("Copied!")
