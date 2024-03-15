@@ -1,53 +1,24 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import { useNavigate, useLocation } from "react-router-dom"
 import { getProfileTime } from "../utils/getTime.js";
 import { IoLocationOutline } from "react-icons/io5";
 import { ImCalendar } from "react-icons/im";
 import toast from "react-hot-toast";
-import PostSkeleton from '../components/common/PostSkeleton.jsx';
-import InfiniteScroll from "react-infinite-scroll-component";
-import Post from "../components/Post.jsx";
 import { FaLink } from "react-icons/fa6";
 import { AiOutlineCamera } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 import Spinner from "../components/common/Spinner.jsx"
 import { IoIosSave } from "react-icons/io";
 import ShowUsersList from "../components/ShowUsersList.jsx";
-import Highlights from "../components/Highlights.jsx";
-import {
-    getUserPosts,
-    getUserReplies,
-    getUserMediaPosts,
-    getUserLikePosts
-} from "../services/postService.js";
-
 import {
     getUserDetailsByUsername,
     userFollowHandler,
     updateUserCoverImage,
 } from "../services/userService.js";
 import { useSelector } from "react-redux";
-import ReplyPost from '../components/ReplyPost.jsx';
-import TransparencySpinner from '../components/common/TransparencySpinner.jsx';
+import UserProfilePostsSection from '../components/UserProfilePostsSection.jsx';
 
-const profileSection = [
-    {
-        title: "Posts",
-    },
-    {
-        title: "Replies",
-    },
-    {
-        title: "Highlights",
-    },
-    {
-        title: "Media",
-    },
-    {
-        title: "Likes",
-    }
-];
 
 
 const Profile = () => {
@@ -58,68 +29,14 @@ const Profile = () => {
     const username = pathname.split("/").at(-1);
     const userState = useSelector(state => state.auth.user);
 
-    const [option, setOption] = useState(profileSection[0]);
-    const [postData, setPostData] = useState([]);
     const [user, setUser] = useState(null);
     const [postLen, setPostLen] = useState(0);
-    const [loading, setLoading] = useState(false);
     const [pageloading, setPageLoading] = useState(false);
-    const [isloading, setIsLoading] = useState(false);
-    const [hasMore, setHasMore] = useState(true);
-    const [index, setIndex] = useState(0);
+
     const [coverImg, setCoverImg] = useState();
     const [showFollowers, setShowFollowers] = useState(false);
     const [followState, setFollowState] = useState("");
 
-
-    useEffect(() => {
-        setIndex(0);
-        setPostData([]);
-        setHasMore(true);
-        fetchMoreData(0);
-    }, [option, pathname]);
-
-
-    const fetchMoreData = (currentIndex) => {
-
-        if (option.title === "Highlights") return;
-
-        setLoading(true);
-
-        let func;
-
-        switch (option.title) {
-
-            case "Posts":
-                func = getUserPosts;
-                break;
-
-            case "Replies":
-                func = getUserReplies;
-                break;
-
-            case "Media":
-                func = getUserMediaPosts;
-                break;
-
-            case "Likes":
-                func = getUserLikePosts;
-                break;
-
-            default:
-                func = getUserPosts;
-                break;
-        }
-
-        func(username, currentIndex)
-            .then(({ data }) => {
-                setPostData((prevItems) => [...prevItems, ...data.data]);
-                setIndex(currentIndex + 1);
-                data?.data?.length === 10 ? setHasMore(true) : setHasMore(false);
-            })
-            .catch((err) => console.log(err))
-            .finally(() => setLoading(false));
-    }
 
     function followStateHandler(data) {
 
@@ -136,7 +53,6 @@ const Profile = () => {
         }
 
     }
-
 
     const followHandler = async () => {
 
@@ -203,14 +119,16 @@ const Profile = () => {
     return (
         <div className='w-full'>
 
-            {
+            {/* {
                 isloading &&
                 <TransparencySpinner />
-            }
+            } */}
             {
                 pageloading ? <Spinner /> : (
+
                     <div className='w-full pb-14 relative justify-start items-start flex flex-col bg-black h-screen overflow-auto'>
 
+                        {/* show followers lists */}
                         {
                             showFollowers &&
                             <div>
@@ -397,70 +315,8 @@ const Profile = () => {
 
                         </div>
 
-                        {/* To show different content, it's kind of navbar*/}
-                        <div className='flex mt-5 w-full justify-between items-center'>
-                            {
-                                profileSection.map((set, index) => (
-                                    <div
-                                        key={set + index}
-                                        onClick={() => setOption(set)}
-                                        className=' transition-all flex flex-col pt-4 duration-300 ease-in-out cursor-pointer hover:bg-[white]/[0.1] gap-2 px-2 w-full justify-between items-center'
-                                    >
-                                        <span className={` transition-all px-1 text-[15px] duration-300 ease-in-out ${option.title === set.title ? "text-white font-semibold " : "text-[white]/[0.4]"}`}>{set.title}</span>
-
-                                        <span className={` bg-blue-400 transition-all duration-300 ease-in-out h-1 w-full rounded-full ${option.title === set.title ? "opacity-100" : " opacity-0"}`}></span>
-
-                                    </div>
-                                ))
-                            }
-                        </div>
-
-                        <div className='w-full mt-7 mb-2 text-white'>
-                            {
-                                loading ? (
-                                    <div className='flex gap-2 flex-col justify-center items-start'>
-                                        <PostSkeleton />
-                                        <PostSkeleton />
-                                        <PostSkeleton />
-                                        <PostSkeleton />
-                                    </div>
-                                ) : (
-                                    postData.length > 0 ? (
-                                        <>
-                                            <InfiniteScroll
-                                                dataLength={postData.length}
-                                                next={() => fetchMoreData(index)}
-                                                hasMore={hasMore}
-                                            >
-                                                <div className='flex flex-col gap-5 justify-start '>
-                                                    {
-                                                        postData.map((post, index) => (
-                                                            <div key={post?._id + "" + index}>
-                                                                {
-                                                                    option.title === "Replies" ? (
-                                                                        <>
-                                                                            <ReplyPost setIsLoading={setIsLoading} parentPost={post.parentPost} commentPost={post.comment} />
-                                                                        </>
-                                                                    ) : (
-                                                                        <Post setIsLoading={setIsLoading} post={post} />
-                                                                    )
-                                                                }
-                                                            </div>
-                                                        ))
-                                                    }
-                                                </div>
-                                            </InfiniteScroll>
-                                        </>
-                                    ) : (
-                                        option.title === "Highlights" ? <Highlights /> :
-                                            <div className='w-full mt-10 mb-20'>
-                                                <p className='text-3xl font-bold text-center'>
-                                                    No post found
-                                                </p>
-                                            </div>
-                                    )
-                                )
-                            }
+                        <div className='w-full'>
+                            <UserProfilePostsSection userName={username} />
                         </div>
 
                     </div>

@@ -1,10 +1,16 @@
 import React from 'react'
 import Post from "../components/Post";
 
-const ReplyPost = ({ parentPost, setIsLoading, commentPost }) => {
+const ReplyPost = ({ setIsLoading, post }) => {
+    console.log("post: ", post)
 
-    console.log("parentPost: ", parentPost)
-    console.log("commentPost: ", commentPost)
+    const commentPost = post.comment;
+    const parentPost = post.parentPost;
+
+    if (!commentPost || !parentPost) {
+        return <></>
+    }
+
     return (
         <div className='w-full bg-white/[0.09]'>
             <Post setIsLoading={setIsLoading} isdetailedPage={false} post={parentPost} />
