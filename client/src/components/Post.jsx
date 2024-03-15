@@ -26,14 +26,13 @@ import {
     editPost,
     increaseViewsOnPost
 } from "../services/postService.js";
+import TransparencySpinner from './common/TransparencySpinner.jsx';
 
 
 const BASE_URL = import.meta.env.VITE_CLIENT_BASE_URL;
 
 
-
-
-const Post = ({ post, isdetailedPage, setIsLoading }) => {
+const Post = ({ post, isdetailedPage }) => {
 
     const userState = useSelector(state => state.auth.user);
     const navigate = useNavigate();
@@ -46,6 +45,7 @@ const Post = ({ post, isdetailedPage, setIsLoading }) => {
     const [showDotOption, setShowDotOption] = useState(false);
 
     const [commentBoxOpen, setCommentBoxOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
 
     function commentHandler() {
@@ -150,6 +150,14 @@ const Post = ({ post, isdetailedPage, setIsLoading }) => {
 
     return (
         <div className='w-full relative'>
+
+            {
+                isLoading && (
+                    <div className='fixed top-0 left-0 z-[100]'>
+                        <TransparencySpinner />
+                    </div>
+                )
+            }
 
             {
                 commentBoxOpen &&

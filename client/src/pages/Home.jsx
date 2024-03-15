@@ -25,13 +25,13 @@ const Home = () => {
     const [allPosts, setAllPosts] = useState([]);
     const [isSkeleton, setIsSkeleton] = useState(false);
     const scrollDiv = useRef(null);
-    const [hasMore, setHasMore] = useState(true);
-    const [index, setIndex] = useState(0);
     const [openCreatePost, setOpenCreatePost] = useState(false);
     const [showSidebar, setShowSidebar] = useState(false);
     const userState = useSelector(state => state.auth.user);
 
     const [option, setOption] = useState(navLinks[0]);
+
+
 
     async function fetchMoreData(currIndex) {
 
@@ -66,9 +66,9 @@ const Home = () => {
 
 
     useEffect(() => {
-        setIndex(0);
+        // setIndex(0);
         setAllPosts([]);
-        setHasMore(true);
+        // setHasMore(true);
         fetchMoreData(0);
     }, [option]);
 
@@ -196,7 +196,7 @@ const Home = () => {
                                     {
                                         allPosts.length > 0 ? (
                                             allPosts.map((post) => (
-                                                <Post key={post?._id} setIsLoading={setIsLoading} post={post} />
+                                                <Post key={post?._id} post={post} />
                                             ))
                                         ) : (
                                             <div className='w-full mt-10'>

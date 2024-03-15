@@ -61,7 +61,6 @@ const InfinitePosts = ({ option, userName }) => {
         await func(userName, currentIndex)
             .then(({ data }) => {
                 if (option.title === "Replies") {
-                    console.log("data: ", data.data)
                     setRepliesData([...currentPostData, ...data.data]);
                 } else {
                     setPostData([...currentPostData, ...data.data]);
@@ -101,14 +100,14 @@ const InfinitePosts = ({ option, userName }) => {
                                         option.title === "Replies" ? (
                                             repliesData.map((post, index) => (
                                                 <div key={post?._id + "" + index}>
-                                                    <ReplyPost setIsLoading={setIsLoading} post={post} />
+                                                    <ReplyPost post={post} />
                                                 </div>
                                             ))
                                         ) : (
                                             postData.map((post, index) => (
                                                 <div key={post?._id + "" + index}>
 
-                                                    <Post setIsLoading={setIsLoading} post={post} />
+                                                    <Post post={post} />
                                                 </div>
                                             )))
                                     }

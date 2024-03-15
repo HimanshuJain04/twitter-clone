@@ -10,7 +10,6 @@ const Bookmarks = () => {
 
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         setLoading(true);
@@ -30,16 +29,12 @@ const Bookmarks = () => {
         <div className='w-full'>
 
             {
-                isLoading && <TransparentSpinner />
-            }
-
-            {
                 loading ? (
                     <Spinner />
                 ) : (
                     posts.length > 0 ? (
                         posts.map((post) => (
-                            <Post key={post?._id} setIsLoading={setIsLoading} post={post} />
+                            <Post key={post?._id} post={post} />
                         ))
                     ) : (
                         <div className='w-full mt-10'>
