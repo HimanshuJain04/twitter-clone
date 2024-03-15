@@ -11,12 +11,15 @@ const Messages = () => {
     const [searchValue, setSearchValue] = useState("");
     const [loading, setLoading] = useState(false);
     const [allChats, setAllChats] = useState([]);
+    const [allData, setAllData] = useState([]);
     const userState = useSelector(state => state.auth.user);
 
     useEffect(() => {
         setLoading(true);
-        getAllChats(userState._id)
+        getAllChats()
             .then(({ data }) => {
+                console.log("data: ", data)
+                setAllData(data.data);
                 setAllChats(data.data);
             })
             .catch((err) => { console.log("ERROR: ", err) })
@@ -25,6 +28,20 @@ const Messages = () => {
 
 
     useEffect(() => {
+
+        if (searchValue.trim().length > 0) {
+
+            const searchedData = allData.map((user) => {
+                console.log(user)
+                return (user.userName.includes(searchValue) || user.fullName.includes(searchValue))
+            });
+
+            // setAllChats(searchedData);
+            console.log(searchedData)
+
+        } else {
+            // setAllChats(allData);
+        }
 
     }, [searchValue]);
 
@@ -56,7 +73,7 @@ const Messages = () => {
                             {
                                 allChats.length > 0 ? (
                                     allChats.map((chats) => (
-                                        <Conversation  key={chats._id} data={chats} currentUserId={userState._id} />
+                                        <Conversation key={chats._id} data={chats} currentUserId={userState._id} />
                                     ))
                                 ) : (
                                     <div className='w-full mt-10'>

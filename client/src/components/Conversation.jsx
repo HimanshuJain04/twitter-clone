@@ -28,6 +28,7 @@ const Conversation = ({ data, currentUserId }) => {
 
     const navigate = useNavigate();
 
+
     return (
 
         <>
@@ -36,7 +37,7 @@ const Conversation = ({ data, currentUserId }) => {
                     <UserSkeleton />
                 ) : (
                     <button
-                        onClick={() => navigate(`/chat/${data._id}/${user.userName}`, { state: user })}
+                        onClick={() => navigate(`/chat/${data._id}/${user.userName}`)}
                         className='flex border-b-2 border-white/[0.2] cursor-pointer w-full hover:bg-white/[0.1] transition-all duration-300 ease-in-out justify-start gap-3 p-2 items-center'
                     >
                         {/* user-image */}

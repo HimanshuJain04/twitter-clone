@@ -8,12 +8,13 @@ import {
     userChats,
 } from "../controllers/chat.controller.js";
 
-// router.use(verifyJwtToken);
+
+router.use(verifyJwtToken);
 
 
 // ************************** CHAT *****************************
 
-router.route("/:userId").get(userChats);
-router.route("/find/:firstId/:secondId").get(findChat);
+router.route("/").get(userChats);
+router.route("/find/:userId").get(findChat);
 
 export default router;

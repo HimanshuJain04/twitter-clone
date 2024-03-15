@@ -141,7 +141,7 @@ export const createChat = async (senderId, receiverId) => {
 export const userChats = async (req, res) => {
     try {
 
-        const { userId } = req.params;
+        const userId = req.user._id;
 
         const userChats = await Chat.find(
             {
@@ -149,7 +149,9 @@ export const userChats = async (req, res) => {
                     $in: [userId]
                 }
             }
-        );
+        )
+            .populate("users", ["userName", "fullName", "profileImg"])
+            .exec();
 
 
         return res.status(201).json(
@@ -177,12 +179,13 @@ export const userChats = async (req, res) => {
 export const findChat = async (req, res) => {
     try {
 
-        const { firstId, secondId } = req.params;
+        const { userId } = req.params;
+        const myId = req.user._id;
 
         const userChats = await Chat.findOne(
             {
                 users: {
-                    $all: [firstId, secondId]
+                    $all: [myId, userId]
                 }
             }
         );
