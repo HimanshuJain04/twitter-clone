@@ -44,8 +44,8 @@ const Chat = () => {
 
         socket.current.on("get-active-users", (activeUsers) => {
             setOnlineUsers(activeUsers);
-        })
-
+        });
+s
     }, [currentUser]);
 
 
