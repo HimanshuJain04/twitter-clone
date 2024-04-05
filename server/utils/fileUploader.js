@@ -4,7 +4,6 @@ import { v2 as cloudinary } from "cloudinary"
 
 export const uploadFileToCloudinary = async (post) => {
     try {
-
         const options = {
             folder: process.env.CLOUDINARY_FOLDER_NAME,
             resource_type: "auto"
